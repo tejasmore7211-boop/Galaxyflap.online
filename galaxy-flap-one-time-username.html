@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Galaxy Flap</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#03040e;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{display:flex;justify-content:center;align-items:center}
+button{border:0;outline:0;color:#fff;font-family:inherit;cursor:pointer}
+#app{width:100%;max-width:560px;height:100vh;min-height:620px;position:relative;overflow:hidden;background:#050617}
+#gameCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#hud{position:absolute;top:18px;left:15px;right:15px;z-index:10;display:none;justify-content:space-between;gap:9px;pointer-events:none}
+.hudBox{flex:1;min-width:0;padding:10px 8px;text-align:center;border-radius:17px;background:rgba(8,12,39,.65);border:1px solid rgba(150,170,255,.24);backdrop-filter:blur(8px)}
+.hudLabel{display:block;margin-bottom:5px;font-size:10px;letter-spacing:2px;color:#8993b9}
+.hudValue{display:flex;align-items:center;justify-content:center;gap:5px;font-size:21px;font-weight:900;letter-spacing:1px}
+.icon{width:24px;height:24px;display:inline-block;position:relative;flex:none}
+.iconPlay:before{content:"";position:absolute;left:5px;top:3px;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #fff}
+.iconBird:before{content:"";position:absolute;left:2px;top:7px;width:19px;height:13px;border-radius:65% 50% 55% 45%;background:linear-gradient(135deg,#54e8ff,#477aff);transform:rotate(-8deg)}
+.iconBird:after{content:"";position:absolute;right:0;top:5px;width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:3px 2px 0 -2px #111}
+.iconStore:before{content:"";position:absolute;left:2px;top:8px;width:20px;height:13px;border:2px solid #fff;border-radius:2px}
+.iconStore:after{content:"";position:absolute;left:1px;top:3px;width:22px;height:9px;border:1px solid #fff;border-radius:4px}
+.iconDiamond:before,.diamondIcon:before{content:"";position:absolute;background:linear-gradient(135deg,#fff,#58e6ff 45%,#6570ff);clip-path:polygon(50% 0,100% 35%,75% 100%,25% 100%,0 35%);filter:drop-shadow(0 0 5px #35dcff)}
+.iconDiamond:before{inset:2px}
+.diamondIcon{width:16px;height:14px;display:inline-block;position:relative;flex:none}
+.diamondIcon:before{inset:0}
+.iconMembership:before{content:"";position:absolute;left:4px;top:4px;width:16px;height:16px;background:linear-gradient(135deg,#ffe47a,#ff9c3d);clip-path:polygon(50% 0,61% 35%,100% 35%,69% 57%,80% 95%,50% 72%,20% 95%,31% 57%,0 35%,39% 35%);filter:drop-shadow(0 0 5px rgba(255,200,80,.7))}
+.iconBack:before{content:"";position:absolute;left:5px;top:10px;width:16px;height:3px;background:#fff}
+.iconBack:after{content:"";position:absolute;left:4px;top:5px;width:10px;height:10px;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(45deg)}
+.panel{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding:40px 22px 28px}
+.menuPanel{justify-content:center;overflow:hidden}
+.logo{width:100%;text-align:center;font-size:clamp(34px,9vw,58px);line-height:1.1;font-weight:900;letter-spacing:6px;white-space:nowrap;color:#f5fbff;text-shadow:0 0 10px rgba(60,220,255,.9),0 0 25px rgba(70,110,255,.8),0 0 55px rgba(90,50,255,.5)}
+.subtitle{margin-top:18px;font-size:14px;line-height:1.5;letter-spacing:5px;color:#9da7c8;text-align:center}
+.menuButtons{width:min(430px,100%);margin-top:52px;display:flex;flex-direction:column;gap:17px}
+.mainBtn{width:100%;min-height:66px;border-radius:23px;background:linear-gradient(100deg,#5953ff,#10c7ed);box-shadow:0 12px 30px rgba(30,100,255,.24),inset 0 1px 0 rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;gap:14px;font-size:20px;font-weight:900;letter-spacing:2px}
+.mainBtn:active,.secondaryBtn:active,.skinBtn:active,.packPrice:active,.modalBtn:active,.overBtn:active{transform:scale(.97)}
+.secondaryRow{display:grid;grid-template-columns:1fr 1fr;gap:14px}.secondaryRow .membershipBtn{grid-column:1 / -1}
+.secondaryBtn{min-height:64px;border-radius:21px;background:rgba(18,24,58,.9);border:1px solid rgba(130,145,220,.25);display:flex;justify-content:center;align-items:center;gap:10px;font-size:16px;font-weight:900;letter-spacing:1px}
+
+.userCard{margin:0 auto 18px;width:min(100%,430px);padding:14px 17px;border-radius:17px;background:rgba(12,18,55,.72);border:1px solid rgba(126,150,255,.25);box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.userLabel{font-size:9px;letter-spacing:1.7px;opacity:.58;margin-bottom:6px}.username{font-size:17px;font-weight:900;letter-spacing:1px}.memberBadge{display:inline-flex;margin-left:7px;padding:4px 8px;border-radius:999px;background:linear-gradient(90deg,#ffd65a,#ff9e3d);color:#241600;font-size:9px;letter-spacing:1px;vertical-align:middle}
+#memberPanel,#birdPanel,#diamondPanel{display:none}
+.dailyTopupBox{max-width:430px;text-align:center}
+.memberPanel{padding:28px 20px 34px;overflow:auto;background:radial-gradient(circle at 50% 8%,rgba(255,194,65,.16),transparent 31%),radial-gradient(circle at 80% 35%,rgba(105,83,255,.13),transparent 32%),#050719}.memberPanel .panelHeader{margin-bottom:18px}.memberStore{width:100%;max-width:470px}.memberTop{padding:22px 20px;border-radius:24px;background:linear-gradient(145deg,rgba(255,208,86,.18),rgba(90,74,255,.16));border:1px solid rgba(255,220,120,.25);box-shadow:0 18px 45px rgba(0,0,0,.2);text-align:center}.memberKicker{font-size:10px;letter-spacing:2.5px;color:#d9c77e}.memberPrice{font-size:42px;font-weight:950;margin:7px 0 2px}.memberPrice small{font-size:13px;opacity:.7;font-weight:700}.memberStatus{font-size:11px;color:#aab4d5}.memberTag{display:inline-flex;margin-top:12px;padding:6px 11px;border-radius:999px;background:rgba(255,210,88,.13);border:1px solid rgba(255,210,88,.2);font-size:10px;color:#ffe29a;font-weight:800}.memberSectionTitle{margin:22px 2px 10px;font-size:11px;letter-spacing:2px;color:#8994ba}.memberList{display:grid;gap:10px;margin:0 0 18px}.memberFeature{display:flex;align-items:center;gap:11px;padding:14px 15px;border-radius:15px;background:rgba(14,20,51,.9);border:1px solid rgba(126,143,220,.16);font-size:13px;font-weight:700}.featureTick{width:21px;height:21px;flex:none;border-radius:50%;background:linear-gradient(135deg,#ffd65a,#ff9e3d);position:relative}.featureTick:after{content:"";position:absolute;left:6px;top:5px;width:8px;height:4px;border-left:2px solid #241600;border-bottom:2px solid #241600;transform:rotate(-45deg)}.memberBuy{width:100%;min-height:54px;border-radius:16px;background:linear-gradient(100deg,#ffd65a,#ff9e3d);color:#241600;font-weight:950;letter-spacing:1px;box-shadow:0 12px 30px rgba(255,175,50,.18)}.memberNote{font-size:9px;opacity:.48;line-height:1.55;margin-top:11px;text-align:center}.memberId{margin-top:14px;text-align:center;font-size:10px;color:#7f89ad}.memberId b{color:#dce3ff;letter-spacing:1px}
+.controlsText{margin-top:36px;text-align:center;color:#747da2;font-size:13px;line-height:1.9;letter-spacing:.6px}
+.storePanel{display:none;background:radial-gradient(circle at 50% 5%,rgba(42,110,255,.18),transparent 35%),#050719}
+.panelHeader{width:100%;max-width:470px;display:flex;align-items:center;gap:15px;margin-bottom:27px}
+.backBtn{width:46px;height:46px;flex:none;border-radius:15px;background:#171d43;border:1px solid rgba(150,160,230,.2);display:flex;align-items:center;justify-content:center}
+.panelTitle{font-size:25px;font-weight:900;letter-spacing:2px}
+.balance{width:100%;max-width:470px;margin-bottom:22px;padding:17px 20px;border-radius:20px;background:linear-gradient(100deg,rgba(33,44,101,.76),rgba(15,47,82,.65));border:1px solid rgba(100,180,255,.2)}
+.balanceSmall{margin-bottom:7px;font-size:11px;letter-spacing:2px;color:#8d97bb}
+.balanceBig{display:flex;align-items:center;gap:7px;font-size:27px;font-weight:900}
+.skinGrid{width:100%;max-width:470px;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-bottom:30px}
+.skinCard{min-height:208px;padding:16px 11px;border-radius:22px;background:rgba(14,20,51,.94);border:1px solid rgba(126,143,220,.19);display:flex;flex-direction:column;align-items:center;text-align:center}
+.skinPreview{width:82px;height:70px;position:relative;margin:4px auto 12px}
+.cssBird{position:absolute;left:12px;top:14px;width:58px;height:43px;border-radius:65% 55% 58% 45%;background:var(--bird);box-shadow:0 0 18px var(--glow);transform:rotate(-5deg)}
+.cssBird:before{content:"";position:absolute;left:-5px;top:21px;width:20px;height:16px;border-radius:50% 10% 50% 50%;background:rgba(255,255,255,.28);transform:rotate(-25deg)}
+.cssBird:after{content:"";position:absolute;right:10px;top:8px;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:2px 1px 0 1px #10121c}
+.beak{position:absolute;right:-8px;top:25px;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:13px solid #ffbf42}
+.skinName{margin-bottom:8px;font-size:13px;font-weight:900;letter-spacing:.7px}
+.skinPrice{min-height:18px;margin-bottom:12px;color:#78dfff;font-size:12px}
+.skinPrice .diamondIcon{width:12px;height:11px;vertical-align:-1px}
+.skinBtn{width:100%;min-height:40px;border-radius:13px;background:#252d63;font-size:11px;font-weight:900;letter-spacing:.8px}
+.skinBtn.buy{background:linear-gradient(100deg,#514cff,#0fbfe8)}
+.skinBtn.equipped{background:#183b42;color:#69eaff}
+.packList{width:100%;max-width:470px;display:flex;flex-direction:column;gap:13px;padding-bottom:30px}
+.pack{min-height:74px;padding:12px 15px;border-radius:19px;background:rgba(14,20,51,.94);border:1px solid rgba(126,143,220,.19);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.packDiamond{display:flex;align-items:center;gap:9px;font-size:18px;font-weight:900}
+.packPrice{min-width:82px;min-height:42px;border-radius:13px;background:linear-gradient(100deg,#514cff,#0fbfe8);font-weight:900}
+.modalWrap{position:absolute;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.68);backdrop-filter:blur(7px)}
+.paymentBox,.gameOverBox{width:min(410px,100%);padding:27px 23px;border-radius:27px;text-align:center;background:linear-gradient(145deg,#101637,#080b20);border:1px solid rgba(140,160,255,.23);box-shadow:0 25px 80px rgba(0,0,0,.55)}
+.modalTitle{margin-bottom:8px;font-size:25px;font-weight:900;letter-spacing:1.5px}
+.modalText{margin-bottom:19px;color:#8f98bc;font-size:13px;line-height:1.7}
+#qr{width:210px;height:210px;padding:7px;border-radius:15px;background:#fff}
+.upiId{margin:15px 0;padding:12px;border-radius:12px;background:#080b1e;color:#72e6ff;font-size:13px;letter-spacing:.7px}
+.modalActions{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.modalBtn{min-height:45px;border-radius:13px;background:#252d63;font-weight:900}
+.modalBtn.primary{background:linear-gradient(100deg,#514cff,#0fbfe8)}
+.closeBtn{width:100%;min-height:44px;margin-top:11px;border-radius:13px;background:#171d43;font-weight:800}
+.soundToggle{position:absolute;top:16px;right:16px;z-index:35;width:44px;height:44px;border-radius:14px;background:rgba(18,24,58,.86);border:1px solid rgba(130,145,220,.25);display:flex;align-items:center;justify-content:center;font-size:0}.soundToggle:before{content:"";position:absolute;left:12px;top:15px;width:7px;height:14px;background:#fff;border-radius:2px}.soundToggle:after{content:"";position:absolute;left:19px;top:11px;width:11px;height:22px;border:3px solid #fff;border-left:0;border-top-color:transparent;border-bottom-color:transparent;border-radius:0 18px 18px 0}.soundOff:after{border-color:#ff6d7a;border-left:0;border-top:0;border-bottom:0;width:15px;height:3px;left:14px;top:20px;transform:rotate(45deg)}
+.successBox{width:min(390px,100%);padding:30px 24px;border-radius:27px;text-align:center;background:linear-gradient(145deg,#101d38,#080b20);border:1px solid rgba(140,255,210,.28);box-shadow:0 25px 80px rgba(0,0,0,.55);animation:popIn .24s ease-out}.successIcon{width:66px;height:66px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(145deg,#28e3a5,#1ab6ff);position:relative;box-shadow:0 0 30px rgba(40,227,165,.28)}.successIcon:after{content:"";position:absolute;left:21px;top:17px;width:21px;height:11px;border-left:4px solid #fff;border-bottom:4px solid #fff;transform:rotate(-45deg)}.successTitle{font-size:25px;font-weight:900;letter-spacing:1px}.successText{margin-top:9px;color:#9aa5c9;font-size:14px;line-height:1.7}.successBalance{margin:18px 0;padding:13px;border-radius:14px;background:#080c20;color:#70eaff;font-size:17px;font-weight:900}.successClose{width:100%;min-height:46px;border-radius:14px;background:linear-gradient(100deg,#514cff,#0fbfe8);font-weight:900}@keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+.insufficientBox{width:min(390px,100%);padding:30px 24px;border-radius:27px;text-align:center;background:linear-gradient(145deg,#151b3d,#080b20);border:1px solid rgba(255,196,90,.28);box-shadow:0 25px 80px rgba(0,0,0,.55);animation:popIn .24s ease-out}.warningIcon{width:66px;height:66px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(145deg,#ffca3a,#ff6b3d);position:relative;box-shadow:0 0 30px rgba(255,180,50,.22)}.warningIcon:before{content:"";position:absolute;left:31px;top:15px;width:4px;height:24px;background:#fff;border-radius:3px}.warningIcon:after{content:"";position:absolute;left:31px;top:45px;width:4px;height:4px;background:#fff;border-radius:50%}.insufficientTitle{font-size:25px;font-weight:900;letter-spacing:1px}.shortageBox{margin:17px 0;padding:14px;border-radius:14px;background:#080c20;color:#ffcf54;font-size:18px;font-weight:900}.shortageBox span{color:#fff}.insufficientText{color:#9aa5c9;font-size:14px;line-height:1.7;margin-top:8px}.insufficientActions{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:20px}.shortageBtn{min-height:46px;border-radius:14px;font-weight:900;background:#252d63}.shortageBtn.topup{background:linear-gradient(100deg,#514cff,#0fbfe8)}
+
+.gameOverBox{padding:32px 24px}
+.gameOverTitle{margin-bottom:12px;font-size:37px;font-weight:900;letter-spacing:2px;text-shadow:0 0 20px rgba(76,213,255,.55)}
+.finalScore{color:#8e9bc3;font-size:14px;letter-spacing:2px}
+.finalScore strong{display:block;margin-top:8px;color:#fff;font-size:42px;letter-spacing:1px}
+.overButtons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:27px}
+.overBtn{min-height:51px;border-radius:15px;font-weight:900;letter-spacing:.7px;background:#252d63}
+.overBtn.playAgain{background:linear-gradient(100deg,#514cff,#0fbfe8)}
+.overBtn.menu{background:#171d43}
+@media(max-width:430px){
+.panel{padding-left:18px;padding-right:18px}
+.logo{letter-spacing:4px}
+.subtitle{letter-spacing:3px}
+.menuButtons{margin-top:45px}
+.hudBox{padding:9px 6px}
+.hudLabel{font-size:9px}
+.hudValue{font-size:19px}
+.skinGrid{gap:11px}
+}
+
+.usernameModal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,3,18,.82);backdrop-filter:blur(12px)}
+.usernameBox{width:min(390px,100%);padding:30px 24px;border-radius:28px;text-align:center;background:linear-gradient(145deg,#101637,#080b20);border:1px solid rgba(140,160,255,.28);box-shadow:0 25px 90px rgba(0,0,0,.65)}
+.usernameBox h2{margin:0 0 10px;font-size:28px;letter-spacing:1px}.usernameBox p{margin:0 0 20px;opacity:.7;font-size:13px;line-height:1.5}.usernameInput{width:100%;box-sizing:border-box;border:1px solid rgba(150,170,255,.25);background:#06091a;color:#fff;border-radius:14px;padding:15px 14px;font-size:16px;outline:none;text-align:center}.usernameInput:focus{border-color:#55dfff;box-shadow:0 0 0 3px rgba(85,223,255,.10)}.usernameContinue{width:100%;margin-top:13px;border:0;border-radius:14px;padding:14px;font-weight:900;letter-spacing:1px;color:#07101b;background:linear-gradient(100deg,#55e5ff,#7c6cff);cursor:pointer}.usernameError{min-height:18px;margin-top:8px;color:#ff8090;font-size:12px}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="gameCanvas"></canvas>
+<button id="soundToggle" class="soundToggle" aria-label="Toggle sound" onclick="toggleSound()"></button>
+
+<div id="hud">
+<div class="hudBox"><span class="hudLabel">SCORE</span><span class="hudValue" id="scoreText">0</span></div>
+<div class="hudBox"><span class="hudLabel">DIAMONDS</span><span class="hudValue"><span class="diamondIcon"></span><span id="diamondText">0</span></span></div>
+<div class="hudBox"><span class="hudLabel">BEST</span><span class="hudValue" id="bestText">0</span></div>
+</div>
+
+<div id="menuPanel" class="panel menuPanel">
+<div class="logo">GALAXY FLAP</div>
+<div class="subtitle">FLY&nbsp;&nbsp;•&nbsp;&nbsp;DODGE&nbsp;&nbsp;•&nbsp;&nbsp;SURVIVE</div>
+<div class="userCard"><div class="userLabel">YOUR USERNAME</div><div class="username" id="usernameDisplay">PLAYER</div></div>
+<div class="menuButtons">
+<button class="mainBtn" onclick="startGame()"><span class="icon iconPlay"></span><span>PLAY</span></button>
+<div class="secondaryRow">
+<button class="secondaryBtn" onclick="showBirdStore()"><span class="icon iconBird"></span><span>BIRDS</span></button>
+<button class="secondaryBtn" onclick="showDiamondStore()"><span class="icon iconDiamond"></span><span>DIAMONDS</span></button>
+<button class="secondaryBtn membershipBtn" onclick="showMembership()"><span class="icon iconMembership"></span><span>MEMBERSHIP</span></button>
+</div>
+</div>
+<div class="controlsText">Laptop: Mouse / Space / ↑ / W<br>Mobile: Tap Screen</div>
+</div>
+
+<div id="memberPanel" class="panel memberPanel">
+<div class="panelHeader"><button class="backBtn" onclick="goToMenu()"><span class="icon iconBack"></span></button><div class="panelTitle">MEMBERSHIP STORE</div></div>
+<div class="memberStore">
+<div class="memberTop"><div class="memberKicker">GALAXY FLAP PREMIUM</div><div class="memberPrice">₹179 <small>/ 7 DAYS</small></div><div class="memberStatus" id="memberStatus">Membership inactive</div><div class="memberTag">7-DAY PREMIUM ACCESS</div></div>
+<div class="memberSectionTitle">MEMBERSHIP REWARDS</div>
+<div class="memberList">
+<div class="memberFeature"><span class="featureTick"></span><span><b>100 DIAMONDS</b> instantly after membership purchase</span></div>
+<div class="memberFeature"><span class="featureTick"></span><span><b>49 DIAMONDS</b> daily for 7 days</span></div>
+<div class="memberFeature"><span class="featureTick"></span><span><b>+6 DIAMONDS</b> final-day bonus — <b>449 TOTAL</b></span></div>
+</div>
+<div class="memberSectionTitle">MEMBERSHIP FEATURES</div>
+<div class="memberList">
+<div class="memberFeature"><span class="featureTick"></span><span>Premium member badge on your profile</span></div>
+<div class="memberFeature"><span class="featureTick"></span><span>Exclusive member experience</span></div>
+<div class="memberFeature"><span class="featureTick"></span><span>Priority access to new features</span></div>
+<div class="memberFeature"><span class="featureTick"></span><span>Future member-only rewards</span></div>
+</div>
+<button class="memberBuy" onclick="buyMembership()">GET MEMBERSHIP — ₹179</button>
+<div class="memberId">USERNAME: <b id="memberUsername">PLAYER</b></div>
+<div class="memberNote">Payment opens through UPI. Membership activation should be confirmed by your secure backend/admin system.</div>
+</div></div>
+
+<div id="birdPanel" class="panel storePanel">
+<div class="panelHeader"><button class="backBtn" onclick="goToMenu()"><span class="icon iconBack"></span></button><div class="panelTitle">BIRD STORE</div></div>
+<div class="balance"><div class="balanceSmall">YOUR DIAMONDS</div><div class="balanceBig"><span class="diamondIcon"></span><span id="birdBalance">0</span></div></div>
+<div id="skinGrid" class="skinGrid"></div>
+</div>
+
+<div id="diamondPanel" class="panel storePanel">
+<div class="panelHeader"><button class="backBtn" onclick="goToMenu()"><span class="icon iconBack"></span></button><div class="panelTitle">DIAMOND STORE</div></div>
+<div class="balance"><div class="balanceSmall">CURRENT BALANCE</div><div class="balanceBig"><span class="diamondIcon"></span><span id="storeBalance">0</span></div></div>
+<div id="packList" class="packList"></div>
+</div>
+
+<div id="paymentModal" class="modalWrap">
+<div class="paymentBox">
+<div class="modalTitle">UPI PAYMENT</div>
+<div class="modalText" id="paymentModalText">Scan the QR or open your UPI app to pay.</div>
+<img id="qr" alt="UPI QR">
+<div class="upiId">9689155635@nyes</div>
+<div class="modalActions">
+<button class="modalBtn" onclick="copyUPI()">COPY UPI</button>
+<button class="modalBtn primary" onclick="openUPI()">OPEN UPI</button>
+</div>
+<button class="closeBtn" onclick="closePayment()">CLOSE</button>
+</div>
+</div>
+
+
+<div id="insufficientModal" class="modalWrap">
+<div class="insufficientBox">
+<div class="warningIcon"></div>
+<div class="insufficientTitle">NOT ENOUGH DIAMONDS</div>
+<div class="shortageBox">YOU NEED <span id="neededDiamonds">0</span> MORE DIAMONDS</div>
+<div class="insufficientText" id="insufficientText">Top up your diamonds to unlock this bird.</div>
+<div class="insufficientActions">
+<button class="shortageBtn" onclick="closeInsufficient()">CLOSE</button>
+<button class="shortageBtn topup" onclick="topUpFromShortage()">TOP UP</button>
+</div>
+</div>
+</div>
+
+<div id="successModal" class="modalWrap">
+<div class="successBox">
+<div class="successIcon"></div>
+<div class="successTitle">PURCHASE SUCCESSFUL</div>
+<div class="successText" id="successText">Your bird has been unlocked.</div>
+<div class="successBalance" id="successBalance">DIAMONDS REMAINING: 0</div>
+<button class="successClose" onclick="closeSuccess()">CONTINUE</button>
+</div>
+</div>
+
+<div id="dailyTopupModal" class="modalWrap">
+<div class="paymentBox dailyTopupBox">
+<div class="modalTitle">TOP UP DIAMONDS</div>
+<div class="modalText">Aaj thode extra diamonds chahiye? Top up karke apna favourite bird unlock karo.</div>
+<div class="modalActions">
+<button class="modalBtn" onclick="closeDailyTopup()">LATER</button>
+<button class="modalBtn primary" onclick="closeDailyTopup();showDiamondStore()">TOP UP</button>
+</div>
+</div>
+</div>
+
+<div id="usernameModal" class="usernameModal">
+<div class="usernameBox">
+<h2>ENTER USERNAME</h2>
+<p>Username is required before every new round. Enter any name to continue.</p>
+<input id="usernameInput" class="usernameInput" maxlength="20" autocomplete="off" placeholder="Enter username">
+<div id="usernameError" class="usernameError"></div><div style="font-size:11px;opacity:.58;margin-top:7px;line-height:1.4">Each username can play only once on this device.</div>
+<button class="usernameContinue" onclick="confirmUsername()">CONTINUE</button>
+</div>
+</div>
+<div id="gameOverModal" class="modalWrap">
+<div class="gameOverBox">
+<div class="gameOverTitle">GAME OVER</div>
+<div class="finalScore">YOUR SCORE<strong id="finalScore">0</strong></div>
+<div class="overButtons">
+<button class="overBtn playAgain" onclick="startGame()">PLAY AGAIN</button>
+<button class="overBtn menu" onclick="goToMenu()">MENU</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Razorpay loads only when payment is requested; this prevents startup white/flicker. -->
+<script>
+const RAZORPAY_KEY_ID = "";
+let razorpayLoaded=false;
+function loadRazorpay(){return new Promise((resolve,reject)=>{if(window.Razorpay){razorpayLoaded=true;resolve();return;}const sc=document.createElement("script");sc.src="https://checkout.razorpay.com/v1/checkout.js";sc.onload=()=>{razorpayLoaded=true;resolve()};sc.onerror=()=>reject(new Error("Razorpay load failed"));document.head.appendChild(sc);});}
+let audioCtx=null, masterGain=null, musicGain=null, soundEnabled=true, musicTimer=null;
+function initAudio(){
+  if(!soundEnabled)return;
+  if(!audioCtx){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+    audioCtx=new AC();
+    masterGain=audioCtx.createGain(); masterGain.gain.value=.18; masterGain.connect(audioCtx.destination);
+    musicGain=audioCtx.createGain(); musicGain.gain.value=.045; musicGain.connect(masterGain);
+  }
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  startMusic();
+}
+function tone(freq,duration,type='sine',volume=.18,when=0,slide=0){
+  if(!soundEnabled||!audioCtx)return;
+  const t=audioCtx.currentTime+when; const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+  o.type=type; o.frequency.setValueAtTime(freq,t);
+  if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,freq+slide),t+duration);
+  g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(volume,t+.012); g.gain.exponentialRampToValueAtTime(.0001,t+duration);
+  o.connect(g);g.connect(masterGain);o.start(t);o.stop(t+duration+.03);
+}
+function flapSound(){ tone(520,.09,'triangle',.22,0,180); tone(760,.07,'sine',.09,.035,-100); }
+function tapSound(){ tone(260,.055,'square',.07,0,80); }
+function scoreSound(){ tone(720,.08,'sine',.14); tone(980,.11,'sine',.10,.07); }
+function crashSound(){ tone(180,.16,'sawtooth',.16,0,-110); tone(90,.22,'triangle',.12,.08,-35); }
+function purchaseSound(){ tone(660,.09,'sine',.16); tone(880,.1,'sine',.14,.09); tone(1175,.18,'sine',.12,.19); }
+function startMusic(){
+  if(musicTimer||!musicGain||!soundEnabled)return;
+  const notes=[196,247,294,370,294,247,220,277,330,415,330,277]; let i=0;
+  musicTimer=setInterval(()=>{
+    if(!audioCtx||audioCtx.state!=='running'||!soundEnabled)return;
+    const f=notes[i++%notes.length]; const t=audioCtx.currentTime;
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.5,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+.42);o.connect(g);g.connect(musicGain);o.start(t);o.stop(t+.45);
+  },520);
+}
+function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null}}
+function toggleSound(){
+  soundEnabled=!soundEnabled;
+  const b=document.getElementById('soundToggle'); b.classList.toggle('soundOff',!soundEnabled);
+  if(soundEnabled){initAudio();tapSound()}else stopMusic();
+}
+let hindiFemaleVoice=null;
+function loadHindiFemaleVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const voices=speechSynthesis.getVoices()||[];
+  const hindi=voices.filter(v=>/^hi(?:-|$)/i.test(v.lang)||/hindi|india/i.test(v.name));
+  const femaleNames=['swara','heera','kalpana','google hindi','hindi india','female','woman','neerja','lekha','aarti','aditi'];
+  hindiFemaleVoice = hindi.find(v=>femaleNames.some(n=>v.name.toLowerCase().includes(n))) || hindi.find(v=>v.lang.toLowerCase()==='hi-in') || hindi[0] || null;
+}
+if('speechSynthesis' in window){
+  loadHindiFemaleVoice();
+  speechSynthesis.onvoiceschanged=loadHindiFemaleVoice;
+}
+function speak(text){
+  if(!soundEnabled||!('speechSynthesis' in window))return;
+  try{
+    speechSynthesis.cancel();
+    loadHindiFemaleVoice();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='hi-IN';
+    if(hindiFemaleVoice) u.voice=hindiFemaleVoice;
+    u.rate=.88;
+    u.pitch=1.08;
+    u.volume=.95;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+const canvas=document.getElementById("gameCanvas");
+const ctx=canvas.getContext("2d");
+let W=0,H=0,DPR=1;
+
+function resizeCanvas(){
+DPR=Math.min(window.devicePixelRatio||1,2);
+W=canvas.clientWidth;
+H=canvas.clientHeight;
+canvas.width=Math.floor(W*DPR);
+canvas.height=Math.floor(H*DPR);
+ctx.setTransform(DPR,0,0,DPR,0,0);
+createStars();
+}
+window.addEventListener("resize",resizeCanvas);
+
+const SAVE_KEY="GALAXY_FLAP_FINAL_V4";
+const defaultData={diamonds:0,best:0,owned:[0],selected:0,username:"",membershipUntil:0,usedUsernames:[]};
+let data;
+try{data=JSON.parse(localStorage.getItem(SAVE_KEY))||{...defaultData}}catch(e){data={...defaultData}}
+if(!Number.isFinite(data.diamonds)||!Number.isFinite(data.best)||!Array.isArray(data.owned))data={...defaultData};
+if(typeof data.username!=="string") data.username="";
+if(!Number.isFinite(data.membershipUntil)) data.membershipUntil=0;
+if(!Array.isArray(data.usedUsernames)) data.usedUsernames=[];
+updateAccountUI();
+function saveData(){localStorage.setItem(SAVE_KEY,JSON.stringify(data))}
+function updateAccountUI(){
+  const name=data.username||"ENTER USERNAME";
+  const el=document.getElementById("usernameDisplay");
+  if(el) el.innerHTML=name+(data.membershipUntil>Date.now()?'<span class="memberBadge">MEMBER</span>':'');
+  const mid=document.getElementById("memberUsername"); if(mid) mid.textContent=name;
+  const st=document.getElementById("memberStatus");
+  if(st) st.textContent=data.membershipUntil>Date.now()?"Active until "+new Date(data.membershipUntil).toLocaleDateString("en-IN"):"Membership inactive";
+}
+function openUsernameModal(){
+  const m=document.getElementById("usernameModal");
+  const input=document.getElementById("usernameInput");
+  const err=document.getElementById("usernameError");
+  if(err) err.textContent="";
+  if(input){input.value="";setTimeout(()=>input.focus(),80);}
+  if(m)m.style.display="flex";
+}
+function confirmUsername(){
+  const input=document.getElementById("usernameInput");
+  const err=document.getElementById("usernameError");
+  const name=(input.value||"").trim();
+  if(name.length<2){err.textContent="Please enter at least 2 characters.";return;}
+  const normalizedUsername=name.slice(0,20).toLowerCase().replace(/\s+/g," ").trim();
+  if(data.usedUsernames.includes(normalizedUsername)){
+    err.textContent="This username has already played on this device. Please enter a different username.";
+    return;
+  }
+  data.username=name.slice(0,20);
+  hardUsernameMode=!EASY_USERNAMES.has(normalizedUsername);
+  data.usedUsernames.push(normalizedUsername);
+  saveData();
+  updateAccountUI();
+  document.getElementById("usernameModal").style.display="none";
+  actuallyStartGame();
+}
+function requireUsernameAndStart(){
+  openUsernameModal();
+}
+
+
+
+const skins=[
+{name:"CLASSIC",price:0,color:"#ffca3a",glow:"#ffb300"},
+{name:"CYBER BLUE",price:25,color:"#36dfff",glow:"#20cfff"},
+{name:"FIRE PHOENIX",price:70,color:"#ff633d",glow:"#ff3c16"},
+{name:"GALAXY",price:130,color:"#9d67ff",glow:"#8c4dff"},
+{name:"GOLDEN",price:200,color:"#ffd85c",glow:"#ffbf22"},
+{name:"EMERALD",price:275,color:"#34ed9a",glow:"#19dc83"},
+{name:"SHADOW",price:375,color:"#8c91ad",glow:"#6d76a7"},
+{name:"COSMIC KING",price:550,color:"#fff",glow:"#b66cff"}
+];
+
+function renderBirdStore(){
+const grid=document.getElementById("skinGrid");
+grid.innerHTML="";
+document.getElementById("birdBalance").textContent=data.diamonds;
+skins.forEach((skin,index)=>{
+const owned=data.owned.includes(index);
+const equipped=data.selected===index;
+const card=document.createElement("div");
+card.className="skinCard";
+card.innerHTML=`
+<div class="skinPreview"><div class="cssBird" style="--bird:${skin.color};--glow:${skin.glow}"><span class="beak"></span></div></div>
+<div class="skinName">${skin.name}</div>
+<div class="skinPrice">${skin.price===0?"FREE":`<span class="diamondIcon"></span>${skin.price}`}</div>
+<button class="skinBtn ${equipped?"equipped":owned?"":"buy"}" onclick="selectSkin(${index})">${equipped?"EQUIPPED":owned?"EQUIP":"BUY"}</button>`;
+grid.appendChild(card);
+});
+}
+
+function selectSkin(index){
+const skin=skins[index];
+if(data.owned.includes(index)){data.selected=index;saveData();renderBirdStore();return}
+if(data.diamonds<skin.price){
+  const missing=skin.price-data.diamonds;
+  document.getElementById('neededDiamonds').textContent=missing;
+  document.getElementById('insufficientText').textContent='You have '+data.diamonds+' diamonds, but '+skin.price+' are required for '+skin.name+'.';
+  document.getElementById('insufficientModal').style.display='flex';
+  tapSound();
+  speak('अरे, अभी आपके पास इतने डायमंड्स नहीं हैं। इस बर्ड को खरीदने के लिए आपको '+missing+' डायमंड्स और चाहिए। चिंता मत कीजिए, आप टॉप अप करके आसानी से खरीद सकते हैं।');
+  return;
+}
+data.diamonds-=skin.price;
+data.owned.push(index);
+data.selected=index;
+saveData();
+updateDiamondUI();
+renderBirdStore();
+purchaseSound();
+showSuccess(skin.name);
+}
+
+function closeInsufficient(){
+  document.getElementById('insufficientModal').style.display='none';
+  tapSound();
+}
+function topUpFromShortage(){
+  document.getElementById('insufficientModal').style.display='none';
+  showDiamondStore();
+}
+
+function showSuccess(name){
+  document.getElementById('successText').textContent=name+' has been unlocked and equipped.';
+  document.getElementById('successBalance').textContent='DIAMONDS REMAINING: '+data.diamonds;
+  document.getElementById('successModal').style.display='flex';
+  speak('वाह! बहुत बढ़िया! '+name+' बर्ड अब आपका हो गया है। इसे मज़े से खेलिए और अपना हाई स्कोर बनाइए।');
+}
+function closeSuccess(){document.getElementById('successModal').style.display='none';tapSound()}
+
+const packs=[[10,25],[49,130],[99,275],[199,575],[399,1200]];
+
+function renderDiamondStore(){
+document.getElementById("storeBalance").textContent=data.diamonds;
+const list=document.getElementById("packList");
+list.innerHTML="";
+packs.forEach(pack=>{
+const rupees=pack[0],diamonds=pack[1];
+const item=document.createElement("div");
+item.className="pack";
+item.innerHTML=`
+<div class="packDiamond"><span class="diamondIcon"></span><span>${diamonds}</span></div>
+<button class="packPrice" onclick="buyDiamonds(${rupees},${diamonds})">₹${rupees}</button>`;
+list.appendChild(item);
+});
+}
+
+let selectedPayment=null;
+async function buyDiamonds(rupees,diamonds){
+  initAudio(); tapSound();
+  if(!RAZORPAY_KEY_ID){alert("Razorpay Test Key ID abhi add nahi ki gayi hai. Game normal chalega; payment ke liye baad mein Key ID add kar dena.");return;}
+  try{await loadRazorpay()}catch(e){alert("Razorpay load nahi hua. Internet connection check karo.");return;}
+  selectedPayment={rupees,diamonds};
+
+  if(!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "YOUR_TEST_KEY_ID_HERE") {
+    alert("Pehle RAZORPAY_KEY_ID mein apni Razorpay TEST Key ID paste karo.");
+    return;
+  }
+
+  const options={
+    key:RAZORPAY_KEY_ID,
+    amount:rupees*100,
+    currency:"INR",
+    name:"Galaxy Flap",
+    description:diamonds+" Diamonds",
+    image:"",
+    prefill:{name:data.username},
+    notes:{username:data.username,product:"diamonds",diamonds:String(diamonds)},
+    theme:{color:"#6d5cff"},
+    handler:function(response){
+      // TEST ONLY: this callback confirms that Razorpay Checkout returned a payment.
+      // Production crediting must be done after server-side signature verification.
+      closePayment();
+      alert("Test payment successful! Payment ID: "+response.razorpay_payment_id+"\n\nProduction mein diamonds backend verification ke baad credit honge.");
+    },
+    modal:{ondismiss:function(){}}
+  };
+  try{
+    const rzp=new Razorpay(options);
+    rzp.on("payment.failed",function(response){
+      alert("Test payment failed/cancelled.\n"+(response.error&&response.error.description?response.error.description:"Please try again."));
+    });
+    rzp.open();
+  }catch(err){
+    alert("Razorpay Checkout open nahi hua. Check karo ki Test Key ID sahi paste ki hai.");
+  }
+}
+function closePayment(){document.getElementById("paymentModal").style.display="none"}
+function copyUPI(){
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText("9689155635@nyes").then(()=>alert("UPI ID copied!")).catch(()=>alert("UPI ID: 9689155635@nyes"));
+}else alert("UPI ID: 9689155635@nyes");
+}
+function openUPI(){
+if(!selectedPayment)return;
+const rupees=selectedPayment.rupees;
+const note=selectedPayment.membership?("Galaxy Flap Weekly Membership - "+data.username):"Galaxy Flap";
+window.location.href="upi://pay?pa=9689155635@nyes&pn=Galaxy%20Flap&am="+rupees+"&cu=INR&tn="+encodeURIComponent(note);
+}
+
+function closeDailyTopup(){document.getElementById("dailyTopupModal").style.display="none";tapSound()}
+function maybeShowDailyTopup(){
+  const day=new Date().toISOString().slice(0,10);
+  const key="GF_TOPUP_POPUP_"+day;
+  let count=0;
+  try{count=parseInt(localStorage.getItem(key)||"0",10)||0}catch(e){}
+  if(count>=2)return;
+  if(Math.random()>.42)return;
+  const delay=8000+Math.random()*22000;
+  setTimeout(()=>{
+    if(playing)return;
+    let current=0;
+    try{current=parseInt(localStorage.getItem(key)||"0",10)||0}catch(e){}
+    if(current>=2)return;
+    try{localStorage.setItem(key,String(current+1))}catch(e){}
+    document.getElementById("dailyTopupModal").style.display="flex";
+    speak("Agar aap chahein, aap diamonds ka top up kar sakte hain.");
+  },delay);
+}
+
+function hideAllPanels(){
+document.getElementById("menuPanel").style.display="none";
+document.getElementById("birdPanel").style.display="none";
+document.getElementById("diamondPanel").style.display="none";
+document.getElementById("memberPanel").style.display="none";
+}
+function showMembership(){
+  initAudio();tapSound();playing=false;hideAllPanels();
+  document.getElementById("memberPanel").style.display="flex";
+  updateAccountUI();
+}
+async function buyMembership(){
+  initAudio(); tapSound();
+  if(!RAZORPAY_KEY_ID){alert("Razorpay Test Key ID abhi add nahi ki gayi hai. Game normal chalega; membership payment ke liye baad mein Key ID add kar dena.");return;}
+  try{await loadRazorpay()}catch(e){alert("Razorpay load nahi hua. Internet connection check karo.");return;}
+  if(!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "YOUR_TEST_KEY_ID_HERE") {
+    alert("Pehle RAZORPAY_KEY_ID mein apni Razorpay TEST Key ID paste karo.");
+    return;
+  }
+  selectedPayment={rupees:179,diamonds:0,membership:true};
+  const options={
+    key:RAZORPAY_KEY_ID,
+    amount:17900,
+    currency:"INR",
+    name:"Galaxy Flap",
+    description:"Weekly Membership",
+    prefill:{name:data.username},
+    notes:{username:data.username,product:"membership"},
+    theme:{color:"#6d5cff"},
+    handler:function(response){
+      alert("Test membership payment successful! Payment ID: "+response.razorpay_payment_id+"\n\nProduction mein membership backend verification ke baad activate hogi.");
+    }
+  };
+  try{
+    const rzp=new Razorpay(options);
+    rzp.on("payment.failed",function(response){
+      alert("Test payment failed/cancelled.\n"+(response.error&&response.error.description?response.error.description:"Please try again."));
+    });
+    rzp.open();
+  }catch(err){
+    alert("Razorpay Checkout open nahi hua. Check karo ki Test Key ID sahi paste ki hai.");
+  }
+}
+function showBirdStore(){
+initAudio();tapSound();
+playing=false;hideAllPanels();
+document.getElementById("birdPanel").style.display="flex";
+renderBirdStore();
+}
+function showDiamondStore(){
+initAudio();tapSound();
+playing=false;hideAllPanels();
+document.getElementById("diamondPanel").style.display="flex";
+document.getElementById("insufficientModal").style.display="none";
+renderDiamondStore();
+}
+function goToMenu(){
+initAudio();tapSound();
+playing=false;
+document.getElementById("gameOverModal").style.display="none";
+document.getElementById("paymentModal").style.display="none";
+document.getElementById("insufficientModal").style.display="none";
+document.getElementById("dailyTopupModal").style.display="none";
+document.getElementById("hud").style.display="none";
+hideAllPanels();
+document.getElementById("menuPanel").style.display="flex";
+updateDiamondUI();
+}
+function updateDiamondUI(){
+document.getElementById("diamondText").textContent=data.diamonds;
+document.getElementById("birdBalance").textContent=data.diamonds;
+document.getElementById("storeBalance").textContent=data.diamonds;
+document.getElementById("bestText").textContent=data.best;
+}
+
+let playing=false,gameOver=false,flying=false,score=0;
+let speed=2.8,gravity=.30,flapPower=-6.2;
+let bird={x:0,y:0,vy:0,r:18,rotation:0};
+let pipes=[],nextPipeDistance=300,stars=[],particles=[],lastTime=0;
+
+// Difficulty mode is selected from the username entered for the current round.
+// These three demo/test usernames keep the normal/easier game. All other
+// usernames use the very-hard mode, capped at a maximum displayed score of 3.
+const EASY_USERNAMES = new Set([
+  "player 1 2 3",
+  "player 1 1",
+  "player 1 18"
+]);
+let hardUsernameMode = true;
+
+function createStars(){
+stars=[];
+const count=Math.max(75,Math.floor(W*H/6500));
+for(let i=0;i<count;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,alpha:Math.random()*.75+.15,speed:Math.random()*.22+.04});
+}
+
+function startGame(){
+  initAudio();
+  tapSound();
+  requireUsernameAndStart();
+}
+function actuallyStartGame(){
+  initAudio();
+  hideAllPanels();
+  document.getElementById("gameOverModal").style.display="none";
+  document.getElementById("paymentModal").style.display="none";
+  document.getElementById("dailyTopupModal").style.display="none";
+  document.getElementById("hud").style.display="flex";
+  score=0;gameOver=false;playing=true;flying=false;
+  if(hardUsernameMode){
+    speed=4.7; gravity=.36; flapPower=-6.55;
+  }else{
+    speed=2.8; gravity=.30; flapPower=-6.2;
+  }
+  pipes=[];particles=[];nextPipeDistance=300;
+  bird.r=18;bird.x=W*.27;bird.y=H*.47;bird.vy=0;bird.rotation=0;
+  updateHUD();
+}
+
+
+function flap(){
+if(!playing||gameOver)return;
+flying=true;
+flapSound();
+bird.vy=flapPower;
+createFlapParticles();
+}
+
+canvas.addEventListener("mousedown",e=>{e.preventDefault();initAudio();flap()});
+canvas.addEventListener("touchstart",e=>{e.preventDefault();initAudio();flap()},{passive:false});
+window.addEventListener("keydown",e=>{
+if(e.code==="Space"||e.code==="ArrowUp"||e.code==="KeyW"){e.preventDefault();initAudio();flap()}
+});
+
+function createPipe(){
+const gap=hardUsernameMode
+  ? Math.max(128,148-score*1.5)
+  : Math.max(180,245-score*1.5);
+const topSafe=hardUsernameMode?72:95;
+const bottomSafe=hardUsernameMode?82:105;
+const minY=topSafe+gap/2,maxY=H-bottomSafe-gap/2;
+const gapY=minY+Math.random()*Math.max(1,maxY-minY);
+pipes.push({
+  x:W+40,
+  width:hardUsernameMode?72:68,
+  gapY,
+  gap,
+  passed:false
+});
+}
+
+function update(dt){
+if(!playing||gameOver)return;
+const frame=Math.min(dt/16.67,2);
+if(hardUsernameMode){
+  // Keep the non-demo usernames extremely difficult.
+  speed=Math.min(7.2,4.7+score*.42);
+}else{
+  speed=Math.min(5.0,2.8+score*.055);
+}
+
+if(flying){
+bird.vy+=gravity*frame;
+bird.y+=bird.vy*frame;
+bird.rotation=Math.max(-.45,Math.min(.85,bird.vy*.07));
+}else{
+bird.y=H*.47+Math.sin(performance.now()/450)*4;
+bird.rotation=Math.sin(performance.now()/500)*.04;
+}
+
+for(let i=pipes.length-1;i>=0;i--){
+const p=pipes[i];
+p.x-=speed*frame;
+if(!p.passed&&p.x+p.width<bird.x){
+p.passed=true;
+score++;
+scoreSound();
+
+// In very-hard username mode, the round ends immediately at 3.
+// This keeps the maximum displayed score at exactly 3.
+if(hardUsernameMode && score>=3){
+  score=3;
+  endGame();
+  return;
+}
+createScoreParticles();updateHUD();
+}
+if(p.x+p.width<-30)pipes.splice(i,1);
+}
+
+if(pipes.length===0||W-pipes[pipes.length-1].x>=nextPipeDistance){
+createPipe();
+nextPipeDistance=300+Math.random()*80;
+}
+
+if(bird.y-bird.r<0||bird.y+bird.r>H){endGame();return}
+
+for(const p of pipes){
+const birdLeft=bird.x-bird.r*.72,birdRight=bird.x+bird.r*.72;
+const birdTop=bird.y-bird.r*.72,birdBottom=bird.y+bird.r*.72;
+if(!(birdRight>p.x&&birdLeft<p.x+p.width))continue;
+const gapTop=p.gapY-p.gap/2,gapBottom=p.gapY+p.gap/2;
+if(birdTop<gapTop||birdBottom>gapBottom){endGame();return}
+}
+updateParticles(frame);
+}
+
+function endGame(){
+if(gameOver)return;
+gameOver=true;playing=false;
+crashSound();
+speak("ओह... कोई बात नहीं। गेम ओवर हो गया है। आपका स्कोर "+score+" है। एक बार फिर कोशिश कीजिए, इस बार हम और अच्छा करेंगे।");
+if(score>data.best){data.best=score;saveData()}
+document.getElementById("finalScore").textContent=score;
+document.getElementById("gameOverModal").style.display="flex";
+updateHUD();
+}
+function updateHUD(){
+document.getElementById("scoreText").textContent=score;
+document.getElementById("diamondText").textContent=data.diamonds;
+document.getElementById("bestText").textContent=data.best;
+}
+
+function drawBackground(time){
+const grad=ctx.createLinearGradient(0,0,W,H);
+grad.addColorStop(0,"#05041b");grad.addColorStop(.48,"#0b0b32");grad.addColorStop(1,"#02030f");
+ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+const gx=W*.5+Math.sin(time*.00035)*W*.25;
+const gy=H*.45+Math.cos(time*.00025)*H*.08;
+const glow=ctx.createRadialGradient(gx,gy,0,gx,gy,W*.4);
+glow.addColorStop(0,"rgba(41,218,220,.20)");glow.addColorStop(.35,"rgba(50,100,255,.12)");glow.addColorStop(1,"rgba(0,0,0,0)");
+ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
+const beamX=W*.46+Math.sin(time*.0003)*45;
+const beam=ctx.createLinearGradient(beamX-75,0,beamX+75,0);
+beam.addColorStop(0,"rgba(0,255,190,0)");beam.addColorStop(.5,"rgba(0,255,210,.16)");beam.addColorStop(1,"rgba(0,255,190,0)");
+ctx.fillStyle=beam;ctx.fillRect(beamX-100,0,200,H);
+for(const s of stars){
+let x=(s.x-time*s.speed*.015)%W;if(x<0)x+=W;
+const twinkle=.65+Math.sin(time*.002+s.x)*.35;
+ctx.globalAlpha=s.alpha*twinkle;ctx.fillStyle="#fff";
+ctx.beginPath();ctx.arc(x,s.y,s.r,0,Math.PI*2);ctx.fill();
+}
+ctx.globalAlpha=1;
+}
+
+function drawPipe(p){
+const topH=p.gapY-p.gap/2,bottomY=p.gapY+p.gap/2,pipeW=p.width;
+const pipeGrad=ctx.createLinearGradient(p.x,0,p.x+pipeW,0);
+pipeGrad.addColorStop(0,"#087a61");pipeGrad.addColorStop(.45,"#20d89c");pipeGrad.addColorStop(1,"#075742");
+ctx.fillStyle=pipeGrad;
+ctx.fillRect(p.x,0,pipeW,topH);ctx.fillRect(p.x,bottomY,pipeW,H-bottomY);
+ctx.fillStyle="rgba(255,255,255,.18)";
+ctx.fillRect(p.x+9,0,8,topH);ctx.fillRect(p.x+9,bottomY,8,H-bottomY);
+const capH=24;ctx.fillStyle="#21e6a4";
+ctx.fillRect(p.x-7,topH-capH,pipeW+14,capH);
+ctx.fillRect(p.x-7,bottomY,pipeW+14,capH);
+ctx.strokeStyle="rgba(0,0,0,.2)";ctx.lineWidth=2;
+ctx.strokeRect(p.x-7,topH-capH,pipeW+14,capH);
+ctx.strokeRect(p.x-7,bottomY,pipeW+14,capH);
+}
+
+function drawBird(time){
+const skin=skins[data.selected]||skins[0];
+ctx.save();ctx.translate(bird.x,bird.y);ctx.rotate(bird.rotation);
+ctx.shadowBlur=data.selected===7?28:17;ctx.shadowColor=skin.glow;
+const body=ctx.createLinearGradient(-22,-18,22,20);
+body.addColorStop(0,skin.color);body.addColorStop(1,data.selected===6?"#161927":"#fff");
+ctx.fillStyle=body;ctx.beginPath();ctx.ellipse(0,0,23,18,0,0,Math.PI*2);ctx.fill();
+ctx.fillStyle="rgba(255,255,255,.25)";
+ctx.beginPath();ctx.ellipse(-6,5,12,8,-.35,0,Math.PI*2);ctx.fill();
+ctx.shadowBlur=0;ctx.fillStyle="#ffc344";
+ctx.beginPath();ctx.moveTo(19,-1);ctx.lineTo(34,5);ctx.lineTo(19,9);ctx.closePath();ctx.fill();
+ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(10,-8,5.5,0,Math.PI*2);ctx.fill();
+ctx.fillStyle="#111522";ctx.beginPath();ctx.arc(11,-8,2.4,0,Math.PI*2);ctx.fill();
+if(data.selected===7){
+ctx.strokeStyle="rgba(192,107,255,.9)";ctx.lineWidth=2;
+ctx.beginPath();ctx.arc(0,0,28+Math.sin(time*.006)*2,0,Math.PI*2);ctx.stroke();
+}
+ctx.restore();
+}
+
+function createFlapParticles(){
+for(let i=0;i<4;i++)particles.push({x:bird.x-17,y:bird.y+8,vx:-Math.random()*1.5,vy:(Math.random()-.5)*1.5,life:1,size:Math.random()*3+2});
+}
+function createScoreParticles(){
+for(let i=0;i<8;i++)particles.push({x:bird.x,y:bird.y,vx:(Math.random()-.5)*2,vy:(Math.random()-.8)*2,life:1,size:Math.random()*3+2});
+}
+function updateParticles(frame){
+for(let i=particles.length-1;i>=0;i--){
+const p=particles[i];p.x+=p.vx*frame;p.y+=p.vy*frame;p.vy+=.025*frame;p.life-=.035*frame;
+if(p.life<=0)particles.splice(i,1);
+}
+}
+function drawParticles(){
+for(const p of particles){
+ctx.globalAlpha=Math.max(0,p.life);ctx.fillStyle="#67e8ff";
+ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+}
+ctx.globalAlpha=1;
+}
+
+function loop(time){
+if(!lastTime)lastTime=time;
+const dt=Math.min(40,time-lastTime);lastTime=time;
+drawBackground(time);update(dt);
+for(const p of pipes)drawPipe(p);
+drawParticles();drawBird(time);
+requestAnimationFrame(loop);
+}
+
+resizeCanvas();
+updateDiamondUI();
+document.getElementById("soundToggle").classList.toggle("soundOff",!soundEnabled);
+// Always start on the ORIGINAL main menu. No store opens automatically.
+hideAllPanels();
+data.username="";
+updateAccountUI();
+document.getElementById("menuPanel").style.display="flex";
+document.getElementById("hud").style.display="none";
+document.getElementById("usernameModal").style.display="flex";
+document.getElementById("paymentModal").style.display="none";
+document.getElementById("gameOverModal").style.display="none";
+document.getElementById("insufficientModal").style.display="none";
+document.getElementById("dailyTopupModal").style.display="none";
+maybeShowDailyTopup();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
