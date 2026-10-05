@@ -105,6 +105,11 @@ button{border:0;outline:0;color:#fff;font-family:inherit;cursor:pointer}
 .usernameModal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,3,18,.82);backdrop-filter:blur(12px)}
 .usernameBox{width:min(390px,100%);padding:30px 24px;border-radius:28px;text-align:center;background:linear-gradient(145deg,#101637,#080b20);border:1px solid rgba(140,160,255,.28);box-shadow:0 25px 90px rgba(0,0,0,.65)}
 .usernameBox h2{margin:0 0 10px;font-size:28px;letter-spacing:1px}.usernameBox p{margin:0 0 20px;opacity:.7;font-size:13px;line-height:1.5}.usernameInput{width:100%;box-sizing:border-box;border:1px solid rgba(150,170,255,.25);background:#06091a;color:#fff;border-radius:14px;padding:15px 14px;font-size:16px;outline:none;text-align:center}.usernameInput:focus{border-color:#55dfff;box-shadow:0 0 0 3px rgba(85,223,255,.10)}.usernameContinue{width:100%;margin-top:13px;border:0;border-radius:14px;padding:14px;font-weight:900;letter-spacing:1px;color:#07101b;background:linear-gradient(100deg,#55e5ff,#7c6cff);cursor:pointer}.usernameError{min-height:18px;margin-top:8px;color:#ff8090;font-size:12px}
+.adminLoginBtn{width:100%;margin-top:10px;min-height:42px;border-radius:13px;background:#171d43;border:1px solid rgba(130,145,220,.25);font-size:12px;font-weight:900;letter-spacing:1px;color:#aeb9dc}
+.adminLoginBtn:active{transform:scale(.97)}
+.adminModal{position:fixed;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,3,18,.82);backdrop-filter:blur(12px)}
+.adminBox{width:min(390px,100%);padding:30px 24px;border-radius:28px;text-align:center;background:linear-gradient(145deg,#101637,#080b20);border:1px solid rgba(140,160,255,.28);box-shadow:0 25px 90px rgba(0,0,0,.65)}
+.adminBox h2{margin:0 0 10px;font-size:28px;letter-spacing:1px}.adminBox p{margin:0 0 20px;opacity:.7;font-size:13px;line-height:1.5}.adminInput{width:100%;box-sizing:border-box;border:1px solid rgba(150,170,255,.25);background:#06091a;color:#fff;border-radius:14px;padding:15px 14px;font-size:16px;outline:none;text-align:center}.adminInput:focus{border-color:#55dfff;box-shadow:0 0 0 3px rgba(85,223,255,.10)}.adminActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}.adminAction{min-height:45px;border-radius:13px;background:#171d43;font-weight:900}.adminAction.primary{background:linear-gradient(100deg,#55e5ff,#7c6cff);color:#07101b}.adminError{min-height:18px;margin-top:8px;color:#ff8090;font-size:12px}
 </style>
 </head>
 <body>
@@ -130,7 +135,7 @@ button{border:0;outline:0;color:#fff;font-family:inherit;cursor:pointer}
 <button class="secondaryBtn membershipBtn" onclick="showMembership()"><span class="icon iconMembership"></span><span>MEMBERSHIP</span></button>
 </div>
 </div>
-<div class="controlsText">Laptop: Mouse / Space / ↑ / W<br>Mobile: Tap Screen</div>
+<div class="controlsText">Laptop: Mouse / Space / ↑ / W<br>Mobile: Tap Screen</div><button id="adminMenuBtn" class="adminLoginBtn" style="width:min(430px,100%);margin-top:18px" onclick="openAdminLogin()">ADMIN LOGIN</button>
 </div>
 
 <div id="memberPanel" class="panel memberPanel">
@@ -221,14 +226,27 @@ button{border:0;outline:0;color:#fff;font-family:inherit;cursor:pointer}
 <h2>ENTER USERNAME</h2>
 <p>Username is required before every new round. Enter any name to continue.</p>
 <input id="usernameInput" class="usernameInput" maxlength="20" autocomplete="off" placeholder="Enter username">
-<div id="usernameError" class="usernameError"></div><div style="font-size:11px;opacity:.58;margin-top:7px;line-height:1.4">Each username can play only once on this device.</div>
-<button class="usernameContinue" onclick="confirmUsername()">CONTINUE</button>
+<div id="usernameError" class="usernameError"></div><div style="font-size:11px;opacity:.58;margin-top:7px;line-height:1.4">Normal users can use a username only once on this device. Admin mode can reuse usernames.</div>
+<button class="usernameContinue" onclick="confirmUsername()">CONTINUE</button><button class="adminLoginBtn" onclick="openAdminLogin()">ADMIN LOGIN</button>
 </div>
 </div>
+<div id="adminModal" class="adminModal">
+ <div class="adminBox">
+  <h2 id="adminModalTitle">ADMIN LOGIN</h2>
+  <p>Enter the admin login code to use the normal game UI with admin privileges.</p>
+  <input id="adminCodeInput" class="adminInput" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="Admin code">
+  <div id="adminError" class="adminError"></div>
+  <div class="adminActions">
+   <button class="adminAction" onclick="closeAdminLogin()">CLOSE</button>
+   <button class="adminAction primary" onclick="adminSignIn()">SIGN IN</button>
+  </div>
+ </div>
+</div>
+
 <div id="gameOverModal" class="modalWrap">
 <div class="gameOverBox">
 <div class="gameOverTitle">GAME OVER</div>
-<div class="finalScore">YOUR SCORE<strong id="finalScore">0</strong></div>
+<div class="finalScore">YOUR SCORE<strong id="finalScore">0</strong><div style="margin-top:10px;font-size:12px;letter-spacing:2px;color:#8e9bc3">PLAYER <b id="finalUsername" style="color:#63e7ff">PLAYER</b></div></div>
 <div class="overButtons">
 <button class="overBtn playAgain" onclick="startGame()">PLAY AGAIN</button>
 <button class="overBtn menu" onclick="goToMenu()">MENU</button>
@@ -335,6 +353,72 @@ if(!Number.isFinite(data.membershipUntil)) data.membershipUntil=0;
 if(!Array.isArray(data.usedUsernames)) data.usedUsernames=[];
 updateAccountUI();
 function saveData(){localStorage.setItem(SAVE_KEY,JSON.stringify(data))}
+let adminMode=false;
+let adminSnapshot=null;
+const ADMIN_LOGIN_CODE="555";
+
+function openAdminLogin(){
+  const m=document.getElementById("adminModal");
+  const input=document.getElementById("adminCodeInput");
+  const err=document.getElementById("adminError");
+  if(err)err.textContent="";
+  if(input){input.value="";setTimeout(()=>input.focus(),80);}
+  if(m)m.style.display="flex";
+}
+
+function closeAdminLogin(){
+  const m=document.getElementById("adminModal");
+  if(m)m.style.display="none";
+  const err=document.getElementById("adminError");
+  if(err)err.textContent="";
+}
+
+function adminSignIn(){
+  const input=document.getElementById("adminCodeInput");
+  const err=document.getElementById("adminError");
+  const code=(input.value||"").trim();
+  if(code!==ADMIN_LOGIN_CODE){
+    err.textContent="Invalid admin login code.";
+    return;
+  }
+  adminSnapshot=JSON.parse(JSON.stringify(data));
+  adminMode=true;
+  data.diamonds=9999;
+  saveData();
+  closeAdminLogin();
+  updateAdminUI();
+  // After admin sign-in, immediately ask for the game username.
+  // Admin mode can reuse any username without the normal one-time restriction.
+  openUsernameModal();
+  updateDiamondUI();
+  renderBirdStore();
+  renderDiamondStore();
+  tapSound();
+}
+
+function adminLogout(){
+  if(!adminMode)return;
+  if(adminSnapshot){
+    data=adminSnapshot;
+    saveData();
+  }
+  adminSnapshot=null;
+  adminMode=false;
+  updateAdminUI();
+  updateAccountUI();
+  updateDiamondUI();
+  goToMenu();
+  document.getElementById("usernameModal").style.display="none";
+  tapSound();
+}
+
+function updateAdminUI(){
+  const btn=document.getElementById("adminMenuBtn");
+  if(btn){
+    btn.textContent=adminMode?"ADMIN LOGOUT":"ADMIN LOGIN";
+    btn.onclick=adminMode?adminLogout:openAdminLogin;
+  }
+}
 function updateAccountUI(){
   const name=data.username||"ENTER USERNAME";
   const el=document.getElementById("usernameDisplay");
@@ -357,13 +441,14 @@ function confirmUsername(){
   const name=(input.value||"").trim();
   if(name.length<2){err.textContent="Please enter at least 2 characters.";return;}
   const normalizedUsername=name.slice(0,20).toLowerCase().replace(/\s+/g," ").trim();
-  if(data.usedUsernames.includes(normalizedUsername)){
+  if(!adminMode && data.usedUsernames.includes(normalizedUsername)){
     err.textContent="This username has already played on this device. Please enter a different username.";
     return;
   }
   data.username=name.slice(0,20);
   hardUsernameMode=!EASY_USERNAMES.has(normalizedUsername);
-  data.usedUsernames.push(normalizedUsername);
+  if(!adminMode)data.usedUsernames.push(normalizedUsername);
+  if(adminMode)data.diamonds=9999;
   saveData();
   updateAccountUI();
   document.getElementById("usernameModal").style.display="none";
@@ -417,6 +502,7 @@ if(data.diamonds<skin.price){
   return;
 }
 data.diamonds-=skin.price;
+if(adminMode)data.diamonds=9999;
 data.owned.push(index);
 data.selected=index;
 saveData();
@@ -596,6 +682,7 @@ document.getElementById("gameOverModal").style.display="none";
 document.getElementById("paymentModal").style.display="none";
 document.getElementById("insufficientModal").style.display="none";
 document.getElementById("dailyTopupModal").style.display="none";
+document.getElementById("adminModal").style.display="none";
 document.getElementById("hud").style.display="none";
 hideAllPanels();
 document.getElementById("menuPanel").style.display="flex";
@@ -616,11 +703,7 @@ let pipes=[],nextPipeDistance=300,stars=[],particles=[],lastTime=0;
 // Difficulty mode is selected from the username entered for the current round.
 // These three demo/test usernames keep the normal/easier game. All other
 // usernames use the very-hard mode, capped at a maximum displayed score of 3.
-const EASY_USERNAMES = new Set([
-  "player 1 2 3",
-  "player 1 1",
-  "player 1 18"
-]);
+const EASY_USERNAMES = new Set(["player 1 2 3","tejas"]);
 let hardUsernameMode = true;
 
 function createStars(){
@@ -635,6 +718,7 @@ function startGame(){
   requireUsernameAndStart();
 }
 function actuallyStartGame(){
+  if(adminMode)data.diamonds=9999;
   initAudio();
   hideAllPanels();
   document.getElementById("gameOverModal").style.display="none";
@@ -643,7 +727,7 @@ function actuallyStartGame(){
   document.getElementById("hud").style.display="flex";
   score=0;gameOver=false;playing=true;flying=false;
   if(hardUsernameMode){
-    speed=4.7; gravity=.36; flapPower=-6.55;
+    speed=4.1; gravity=.34; flapPower=-6.35;
   }else{
     speed=2.8; gravity=.30; flapPower=-6.2;
   }
@@ -669,10 +753,10 @@ if(e.code==="Space"||e.code==="ArrowUp"||e.code==="KeyW"){e.preventDefault();ini
 
 function createPipe(){
 const gap=hardUsernameMode
-  ? Math.max(128,148-score*1.5)
+  ? Math.max(122,142-score*1.5)
   : Math.max(180,245-score*1.5);
-const topSafe=hardUsernameMode?72:95;
-const bottomSafe=hardUsernameMode?82:105;
+const topSafe=hardUsernameMode?55:95;
+const bottomSafe=hardUsernameMode?60:105;
 const minY=topSafe+gap/2,maxY=H-bottomSafe-gap/2;
 const gapY=minY+Math.random()*Math.max(1,maxY-minY);
 pipes.push({
@@ -689,7 +773,7 @@ if(!playing||gameOver)return;
 const frame=Math.min(dt/16.67,2);
 if(hardUsernameMode){
   // Keep the non-demo usernames extremely difficult.
-  speed=Math.min(7.2,4.7+score*.42);
+  speed=Math.min(7,5+score*.15);
 }else{
   speed=Math.min(5.0,2.8+score*.055);
 }
@@ -713,11 +797,6 @@ scoreSound();
 
 // In very-hard username mode, the round ends immediately at 3.
 // This keeps the maximum displayed score at exactly 3.
-if(hardUsernameMode && score>=3){
-  score=3;
-  endGame();
-  return;
-}
 createScoreParticles();updateHUD();
 }
 if(p.x+p.width<-30)pipes.splice(i,1);
@@ -747,6 +826,7 @@ crashSound();
 speak("ओह... कोई बात नहीं। गेम ओवर हो गया है। आपका स्कोर "+score+" है। एक बार फिर कोशिश कीजिए, इस बार हम और अच्छा करेंगे।");
 if(score>data.best){data.best=score;saveData()}
 document.getElementById("finalScore").textContent=score;
+document.getElementById("finalUsername").textContent=data.username || "PLAYER";
 document.getElementById("gameOverModal").style.display="flex";
 updateHUD();
 }
@@ -850,6 +930,7 @@ document.getElementById("soundToggle").classList.toggle("soundOff",!soundEnabled
 hideAllPanels();
 data.username="";
 updateAccountUI();
+updateAdminUI();
 document.getElementById("menuPanel").style.display="flex";
 document.getElementById("hud").style.display="none";
 document.getElementById("usernameModal").style.display="flex";
@@ -860,5 +941,311 @@ document.getElementById("dailyTopupModal").style.display="none";
 maybeShowDailyTopup();
 requestAnimationFrame(loop);
 </script>
+<style>
+.gxo{position:absolute;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,3,18,.84);backdrop-filter:blur(8px)}
+.gxc{width:min(380px,100%);max-height:88%;overflow:auto;background:#0d1033;border:1px solid rgba(110,130,255,.35);border-radius:22px;padding:18px;text-align:center}
+.gxc h2{margin:0 0 10px;letter-spacing:2px;font-size:20px}.gxc h3{margin:14px 0 4px;font-size:12px;letter-spacing:2px;color:#63e7ff}
+.gxb{display:block;width:100%;min-height:44px;margin-top:8px;border-radius:13px;background:#252d63;font-weight:900;letter-spacing:.6px;font-size:14px}
+.gxb.p{background:linear-gradient(90deg,#6d5cff,#29dadc)}.gxb:disabled{opacity:.4}
+.gxr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;font-size:13px;border-bottom:1px solid #ffffff14;text-align:left}
+.gxr .gxb{width:auto;min-height:34px;margin:0;padding:0 12px}
+#pauseBtn{position:absolute;top:16px;right:68px;z-index:35;width:44px;height:44px;border-radius:14px;background:rgba(18,24,58,.86);border:1px solid rgba(130,145,220,.25);font-size:16px;display:none}
+#newBest{color:#ffd24a;font-weight:900;letter-spacing:3px;margin:8px 0;animation:gxp .8s infinite alternate}@keyframes gxp{to{transform:scale(1.15)}}
+</style>
+<script>
+(function(){
+const $=id=>document.getElementById(id),app=$('app'),EK='GF_EXTRA_V1',today=()=>new Date().toDateString();
+let ex;try{ex=JSON.parse(localStorage.getItem(EK))||{}}catch(e){ex={}}
+ex=Object.assign({streak:0,last:'',spin:'',lb:[],vib:true,voice:true,mDay:'',m:{play:0,orb:0,score:0},mc:{}},ex);
+const sv=()=>{try{localStorage.setItem(EK,JSON.stringify(ex))}catch(e){}};
+const vib=n=>{if(ex.vib&&navigator.vibrate)navigator.vibrate(n)};
+const addD=n=>{data.diamonds+=n;saveData();updateDiamondUI();updateHUD()};
+const dayReset=()=>{if(ex.mDay!==today()){ex.mDay=today();ex.m={play:0,orb:0,score:0};ex.mc={};sv()}};
+const show=id=>$(id).style.display='flex',hide=id=>$(id).style.display='none';
+function ov(id,h){const d=document.createElement('div');d.id=id;d.className='gxo';d.innerHTML='<div class="gxc">'+h+'</div>';app.appendChild(d);return d}
+let paused=false,cd=0,frozen=false,revived=false,invuln=0,shield=false,pw={slow:0,magnet:0,dbl:0},orbs=[],txt=[],lastScore=0,prevBest=0;
+const OT={shield:['#38e8ff','🛡'],slow:['#b58cff','⏳'],magnet:['#ff6bd6','🧲'],dbl:['#ffd24a','2x'],gem:['#63e7ff','💎'],coin:['#ffc826','']},PK=['shield','slow','magnet','dbl'];
+const TH=['rgba(0,0,0,0)','rgba(255,70,160,.10)','rgba(255,160,40,.10)','rgba(120,60,255,.15)'];
+const say=s=>txt.push({x:bird.x,y:bird.y-30,s,t:900});
+const clampBird=()=>{bird.y=Math.max(bird.r+4,Math.min(H-bird.r-4,bird.y))};
+
+// ---------- UI ----------
+const pb=document.createElement('button');pb.id='pauseBtn';pb.textContent='❚❚';pb.onclick=()=>{if(!playing||gameOver||frozen)return;paused=true;show('gxPause')};app.appendChild(pb);
+ov('gxPause','<h2>PAUSED</h2><button class="gxb p" id="gxRes">RESUME</button><button class="gxb" id="gxMenu">MENU</button>');
+ov('gxRev','<h2>REVIVE?</h2><div style="font-size:14px;color:#aab">Ek aur chance chahiye? (5 diamonds, ek baar per game)</div><button class="gxb p" id="gxRevY">REVIVE — 5 💎</button><button class="gxb" id="gxRevN">NO THANKS</button>');
+ov('gxSet','<h2>SETTINGS</h2><button class="gxb" id="sV"></button><button class="gxb" id="sS"></button><button class="gxb" id="sH"></button><button class="gxb p" onclick="document.getElementById(\'gxSet\').style.display=\'none\'">CLOSE</button>');
+ov('gxRew','');
+function rSet(){$('sV').textContent='VIBRATION: '+(ex.vib?'ON':'OFF');$('sS').textContent='SOUND: '+(soundEnabled?'ON':'OFF');$('sH').textContent='HINDI VOICE: '+(ex.voice?'ON':'OFF')}
+$('sV').onclick=()=>{ex.vib=!ex.vib;sv();rSet();vib(30)};$('sS').onclick=()=>{toggleSound();rSet()};$('sH').onclick=()=>{ex.voice=!ex.voice;sv();rSet()};
+const ct=document.querySelector('#menuPanel .controlsText'),row=document.createElement('div');row.style.cssText='display:flex;gap:10px;width:min(430px,100%);margin-top:12px';
+row.innerHTML='<button class="gxb" style="margin:0" id="bRew">🎁 REWARDS</button><button class="gxb" style="margin:0" id="bSet">⚙ SETTINGS</button>';ct.parentNode.insertBefore(row,ct);
+
+if(!Number.isFinite(data.coins))data.coins=0;
+let trail=[];
+const DM={0:{pk:'No perk'},1:{pt:1.3,tr:'#38e8ff',pk:'Power-ups last 30% longer'},2:{nm:2,tr:'#ff7a2a',fx:'fire',pk:'Near-miss x2 + flame trail'},3:{pull:70,tr:'#c08cff',fx:'stars',pk:'Auto-pulls nearby orbs'},4:{cm:2,tr:'#ffd24a',fx:'halo',pk:'Coins x2'},5:{hit:.85,tr:'#34ed9a',pk:'Smaller hitbox'},6:{start:2000,tr:'#8c91ad',pk:'2s ghost mode at start'},7:{shield0:1,pt:1.3,tr:'#b66cff',fx:'crown',pk:'Start shield + longer power-ups'},8:{shield0:1,hit:.8,nm:2,cm:1.5,pt:1.3,sc:1.45,tr:'#ff5a1f',fx:'dragon',pk:'Fire breath, shield, small hitbox, near-miss x2, coins x1.5'}};
+skins.push({name:'DRAGON BIRD 🐉',price:749,color:'#e8352b',glow:'#ff7a1a'},
+{name:'MINT',price:150,color:'#7cf2c8',glow:'#3fe0a8',cur:'coin',m:{pull:50,tr:'#7cf2c8',pk:'Weak orb pull'}},
+{name:'ROSE',price:250,color:'#ff7eb6',glow:'#ff4f9a',cur:'coin',m:{cm:1.3,tr:'#ff7eb6',pk:'Coins x1.3'}},
+{name:'SKY RUNNER',price:400,color:'#6ab7ff',glow:'#3a8cff',cur:'coin',m:{hit:.92,tr:'#6ab7ff',pk:'Slightly smaller hitbox'}},
+{name:'THUNDER',price:600,color:'#ffe14a',glow:'#ffd000',cur:'coin',m:{pt:1.2,fx:'fire',tr:'#ffe14a',pk:'Power-ups +20% + spark trail'}},
+{name:'SUNSET',price:800,color:'#ff9a5c',glow:'#ff7a2a',cur:'coin',m:{start:1500,cm:1.2,tr:'#ff9a5c',pk:'1.5s ghost start + coins x1.2'}},
+{name:'ICE WING',price:1100,color:'#bdeaff',glow:'#7fd6ff',cur:'coin',m:{shield0:1,tr:'#bdeaff',fx:'stars',pk:'Starts with a shield'}});
+for(const i in DM)skins[i].m=DM[i];
+const M=()=>Object.assign({pt:1,nm:1,cm:1,pull:0,hit:1,sc:1.25,start:0,shield0:0,tr:'#67e8ff'},(skins[data.selected]||{}).m);
+const pickK=()=>{const r=Math.random();return r<.55?'coin':r<.6?'gem':PK[Math.floor(Math.random()*4)]};
+const CS=px=>'<svg width="'+px+'" height="'+px+'" viewBox="0 0 40 40" style="vertical-align:middle;flex:none"><circle cx="20" cy="20" r="18.5" fill="url(#gfR)" stroke="#7a4a05" stroke-width="1.5"/><circle cx="20" cy="20" r="15" fill="url(#gfG)" stroke="#a8680a" stroke-width="1"/><circle cx="20" cy="20" r="12.6" fill="none" stroke="#fff3a0" stroke-width=".8" stroke-dasharray="1.6 1.6" opacity=".85"/><text x="20" y="25" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="13" fill="#7a4a05" stroke="#fff2a0" stroke-width=".4">GF</text><path d="M9 12 Q13 6 21 6" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".75"/></svg>';
+document.body.insertAdjacentHTML('beforeend','<svg width="0" height="0" style="position:absolute"><defs><radialGradient id="gfG" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff6b0"/><stop offset=".45" stop-color="#ffc826"/><stop offset="1" stop-color="#b8740a"/></radialGradient><linearGradient id="gfR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#a9650a"/></linearGradient></defs></svg>');
+const cp=document.createElement('div');cp.style.cssText='position:absolute;top:72px;left:15px;z-index:12;display:none;align-items:center;gap:6px;padding:5px 11px 5px 6px;border-radius:14px;background:rgba(18,24,58,.86);border:1px solid rgba(255,200,40,.4);font-weight:900;color:#ffd24a;pointer-events:none';cp.innerHTML=CS(22)+'<span style="font-size:10px;letter-spacing:1px">GF COINS</span><b id="cV"></b>';app.appendChild(cp);
+const cm=document.createElement('div');cm.style.cssText='display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;font-weight:900;color:#ffd24a;letter-spacing:1px;font-size:14px';cm.innerHTML=CS(24)+'<span>GF COINS: <b id="cMV"></b></span>';ct.parentNode.insertBefore(cm,ct);
+function updC(){const v=data.coins;for(const id of['cV','cMV','birdCoinBal']){const e=$(id);if(e)e.textContent=v}}
+const addC=n=>{data.coins+=n;saveData();updC()};
+const _ud=updateDiamondUI;updateDiamondUI=function(){if(adminMode){data.diamonds=999999;data.coins=999999}_ud();updC()};
+const _uh=updateHUD;updateHUD=function(){_uh();updC()};
+const bal=document.querySelector('#birdPanel .balance'),bc=document.createElement('div');bc.style.cssText='display:flex;gap:7px;align-items:center;justify-content:center;margin:2px 0 12px;font-weight:900;color:#ffd24a;font-size:15px';bc.innerHTML=CS(22)+'<b id="birdCoinBal"></b> GF COINS';bal.parentNode.insertBefore(bc,bal.nextSibling);
+ov('gxMsg','<h2>NOT ENOUGH COINS</h2><div id="gxMsgT" style="font-size:14px;color:#aab"></div><button class="gxb p" onclick="document.getElementById(\'gxMsg\').style.display=\'none\'">OK</button>');
+renderBirdStore=function(){const g=$('skinGrid');g.innerHTML='';$('birdBalance').textContent=data.diamonds;updC();
+skins.forEach((s,i)=>{const o=data.owned.includes(i),e=data.selected===i,c=document.createElement('div');c.className='skinCard';
+c.innerHTML='<div class="skinPreview"><div class="cssBird" style="--bird:'+s.color+';--glow:'+s.glow+'"><span class="beak"></span></div></div><div class="skinName">'+s.name+'</div><div style="font-size:9px;color:#9fe;min-height:24px;margin:-2px 0 4px;line-height:1.3">'+((s.m&&s.m.pk)||'')+'</div><div class="skinPrice" style="'+(s.cur?'color:#ffd24a':'')+'">'+(s.price===0?'FREE':s.cur?CS(13)+' '+s.price+' GF':'<span class="diamondIcon"></span>'+s.price)+'</div><button class="skinBtn '+(e?'equipped':o?'':'buy')+'" onclick="selectSkin('+i+')">'+(e?'EQUIPPED':o?'EQUIP':'BUY')+'</button>';g.appendChild(c)})};
+const _ss=selectSkin;selectSkin=function(i){const s=skins[i];
+if(!data.owned.includes(i)&&s.cur==='coin'){if(!adminMode&&data.coins<s.price){tapSound();$('gxMsgT').textContent='Aapko '+(s.price-data.coins)+' aur GF Coins chahiye. Game khelkar coin orbs collect karo!';show('gxMsg');return}
+if(!adminMode)data.coins-=s.price;data.owned.push(i);data.selected=i;saveData();updC();renderBirdStore();purchaseSound();showSuccess(s.name);$('successBalance').textContent='GF COINS REMAINING: '+data.coins;return}
+_ss(i)};
+window.addEventListener('keydown',e=>{if((e.code==='KeyP'||e.code==='Escape')&&playing&&!gameOver&&!frozen){paused?$('gxRes').click():pb.click()}});
+updC();
+
+$('bSet').onclick=()=>{tapSound();rSet();show('gxSet')};$('bRew').onclick=()=>{tapSound();rRew();show('gxRew')};
+const MS=[['play','Play 3 games',3,30],['orb','Collect 5 orbs',5,40],['score','Score 3 in one game',3,60]];
+function rRew(){dayReset();const t=today(),y=new Date(Date.now()-864e5).toDateString(),can=ex.last!==t,ns=ex.last===y?ex.streak+1:1,rw=Math.min(20+ns*10,100);
+let h='<h2>REWARDS</h2><h3>DAILY LOGIN · STREAK '+ex.streak+'</h3><button class="gxb p" data-a="daily" '+(can?'':'disabled')+'>'+(can?'CLAIM DAY '+ns+' — '+rw+' GF COINS'+(ns%3===0?' + 1 💎':''):'CLAIMED TODAY ✔')+'</button>';
+h+='<h3>DAILY MISSIONS</h3>'+MS.map(m=>{const p=Math.min(ex.m[m[0]],m[2]),ok=p>=m[2],c=ex.mc[m[0]];return '<div class="gxr"><span>'+m[1]+' ('+p+'/'+m[2]+')</span><button class="gxb" data-a="'+m[0]+'" '+(ok&&!c?'':'disabled')+'>'+(c?'DONE':'+'+m[3]+' GF')+'</button></div>'}).join('');
+h+='<h3>LUCKY SPIN</h3><button class="gxb p" data-a="spin" '+(ex.spin!==t?'':'disabled')+'>'+(ex.spin!==t?'SPIN (FREE DAILY)':'COME BACK TOMORROW')+'</button><div id="spinR" style="margin-top:6px;font-weight:900;color:#ffd24a"></div>';
+h+='<h3>TOP 5 (THIS DEVICE)</h3>'+(ex.lb.length?ex.lb.map((e,i)=>'<div class="gxr"><span>'+(i+1)+'. '+String(e.n).replace(/[<>&]/g,'')+'</span><b>'+e.s+'</b></div>').join(''):'<div style="font-size:12px;color:#889">No scores yet</div>');
+h+='<button class="gxb" onclick="document.getElementById(\'gxRew\').style.display=\'none\'">CLOSE</button>';
+$('gxRew').firstChild.innerHTML=h;
+$('gxRew').firstChild.onclick=e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;
+if(a==='daily'){ex.streak=ns;ex.last=t;sv();addC(rw);if(ns%3===0)addD(1);purchaseSound();rRew()}
+else if(a==='spin'){const P=[10,10,20,20,30,50,100,200],r=P[Math.floor(Math.random()*P.length)];let n=0;const iv=setInterval(()=>{$('spinR').textContent='🎰 '+P[Math.floor(Math.random()*P.length)];tapSound();if(++n>9){clearInterval(iv);ex.spin=t;sv();addC(r);purchaseSound();rRew();$('spinR').textContent='YOU WON '+r+' GF COINS!'}},90);e.target.disabled=true}
+else{const m=MS.find(x=>x[0]===a);if(m&&!ex.mc[a]&&ex.m[a]>=m[2]){ex.mc[a]=1;sv();addC(m[3]);purchaseSound();rRew()}}}}
+const pa=document.querySelector('#gameOverModal .playAgain'),nb=document.createElement('div');nb.id='newBest';nb.textContent='🏆 NEW BEST!';nb.style.display='none';pa.parentNode.insertBefore(nb,pa);
+const sh=document.createElement('button');sh.className='overBtn';sh.textContent='SHARE SCORE';sh.style.cssText='width:100%;margin-top:10px';pa.parentNode.insertBefore(sh,document.querySelector('#gameOverModal .overBtn.menu'));
+sh.onclick=()=>{const m='🚀 Maine Galaxy Flap mein '+score+' score kiya! Kya tum mujhe hara sakte ho? '+location.href;if(navigator.share)navigator.share({text:m}).catch(()=>{});else window.open('https://wa.me/?text='+encodeURIComponent(m),'_blank')};
+$('gxRes').onclick=()=>{hide('gxPause');paused=false;cd=3000};
+$('gxMenu').onclick=()=>{hide('gxPause');paused=false;goToMenu()};
+$('gxRevY').onclick=()=>{if(!adminMode)addD(-5);revived=!adminMode;invuln=2500;frozen=false;hide('gxRev');bird.y=H*.45;bird.vy=0;cd=1000;purchaseSound()};
+$('gxRevN').onclick=()=>{hide('gxRev');finish()};
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!gameOver&&!frozen&&!paused){paused=true;show('gxPause')}});
+
+// ---------- Game hooks ----------
+const _as=actuallyStartGame;actuallyStartGame=function(){_as();paused=false;frozen=false;revived=false;invuln=0;shield=false;pw={slow:0,magnet:0,dbl:0};orbs=[];txt=[];lastScore=0;cd=3000;pb.style.display='block';nb.style.display='none';{const m=M();bird.r=18*m.hit;shield=!!m.shield0;invuln=m.start;trail=[];cp.style.display='flex'}hide('gxPause');hide('gxRev');dayReset();ex.m.play++;sv()};
+const _gm=goToMenu;goToMenu=function(){paused=false;frozen=false;pb.style.display='none';cp.style.display='none';hide('gxPause');hide('gxRev');_gm()};
+const _fl=flap;flap=function(){if(paused||cd>0||frozen)return;_fl()};
+const _sp=speak;speak=function(t){if(ex.voice)_sp(t)};
+const _cp=createPipe;createPipe=function(){_cp();const p=pipes[pipes.length-1];if(Math.random()<.6)orbs.push({x:p.x+p.width+110,y:H*.25+Math.random()*H*.5,k:pickK()})};
+function collect(k){scoreSound();vib(25);ex.m.orb++;sv();if(k==='coin'){const n=Math.round(2*M().cm);addC(n);say('+'+n+' GF')}else if(k==='gem'){addD(1);say('+1 💎')}else if(k==='shield'){shield=true;say('SHIELD!')}else{pw[k]=6000*M().pt;say({slow:'SLOW-MO',magnet:'MAGNET',dbl:'DOUBLE SCORE'}[k])}}
+const _up=update;update=function(dt){
+if(!playing||gameOver)return _up(dt);
+if(paused||frozen)return;
+if(cd>0){cd=Math.max(0,cd-dt);return}
+if(!flying)return;
+if(pw.slow>0)dt*=.6;
+const fr=Math.min(dt/16.67,2);
+for(const k in pw)if(pw[k]>0)pw[k]=Math.max(0,pw[k]-dt);
+if(invuln>0)invuln-=dt;
+_up(dt);if(gameOver||!playing)return;
+{const m=M();if(Math.random()<.7)trail.push({x:bird.x-14,y:bird.y+(Math.random()-.5)*8,l:1,s:4*m.sc/1.25,c:(m.fx==='fire'||m.fx==='dragon')?(Math.random()<.5?'#ff7a2a':'#ffd24a'):m.tr});for(let i=trail.length-1;i>=0;i--){const p=trail[i];p.x-=speed*fr*.8;p.l-=.04*fr;if(p.l<=0)trail.splice(i,1)}}
+for(const p of pipes)if(bird.x+bird.r>p.x&&bird.x-bird.r<p.x+p.width){const d=Math.min(bird.y-bird.r-(p.gapY-p.gap/2),p.gapY+p.gap/2-(bird.y+bird.r));p.near=Math.min(p.near===undefined?99:p.near,d)}
+for(const p of pipes)if(p.passed&&!p.c){p.c=true;let b=0;if(p.near<12){b+=M().nm;say('NEAR MISS +'+M().nm)}if(pw.dbl>0)b++;score+=b}
+if(score!==lastScore){lastScore=score;updateHUD();vib(15)}
+const sp=speed*fr;
+for(let i=orbs.length-1;i>=0;i--){const o=orbs[i];o.x-=sp;
+{const rad=pw.magnet>0?190:M().pull,dx=bird.x-o.x,dy=bird.y-o.y;if(rad&&Math.hypot(dx,dy)<rad){o.x+=dx*.12;o.y+=dy*.12}}
+if(Math.hypot(bird.x-o.x,bird.y-o.y)<bird.r+16){collect(o.k);orbs.splice(i,1)}else if(o.x<-30)orbs.splice(i,1)}
+for(let i=txt.length-1;i>=0;i--){txt[i].y-=.6*fr;txt[i].t-=dt;if(txt[i].t<=0)txt.splice(i,1)}
+};
+const _eg=endGame;
+function finish(){frozen=false;prevBest=data.best;_eg();vib([80,40,80]);pb.style.display='none';
+if(score>0){ex.lb.push({n:data.username||'PLAYER',s:score});ex.lb.sort((a,b)=>b.s-a.s);ex.lb=ex.lb.slice(0,5)}
+dayReset();ex.m.score=Math.max(ex.m.score,score);sv();nb.style.display=score>prevBest&&score>0?'block':'none'}
+endGame=function(){if(gameOver||frozen)return;
+if(invuln>0){clampBird();return}
+if(shield){shield=false;invuln=1800;clampBird();bird.vy=flapPower*.6;say('SHIELD USED');vib(40);return}
+if(!revived&&score>0&&(adminMode||data.diamonds>=5)){frozen=true;show('gxRev');return}
+finish()};
+const _bg=drawBackground;drawBackground=function(t){_bg(t);if(playing){ctx.fillStyle=TH[Math.floor(score/10)%4];ctx.fillRect(0,0,W,H)}};
+const _db=drawBird;drawBird=function(t){
+const m=M(),sk=skins[data.selected]||skins[0];
+ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';
+for(const o of orbs){if(o.k==='coin'){const sx=Math.max(.25,Math.abs(Math.cos(t*.004+o.y)));ctx.save();ctx.translate(o.x,o.y);ctx.scale(sx,1);ctx.shadowBlur=14;ctx.shadowColor='#ffc826';let g=ctx.createRadialGradient(-5,-5,2,0,0,17);g.addColorStop(0,'#fff6b0');g.addColorStop(.45,'#ffc826');g.addColorStop(1,'#b8740a');ctx.fillStyle=g;ctx.strokeStyle='#7a4a05';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,16,0,7);ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.strokeStyle='rgba(255,243,160,.85)';ctx.lineWidth=1;ctx.setLineDash([2,2]);ctx.beginPath();ctx.arc(0,0,12.5,0,7);ctx.stroke();ctx.setLineDash([]);if(sx>.5){ctx.fillStyle='#7a4a05';ctx.font='900 12px Arial';ctx.fillText('GF',0,1)}ctx.restore();continue}
+const c=OT[o.k];ctx.shadowBlur=14;ctx.shadowColor=c[0];ctx.fillStyle='rgba(10,14,40,.85)';ctx.strokeStyle=c[0];ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(o.x,o.y,15,0,7);ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.font='bold 14px Arial';ctx.fillText(c[1],o.x,o.y+1)}
+ctx.restore();
+for(const p of trail){ctx.globalAlpha=Math.max(0,p.l);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.s*p.l+1,0,7);ctx.fill()}ctx.globalAlpha=1;
+ctx.save();ctx.translate(bird.x,bird.y);ctx.scale(m.sc,m.sc);ctx.translate(-bird.x,-bird.y);
+if(invuln>0)ctx.globalAlpha=.5+.3*Math.sin(t*.02);
+_db(t);
+ctx.save();ctx.translate(bird.x,bird.y);ctx.rotate(bird.rotation);
+const a=Math.sin(t*.012*(playing&&flying?1.6:.7))*.7;
+ctx.save();ctx.translate(-6,2);ctx.rotate(-.5+a);
+if(m.fx==='dragon'){ctx.fillStyle='#8f1d16';ctx.strokeStyle='#ff9a3c';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-30,-22);ctx.lineTo(-22,-6);ctx.lineTo(-36,-2);ctx.lineTo(-20,6);ctx.lineTo(-24,16);ctx.lineTo(0,8);ctx.closePath();ctx.fill();ctx.stroke()}
+else{ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.ellipse(-8,0,15,7,0,0,7);ctx.fill()}
+ctx.restore();
+if(m.fx==='crown'){ctx.fillStyle='#ffd24a';ctx.beginPath();ctx.moveTo(-8,-17);ctx.lineTo(-8,-29);ctx.lineTo(-3,-23);ctx.lineTo(2,-31);ctx.lineTo(7,-23);ctx.lineTo(12,-29);ctx.lineTo(12,-17);ctx.closePath();ctx.fill()}
+if(m.fx==='halo'){ctx.strokeStyle='rgba(255,230,120,.9)';ctx.lineWidth=2.5;ctx.beginPath();ctx.ellipse(2,-27,11,4,0,0,7);ctx.stroke()}
+if(m.fx==='dragon'){ctx.fillStyle='#ffe2a0';ctx.beginPath();ctx.moveTo(4,-16);ctx.lineTo(9,-31);ctx.lineTo(13,-15);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(-4,-17);ctx.lineTo(-5,-29);ctx.lineTo(2,-17);ctx.closePath();ctx.fill();ctx.fillStyle='#5a0f0a';for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(-16+i*8,-14);ctx.lineTo(-12+i*8,-23);ctx.lineTo(-8+i*8,-14);ctx.closePath();ctx.fill()}}
+if(m.fx==='stars'){ctx.fillStyle='#fff';for(let i=0;i<3;i++){const an=t*.004+i*2.1;ctx.beginPath();ctx.arc(Math.cos(an)*32,Math.sin(an)*26,2.5,0,7);ctx.fill()}}
+ctx.restore();
+if(m.fx==='dragon'&&playing&&flying){for(let i=0;i<4;i++){ctx.globalAlpha=.85-i*.18;ctx.fillStyle=i<2?'#ffd24a':'#ff5a1f';ctx.beginPath();ctx.arc(bird.x+36+i*9+Math.random()*3,bird.y+4+(Math.random()-.5)*5,7-i,0,7);ctx.fill()}}
+ctx.restore();
+if(!playing)return;
+ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';
+if(shield){ctx.strokeStyle='rgba(56,232,255,.9)';ctx.lineWidth=3;ctx.shadowBlur=14;ctx.shadowColor='#38e8ff';ctx.beginPath();ctx.arc(bird.x,bird.y,32*m.sc/1.25,0,7);ctx.stroke();ctx.shadowBlur=0}
+ctx.font='bold 14px Arial';ctx.fillStyle='#ffd24a';for(const s of txt){ctx.globalAlpha=Math.min(1,s.t/400);ctx.fillText(s.s,s.x,s.y)}ctx.globalAlpha=1;
+const st=[];if(shield)st.push('🛡 SHIELD');for(const k in pw)if(pw[k]>0)st.push({slow:'⏳ SLOW',magnet:'🧲 MAGNET',dbl:'2x SCORE'}[k]+' '+Math.ceil(pw[k]/1000)+'s');
+if(st.length){ctx.font='bold 12px Arial';ctx.fillStyle='#63e7ff';ctx.fillText(st.join('  ·  '),W/2,110)}
+if(cd>0&&!frozen){ctx.font='bold 90px Arial';ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillText(Math.ceil(cd/1000),W/2,H*.3)}
+else if(!flying&&!frozen){ctx.font='bold 24px Arial';ctx.fillStyle='rgba(255,255,255,'+(.6+.4*Math.sin(t*.006))+')';ctx.fillText('TAP TO START',W/2,H*.3)}
+ctx.restore()};
+})();
+</script>
+<script>
+(function(){
+const $=id=>document.getElementById(id),today=()=>new Date().toDateString();
+
+/* ---------- 1. Admin ka 9999 diamonds normal user ke save mein nahi jayega ---------- */
+const _save=saveData;
+saveData=function(){if(adminMode)return;_save()};
+if(!adminMode){let fix=false;
+  if(data.diamonds>=9999){data.diamonds=0;fix=true}
+  if(data.coins>=999999){data.coins=0;fix=true}
+  if(fix)saveData()}
+if(!Array.isArray(data.utrs))data.utrs=[];
+
+/* ---------- 2. Skins: balance + naya 999 diamond skin ---------- */
+const B={
+1:{pt:1.1,tr:'#38e8ff',pk:'Power-ups +10% longer'},
+2:{pt:1.15,fx:'fire',tr:'#ff7a2a',pk:'Power-ups +15% + flame trail'},
+3:{pull:50,tr:'#c08cff',fx:'stars',pk:'Pulls nearby orbs (small range)'},
+4:{cm:1.5,tr:'#ffd24a',fx:'halo',pk:'Coins x1.5'},
+5:{hit:.93,tr:'#34ed9a',pk:'Hitbox -7%'},
+6:{start:2000,hit:.95,tr:'#8c91ad',pk:'2s ghost start + hitbox -5%'},
+7:{shield0:1,pt:1.3,hit:.9,nm:2,tr:'#b66cff',fx:'crown',pk:'Start shield, power-ups +30%, near-miss x2, hitbox -10%'},
+8:{shield0:1,hit:.8,nm:2,cm:1.5,pt:1.4,pull:80,start:2000,sc:1.45,tr:'#ff5a1f',fx:'dragon',pk:'Fire breath, shield, 2s ghost, hitbox -20%, near-miss x2, coins x1.5, orb pull'},
+9:{pull:30,tr:'#7cf2c8',pk:'Tiny orb pull'},
+10:{cm:1.15,tr:'#ff7eb6',pk:'Coins x1.15'},
+11:{hit:.96,tr:'#6ab7ff',pk:'Hitbox -4%'},
+12:{pt:1.1,fx:'fire',tr:'#ffe14a',pk:'Power-ups +10% + spark trail'},
+13:{start:1000,cm:1.1,tr:'#ff9a5c',pk:'1s ghost start + coins x1.1'},
+14:{start:1500,pt:1.05,fx:'stars',tr:'#bdeaff',pk:'1.5s ghost start + power-ups +5%'}};
+for(const i in B)if(skins[i])skins[i].m=B[i];
+skins.push({name:'VOID EMPEROR 👑',price:999,color:'#2a0a4d',glow:'#c04dff',
+m:{shield0:1,hit:.7,nm:3,cm:2.5,pt:1.8,pull:140,start:3000,sc:1.6,tr:'#c04dff',fx:'void',
+pk:'ULTIMATE: start shield, tiny hitbox, 3s ghost, near-miss x3, coins x2.5, power-ups +80%, strong orb magnet'}});
+try{renderBirdStore()}catch(e){}
+
+/* Void Emperor drawing: dark wings, horns, aura, orbiting orbs, void flames */
+const _d2=drawBird;
+drawBird=function(t){_d2(t);
+ const s=skins[data.selected],mm=s&&s.m;if(!mm||mm.fx!=='void')return;
+ ctx.save();ctx.translate(bird.x,bird.y);ctx.scale(mm.sc,mm.sc);ctx.rotate(bird.rotation);
+ const a=Math.sin(t*.012*(playing&&flying?1.6:.7))*.7;
+ let g=ctx.createRadialGradient(0,0,6,0,0,48);g.addColorStop(0,'rgba(192,77,255,.38)');g.addColorStop(1,'rgba(192,77,255,0)');
+ ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,48,0,7);ctx.fill();
+ for(const k of[1,.7]){ctx.save();ctx.translate(-6,2);ctx.rotate(-.5+a*k);ctx.scale(k,k);
+  ctx.fillStyle=k===1?'#14062b':'#3a0f6b';ctx.strokeStyle='#38e8ff';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-36,-28);ctx.lineTo(-25,-9);ctx.lineTo(-42,-2);ctx.lineTo(-23,8);ctx.lineTo(-29,21);ctx.lineTo(0,9);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore()}
+ ctx.fillStyle='#c04dff';
+ ctx.beginPath();ctx.moveTo(5,-16);ctx.lineTo(13,-35);ctx.lineTo(14,-14);ctx.closePath();ctx.fill();
+ ctx.beginPath();ctx.moveTo(-5,-17);ctx.lineTo(-10,-33);ctx.lineTo(2,-17);ctx.closePath();ctx.fill();
+ ctx.fillStyle='#38e8ff';for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(-14+i*6,-16);ctx.lineTo(-11+i*6,-24);ctx.lineTo(-8+i*6,-16);ctx.closePath();ctx.fill()}
+ ctx.save();ctx.strokeStyle='rgba(255,90,220,.85)';ctx.lineWidth=2;ctx.setLineDash([6,6]);ctx.lineDashOffset=-t*.03;ctx.beginPath();ctx.arc(0,0,31,0,7);ctx.stroke();ctx.restore();
+ for(let i=0;i<3;i++){const an=t*.005+i*2.094;ctx.fillStyle=i%2?'#ff5adc':'#38e8ff';ctx.shadowBlur=10;ctx.shadowColor=ctx.fillStyle;ctx.beginPath();ctx.arc(Math.cos(an)*36,Math.sin(an)*28,3.5,0,7);ctx.fill()}
+ ctx.shadowBlur=12;ctx.shadowColor='#ff3b3b';ctx.fillStyle='#ff4d4d';ctx.beginPath();ctx.arc(11,-8,2.6,0,7);ctx.fill();ctx.shadowBlur=0;
+ if(playing&&flying)for(let i=0;i<5;i++){ctx.globalAlpha=.9-i*.16;ctx.fillStyle=i%2?'#38e8ff':'#c04dff';ctx.beginPath();ctx.arc(38+i*9+Math.random()*3,4+(Math.random()-.5)*6,8-i,0,7);ctx.fill()}
+ ctx.restore()};
+
+/* ---------- 3. Daily login / spin (diamonds) + membership claims ---------- */
+const XK='GF_X2',DR=[5,5,5,5,5,5,45];
+const gx=()=>{try{return Object.assign({last:'',streak:0,spin:''},JSON.parse(localStorage.getItem(XK))||{})}catch(e){return{last:'',streak:0,spin:''}}};
+const sx=o=>{try{localStorage.setItem(XK,JSON.stringify(o))}catch(e){}};
+const give=n=>{data.diamonds+=n;saveData();updateDiamondUI()};
+const memOK=()=>{const m=data.mem,t=today();return m&&m.daily&&m.claimed<m.daily.length&&m.lastClaim!==t&&m.buyDay!==t};
+const orig=$('bRew').onclick;
+function open(){orig();patch()}
+$('bRew').onclick=open;
+function patch(){
+ const c=$('gxRew').firstChild;if(!c)return;
+ const st=gx(),t=today(),y=new Date(Date.now()-864e5).toDateString();
+ const ns=st.last===t?st.streak:(st.last===y?(st.streak>=7?1:st.streak+1):1),r=DR[ns-1];
+ const h=c.querySelector('h3');if(h)h.textContent='DAILY LOGIN · STREAK '+st.streak+'/7';
+ const dl=c.querySelector('[data-a="daily"]'),sp=c.querySelector('[data-a="spin"]');
+ if(dl){dl.removeAttribute('data-a');dl.setAttribute('data-x','d');dl.disabled=st.last===t;
+  dl.textContent=st.last===t?'CLAIMED TODAY ✔':'CLAIM DAY '+ns+'/7 — '+r+' 💎'+(ns===7?' (BONUS DAY)':'')}
+ if(sp){sp.removeAttribute('data-a');sp.setAttribute('data-x','s');sp.disabled=st.spin===t;
+  sp.textContent=st.spin===t?'COME BACK TOMORROW':'SPIN (FREE DAILY — 5 TO 6 💎)'}
+ if(data.mem&&data.mem.daily){
+  const m=data.mem,left=m.daily.length-m.claimed,box=document.createElement('div');
+  box.innerHTML='<h3>MEMBERSHIP DAILY</h3>';
+  const b=document.createElement('button');b.className='gxb p';b.setAttribute('data-x','m');
+  b.disabled=!memOK();
+  b.textContent=left<=0?'ALL CLAIMED ✔':memOK()?'CLAIM '+m.daily[m.claimed]+' 💎 ('+left+' LEFT)':(m.buyDay===t?'STARTS TOMORROW':'CLAIMED TODAY ✔');
+  box.appendChild(b);c.insertBefore(box,c.lastElementChild)}
+}
+$('gxRew').addEventListener('click',e=>{
+ const b=e.target.closest&&e.target.closest('[data-x]');if(!b||b.disabled)return;
+ const k=b.getAttribute('data-x'),st=gx(),t=today(),y=new Date(Date.now()-864e5).toDateString();
+ if(k==='d'&&st.last!==t){const ns=st.last===y?(st.streak>=7?1:st.streak+1):1;st.streak=ns;st.last=t;sx(st);give(DR[ns-1]);purchaseSound();open()}
+ else if(k==='s'&&st.spin!==t){const w=5+(Math.random()<.5?1:0);st.spin=t;sx(st);give(w);purchaseSound();open();
+  const rr=$('spinR');if(rr)rr.textContent='YOU WON '+w+' 💎!'}
+ else if(k==='m'&&memOK()){const m=data.mem;give(m.daily[m.claimed]);m.claimed++;m.lastClaim=t;saveData();purchaseSound();open()}
+});
+
+/* ---------- 4. Payment: hamesha UPI 9689155635@nyes, phir UTR popup ---------- */
+const PL={m29:{price:29,days:3,i:25,daily:[30,30],name:'Lite Membership (3 days)'},
+          m179:{price:179,days:7,i:100,daily:[49,49,49,49,49,49,55],name:'Premium Membership (7 days)'}};
+let pend=null;
+const pb=document.querySelector('#paymentModal .paymentBox'),pdone=document.createElement('button');
+pdone.className='modalBtn primary';pdone.style.cssText='width:100%;margin-top:11px';pdone.textContent='PAYMENT DONE — ENTER UTR';
+pb.insertBefore(pdone,pb.querySelector('.closeBtn'));
+$('app').insertAdjacentHTML('beforeend','<div id="utrModal" class="modalWrap" style="z-index:150"><div class="paymentBox"><div class="modalTitle">ENTER UTR</div><div class="modalText">Payment ke baad apne UPI app se 12-digit UTR / Ref No. copy karke yahan daalo.</div><input id="utrIn" class="usernameInput" inputmode="numeric" maxlength="12" autocomplete="off" placeholder="12-digit UTR number"><div id="utrErr" class="usernameError"></div><div class="modalActions"><button class="modalBtn" id="utrNo">CANCEL</button><button class="modalBtn primary" id="utrOk">SUBMIT</button></div></div></div>');
+function pay(rupees,label,item){
+ pend=item;selectedPayment={rupees:rupees,diamonds:item.d||0,membership:!!item.mem};
+ $('paymentModalText').textContent=label+' — ₹'+rupees+' is UPI ID par pay karo, phir UTR daalo.';
+ const q=$('qr');q.style.display='';q.onerror=()=>{q.style.display='none'};
+ q.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent('upi://pay?pa=9689155635@nyes&pn=Galaxy%20Flap&am='+rupees+'&cu=INR');
+ $('paymentModal').style.display='flex'}
+buyDiamonds=function(r,d){initAudio();tapSound();pay(r,d+' Diamonds',{d:d,r:r})};
+buyMembership=function(){initAudio();tapSound();pay(179,PL.m179.name,{mem:'m179',r:179})};
+pdone.onclick=()=>{tapSound();$('utrIn').value='';$('utrErr').textContent='';$('utrModal').style.display='flex';setTimeout(()=>$('utrIn').focus(),80)};
+$('utrNo').onclick=()=>{$('utrModal').style.display='none'};
+$('utrOk').onclick=()=>{
+ const v=($('utrIn').value||'').trim(),er=$('utrErr');
+ if(!/^\d{12}$/.test(v)){er.textContent='UTR exactly 12 digits ka hona chahiye.';return}
+ data.utrs=data.utrs||[];
+ if(data.utrs.includes(v)){er.textContent='Ye UTR pehle use ho chuka hai.';return}
+ if(!pend)return;
+ data.utrs.push(v);let msg;
+ if(pend.mem){const pl=PL[pend.mem],old=data.mem&&data.mem.daily?data.mem.daily.slice(data.mem.claimed):[];
+  data.diamonds+=pl.i;
+  data.mem={plan:pend.mem,buyDay:today(),claimed:0,daily:old.concat(pl.daily),lastClaim:''};
+  data.membershipUntil=Date.now()+pl.days*864e5;
+  msg=pl.name+' active! '+pl.i+' 💎 mil gaye. Baaki '+pl.daily.reduce((a,b)=>a+b,0)+' 💎 daily login par (Rewards mein claim karo).'}
+ else{data.diamonds+=pend.d;msg=pend.d+' diamonds aapke account mein add ho gaye!'}
+ pend=null;saveData();updateDiamondUI();updateAccountUI();
+ $('utrModal').style.display='none';$('paymentModal').style.display='none';
+ $('successText').textContent=msg;$('successBalance').textContent='DIAMONDS: '+data.diamonds;
+ $('successModal').style.display='flex';purchaseSound()};
+
+/* ---------- 5. Membership screen: ₹29 plan add ----------- */
+const mb=document.querySelector('.memberBuy');
+if(mb){
+ const lite=document.createElement('div');
+ lite.innerHTML='<div class="memberSectionTitle">LITE PLAN — 3 DAYS</div><div class="memberList"><div class="memberFeature"><span class="featureTick"></span><span><b>25 💎</b> instantly after purchase</span></div><div class="memberFeature"><span class="featureTick"></span><span><b>30 💎</b> on daily login, day 2 and day 3 — <b>85 TOTAL</b></span></div></div>';
+ const lb=document.createElement('button');lb.className='memberBuy';lb.style.marginBottom='14px';lb.textContent='GET LITE MEMBERSHIP — ₹29';
+ lb.onclick=()=>{initAudio();tapSound();pay(29,PL.m29.name,{mem:'m29',r:29})};
+ lite.appendChild(lb);mb.parentNode.insertBefore(lite,mb);
+ const n=document.querySelector('.memberNote');if(n)n.textContent='Payment UPI (9689155635@nyes) se hota hai. Payment ke baad UTR daalte hi diamonds credit hote hain.';
+}
+})();
+</script>
+
 </body>
-</html>
+</html>  
