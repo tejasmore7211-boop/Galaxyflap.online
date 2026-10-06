@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Quiz Arena</title>
+<title>Pixel Rise</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{--bg:#050617;--c1:#101637;--c2:#080b20;--bd:rgba(140,160,255,.23);--mu:#8993b9;--cy:#63e7ff;--ok:#2ee59d;--no:#ff8090;--g:linear-gradient(100deg,#5953ff,#10c7ed);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -48,11 +49,12 @@ td,th{padding:10px 4px;border-bottom:1px solid rgba(140,160,255,.12);text-align:
 th{color:var(--mu);font-size:11px;letter-spacing:1px}
 tr.me td{background:rgba(99,231,255,.1);font-weight:900}
 .live{color:var(--ok);font-size:11px;font-weight:900;letter-spacing:1px}
-.ad{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap;min-width:84px}.ad button{background:#252d63;border-radius:8px;width:26px;height:26px;font-size:12px}#lbHome,#lbRes{overflow-x:auto}.pd{color:var(--ok)}.in.sm{font-size:14px;letter-spacing:0;margin-top:6px}.ta{width:100%;min-height:170px;padding:10px;border-radius:12px;border:1px solid rgba(150,170,255,.25);background:#06091a;color:#fff;font-size:12px;margin-top:6px}
+.ad{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap;min-width:84px}.ad button{background:#252d63;border-radius:8px;width:30px;height:30px;font-size:13px}#lbHome,#lbRes{overflow-x:auto}.pd{color:var(--ok)}.in.sm{font-size:14px;letter-spacing:0;margin-top:6px}.ta{width:100%;min-height:170px;padding:10px;border-radius:12px;border:1px solid rgba(150,170,255,.25);background:#06091a;color:#fff;font-size:12px;margin-top:6px}
 .hide{display:none!important}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
 .ov .card{width:100%;max-width:400px;margin:0}
-.rk{font-size:15px}
+.rk{font-size:15px}.logo{font-size:clamp(20px,6vw,28px)!important;letter-spacing:3px!important}.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding:6px 0}.pz div{font-size:13px;padding:10px 2px}.pz{gap:6px}#cardOv{align-items:flex-start;overflow-y:auto}
+.row{display:flex;gap:8px}.row .btn{flex:1;min-height:56px;font-size:12px;letter-spacing:.5px;padding:0 6px}
 </style>
 </head>
 <body>
@@ -61,25 +63,30 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
   <button class="ib" id="setBtn" aria-label="Settings">⚙</button>
   <a class="wa" id="waTop" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path fill="#25d366" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z"/><path fill="#fff" d="M16.5 14.4c-.3-.2-1.7-.8-2-.9s-.5-.1-.7.1-.8.9-.9 1.1-.3.2-.6.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.5l-.9-2c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.3 5.3 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4.1c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c0-.1-.2-.2-.5-.3z"/></svg>SUPPORT</a>
  </div>
- <div class="logo">QUIZ ARENA</div>
- <div class="sub">THINK&nbsp;&nbsp;•&nbsp;&nbsp;TAP&nbsp;&nbsp;•&nbsp;&nbsp;WIN</div>
+ <div class="logo">WELCOME TO PIXEL RISE</div>
+ <div class="sub">QUIZ ARENA&nbsp;&nbsp;•&nbsp;&nbsp;THINK&nbsp;&nbsp;•&nbsp;&nbsp;TAP&nbsp;&nbsp;•&nbsp;&nbsp;RISE</div>
+ <div id="admBar" class="sts sticky hide"><div><span id="aO">0</span><small>🟢 LIVE PLAYERS</small></div><div><span id="aT">0</span><small>PLAYED TODAY</small></div><div><span id="aA">0</span><small>TOTAL QUIZ GIVEN</small></div></div>
 
  <div id="home">
   <div class="card c" id="mBox"><div class="tag" id="mH" style="display:inline-block"></div><div class="big" id="mP" style="font-size:30px;margin-top:10px"></div></div>
   <div class="card c hide" id="winCard"><h2>🏆 WINNERS</h2><div id="winL"></div><button class="btn s g" id="winShare">SHARE WINNERS</button></div>
   <div class="card c" id="entry">
-   <h2>ENTRY ₹20</h2>
+   <h2>ENTRY FEE ₹20</h2>
    <p>20 sawal • 5 Math • 5 Science • 10 India GK</p>
-   <div class="pz"><div>🥇<br>₹100<small>1st</small></div><div>🥈<br>₹60<small>2nd</small></div><div>🥉<br>₹40<small>3rd</small></div></div>
-   <button class="btn" id="payBtn">PAY ₹20 &amp; CONTINUE</button>
-   <button class="btn s" id="haveBtn">I HAVE USERNAME</button>
+   <div class="pz" id="pzBox"></div>
+   <button class="btn" id="startBtn">PAY ₹20 FOR ENTRY</button>
+   <button class="btn s" id="haveUser">👤 I HAVE USERNAME</button>
+   <div class="err" id="hErr"></div>
   </div>
   <div class="card hide" id="admCard">
    <h2>🔧 ADMIN MODE</h2>
    <p>Unlimited play. Leaderboard mein ▲▼ se rank badlo, ✎ se points edit, 🗑 se delete.</p>
-   <input class="in" id="aU" maxlength="20" placeholder="USERNAME" autocomplete="off">
+   <input class="in" id="aU" maxlength="20" value="TEJAS1" placeholder="USERNAME" autocomplete="off">
    <div class="err" id="aErr"></div>
    <button class="btn" id="aPlay">PLAY (UNLIMITED)</button>
+   <h3>PRIZES (₹, comma separated)</h3>
+   <input class="in sm" id="aP" placeholder="1500,500,200,50,25">
+   <button class="btn s" id="aSaveP">SAVE PRIZES</button>
    <h3>QUESTIONS</h3>
    <p>One line = one question:<br>question | correct | wrong1 | wrong2 | wrong3 | explanation | CATEGORY</p>
    <textarea class="ta" id="aQ" spellcheck="false"></textarea>
@@ -98,34 +105,54 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
   <div class="card">
    <h2>📘 INSTRUCTIONS</h2>
    <h3>KAISE KHELNA HAI</h3>
-   <ul><li>PAY ₹20 dabao, QR scan karo ya UPI app kholo aur ₹20 bhejo.</li><li>Payment ka screenshot WhatsApp par bhejo. Aapko 6 character ka username milega.</li><li>"I HAVE USERNAME" dabao, username daalo aur quiz shuru karo.</li><li>Har sawal ke 4 option hain, 1 sahi. Option dabate hi agla sawal aa jata hai.</li></ul>
+   <ul><li>PAY ₹20 FOR ENTRY dabao, "Open UPI App" se ya QR download/scan karke ₹20 pay karo.</li><li>Payment ke baad "PAYMENT COMPLETED" dabao, WhatsApp par message jayega. Phir "I HAVE USERNAME" dabake 6 character ka username daalo aur quiz shuru karo.</li><li>Har sawal ke 4 option hain, 1 sahi. Option dabate hi agla sawal aa jata hai.</li><li>Quiz khatam hone par apne EP points, rank aur result card milta hai.</li></ul>
    <h3>POINTS (EP)</h3>
    <ul><li>Har sahi jawab = 20 EP.</li><li>Har sawal par 59 second milte hain. Bache hue har second ka +1 EP.</li><li>🔥 Streak bonus: lagatar 3 ya zyada sahi jawab par har sahi jawab ke saath +5 EP extra.</li><li>Galat ya time-out = 0 EP, aur streak toot jati hai.</li><li><b>Highest possible: 1670 EP</b> (20 × 79 = 1580, plus streak bonus 90). Practically thoda kam, kyunki tap karne mein 1-2 second lagte hain.</li></ul>
-   <h3>PAISE KAISE MILENGE</h3>
-   <ul><li>Match khatam hone par Top 3 ko prize: 🥇 ₹100, 🥈 ₹60, 🥉 ₹40.</li><li>Winner apna username WhatsApp support par bhejein, prize UPI se bheja jayega.</li><li>Points barabar hon to jiske sahi jawab zyada wo upar, phir jiska total time kam ho.</li><li>Prize milne par leaderboard mein aapke saamne "PAID ✔" dikhega.</li></ul>
+   <h3>INAAM (TOP 5)</h3>
+   <ul><li>Match khatam hone par leaderboard ke Top 5 ko inaam milta hai. Rashi upar dikhti hai.</li><li>Winner apna username WhatsApp support par bhejein.</li><li>Points barabar hon to jiske sahi jawab zyada wo upar, phir jiska total time kam ho.</li></ul>
+   <h3>EARN MONEY (NAVI TASK)</h3>
+   <ul><li>Quiz ke baad ya ⚙ Settings mein "Earn Money" kholo aur Navi task poora karo: app download karo aur first payment karo.</li><li>Task ke baad "Task completed?" dabake YES karo, aapka message WhatsApp par chala jayega.</li><li>Sirf naye users valid hain, aur app 5 din use karna hai.</li></ul>
    <h3>RULES</h3>
-   <ul><li>Ek username aur ek device se sirf ek hi baar khel sakte hain (admin ke liye limit nahi).</li><li>Quiz beech mein chhodne ya refresh karne par dubara chance nahi milega.</li><li>Match ka timer upar dikhta hai. Match shuru hone se pehle ya khatam hone ke baad quiz nahi khel sakte.</li><li>Quiz ke baad aapke har jawab ka review aur explanation dikhta hai.</li><li>Admin ka faisla final hoga.</li></ul>
+   <ul><li>Ek username aur ek device se sirf ek hi baar khel sakte hain (admin ke liye limit nahi).</li><li>Quiz beech mein chhodne ya refresh karne par dubara chance nahi milega. Refresh par aapko sirf result aur leaderboard dikhega.</li><li>Match ka timer upar dikhta hai. Match shuru hone se pehle ya khatam hone ke baad quiz nahi khel sakte.</li><li>Quiz ke baad aapke har jawab ka review aur explanation dikhta hai.</li><li>Admin ka faisla final hoga.</li></ul>
   </div>
  </div>
 
  <div id="pay" class="hide">
   <div class="card c">
-   <h2>UPI PAYMENT</h2>
-   <p>QR scan karo ya niche se UPI app kholo. Amount: <b>₹20</b></p>
+   <h2>PAY ₹20 FOR ENTRY</h2>
+   <p>QR scan karke pay karo ya neeche se UPI app kholo.</p>
    <div class="qr" id="qr"></div>
-   <div class="upiId">9689155635@nyes</div>
-   <button class="btn" id="openUpi">OPEN UPI APP</button>
-   <button class="btn s" id="copyUpi">COPY UPI ID</button>
-   <button class="btn s g" id="waJoin">SEND SCREENSHOT ON WHATSAPP</button>
-   <button class="btn s" id="haveBtn2" style="background:#171d43;border:1px solid var(--bd)">I HAVE USERNAME →</button>
+   <div class="upiId" id="upiTxt"></div>
+   <div class="row"><button class="btn" id="openUpi">📲 OPEN UPI APP</button><button class="btn s" id="dlQr">⬇ DOWNLOAD QR</button></div>
+   <div class="row"><button class="btn g" id="payDone">✔ PAYMENT COMPLETED</button><button class="btn s" id="haveUser2">👤 I HAVE USERNAME</button></div>
+   <p style="font-size:11px">Payment ke baad "PAYMENT COMPLETED" dabao, aapka message WhatsApp par chala jayega.</p>
    <button class="btn s" id="payBack" style="background:transparent">BACK</button>
+  </div>
+ </div>
+
+ <div id="earn" class="hide">
+  <div class="card c">
+   <h2>💰 EARN MONEY</h2>
+   <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:10px 0">
+    <img id="naviLogo" src="navi-logo.png" alt="Navi" style="height:46px;border-radius:10px" onerror="this.style.display='none';document.getElementById('naviFb').style.display='block'">
+    <div id="naviFb" class="tag" style="display:none;font-size:16px">NAVI</div>
+   </div>
+   <h3 style="margin-top:4px">NAVI APP TASK</h3>
+   <p>Download the Navi app and make your first payment.</p>
+   <div class="big" style="font-size:40px">₹50</div><p style="margin-top:0">Task reward</p>
+   <button class="btn g" id="goTask">➜ GO TO TASK</button>
+   <button class="btn s" id="doneTask">TASK COMPLETED?</button>
+   <h3>RULES</h3>
+   <ul style="text-align:left"><li>Use the app for 5 days</li><li>Only new users are valid</li><li>You will get paid instantly</li></ul>
+   <p style="font-size:11px">Referral link: Pixel Rise may earn a referral reward when you join through it.</p>
+   <button class="btn s" id="earnBack" style="background:transparent">BACK</button>
   </div>
  </div>
 
  <div id="uname" class="hide">
   <div class="card c">
    <h2>ENTER USERNAME</h2>
-   <p>Payment verify hone ke baad mila username daalo.</p>
+   <p>6 character ka username daalo (letters ya numbers).</p>
    <input class="in" id="uin" maxlength="20" autocomplete="off" placeholder="USERNAME">
    <div class="err" id="uerr"></div>
    <button class="btn" id="uGo">START QUIZ</button>
@@ -151,16 +178,26 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
    <div class="sts"><div><span id="rOk"></span><small>SAHI</small></div><div><span id="rBad"></span><small>GALAT</small></div><div><span id="rRank"></span><small>RANK</small></div></div>
    <p id="rUser"></p>
    <div class="err hide" id="saveMsg">Score leaderboard par save nahi hua (internet ya Rules).<button class="btn s" id="retry">RETRY</button></div>
+   <button class="btn" id="mkCard">CREATE RESULT CARD</button>
    <button class="btn s g" id="share">SHARE ON WHATSAPP</button>
    <button class="btn s hide" id="admAgain">ADMIN: HOME</button>
+  </div>
+  <div class="card c" id="earnAsk">
+   <h2>💰 Want to earn money?</h2>
+   <p>Complete Navi task aur ₹50 kamao.</p>
+   <button class="btn g" id="askYes">💰 YES, GO</button>
+   <button class="btn s" id="askNo">NO, NOT NOW</button>
   </div>
   <div class="card hide" id="revCard"><h2>📝 ANSWER REVIEW</h2><div id="rev"></div></div>
   <div class="card"><h2>🏅 LIVE LEADERBOARD <span class="live lv">● LIVE</span></h2><div id="lbRes"></div></div>
  </div>
 </div>
 
+<div class="ov hide" id="taskOv"><div class="card c"><h2>Task completed?</h2><p>Kya aapne Navi app download karke apna first payment kar liya hai?</p><button class="btn g" id="taskYes">YES</button><button class="btn s" id="taskNo">NO</button></div></div>
+<div class="ov hide" id="cardOv"><div class="card c"><img id="cardImg" alt="Result card" style="width:auto;max-width:100%;max-height:55vh;border-radius:14px"><button class="btn g" id="cShare">SHARE (WHATSAPP STATUS)</button><button class="btn s" id="cDl">DOWNLOAD IMAGE</button><button class="btn s" id="cClose" style="background:transparent">CLOSE</button></div></div>
 <div class="ov hide" id="setOv"><div class="card c">
  <h2>⚙ SETTINGS</h2>
+ <button class="btn g" id="earnBtn">💰 EARN MONEY</button>
  <button class="btn s" id="sndBtn"></button>
  <div id="admLogin">
   <h3>ADMIN LOGIN</h3>
@@ -171,17 +208,18 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
  <button class="btn s" id="setClose" style="background:transparent">CLOSE</button>
 </div></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-const PH="919689155635",UPI="9689155635@nyes",PER=59,ADMIN="tejas1";
+const PH="919689155635",PER=59,ADMIN="tejas1";
+const UPI_ID="9689155635@nyes",FEE="20";
+const UPI="upi://pay?pa="+UPI_ID+"&pn="+encodeURIComponent("Pixel Rise")+"&am="+FEE+".00&cu=INR&tn="+encodeURIComponent("Quiz Entry");
 const DEF=`12 × 8 = ?|96|84|92|108|8 × 12 = 96.|MATH
 Square root of 144?|12|14|16|10|12 × 12 = 144.|MATH
 15% of 200?|30|20|25|35|10% is 20 and 5% is 10.|MATH
 25 + 37 × 2 = ?|99|124|74|89|Multiply first: 74 + 25.|MATH
 Sum of angles in a triangle?|180°|90°|270°|360°|It is always 180°.|MATH
-Chemical formula of water?|H₂O|CO₂|O₂|NaCl|Two hydrogen, one oxygen.|SCIENCE
+Chemical formula of water?|H2O|CO2|O2|NaCl|Two hydrogen, one oxygen.|SCIENCE
 Largest planet?|Jupiter|Saturn|Earth|Mars|Jupiter is the biggest.|SCIENCE
-Gas absorbed in photosynthesis?|CO₂|O₂|N₂|H₂|Plants take in CO₂.|SCIENCE
+Gas absorbed in photosynthesis?|CO2|O2|N2|H2|Plants take in CO2.|SCIENCE
 Bones in an adult body?|206|201|212|300|Adults have 206 bones.|SCIENCE
 Sound travels fastest in?|Solids|Air|Water|Vacuum|Particles are closest.|SCIENCE
 Capital of India?|New Delhi|Mumbai|Kolkata|Chennai|New Delhi is the capital.|INDIA GK
@@ -194,28 +232,31 @@ Constitution came into force?|26 Jan 1950|15 Aug 1947|2 Oct 1950|26 Nov 1949|Cel
 First Prime Minister?|Jawaharlal Nehru|Sardar Patel|Rajendra Prasad|L. B. Shastri|Served 1947 to 1964.|INDIA GK
 States in India?|28|25|29|30|India has 28 states.|INDIA GK
 Gateway of India is in?|Mumbai|Chennai|Kolkata|Delhi|It is in Mumbai.|INDIA GK`;
-let CFG={qtxt:DEF,start:0,end:0},QL=[],N=20,rv=[],st=0,tt=0,lastR=null;
+let CFG={qtxt:DEF,start:0,end:0},QL=[],N=20,rv=[],st=0,tt=0,lastR=null,onl=0;
 const parseQ=t=>t.split("\n").map(l=>l.split("|").map(x=>x.trim())).filter(a=>a.length>=5&&a[0]);
+const prz=()=>(CFG.prz||"1500,500,200,50,25").split(",").map(x=>x.trim()).filter(Boolean);
+const prLabels=()=>prz().map((v,i)=>(["🥇","🥈","🥉"][i]||(i+1)+"th")+" ₹"+v);
 const phase=()=>{const n=Date.now();return CFG.start&&n<CFG.start?"soon":CFG.end&&n>CFG.end?"over":"live"};
 const hms=ms=>{ms=Math.max(0,ms/1000|0);const d=ms/86400|0,h=ms%86400/3600|0,m=ms%3600/60|0,x=ms%60;return(d?d+"d ":"")+[h,m,x].map(v=>String(v).padStart(2,"0")).join(":")};
 const wa0=t=>"https://wa.me/?text="+encodeURIComponent(t);
-function applyCfg(){QL=parseQ(CFG.qtxt||DEF);if(!QL.length)QL=parseQ(DEF);N=QL.length;banner();if(adm&&document.activeElement!==$("aQ"))fillAdm()}
+function applyCfg(){QL=parseQ(CFG.qtxt||DEF);if(!QL.length)QL=parseQ(DEF);N=QL.length;$("pzBox").innerHTML=prz().map((v,i)=>`<div>${["🥇","🥈","🥉"][i]||(i+1)+"th"}<br><b>₹${v}</b></div>`).join("");banner();if(adm&&document.activeElement!==$("aQ"))fillAdm()}
 function banner(){const p=phase(),n=Date.now();
  $("mH").textContent=p==="soon"?"MATCH STARTS IN":p==="over"?"MATCH ENDED":"MATCH LIVE";
  $("mP").textContent=p==="soon"?hms(CFG.start-n):p==="over"?"Winners below":CFG.end?"Ends in "+hms(CFG.end-n):"Join now";
  $("entry").classList.toggle("hide",p==="over"&&!adm);
  $("winCard").classList.toggle("hide",p!=="over");
  if(p==="over")renderWin()}
-function renderWin(){const L=sorted().slice(0,3),pr=["🥇 ₹100","🥈 ₹60","🥉 ₹40"];
+function renderWin(){const L=sorted().slice(0,prz().length),pr=prLabels();
  $("winL").innerHTML=L.length?L.map((r,i)=>`<div class="sts" style="margin:6px 0"><div style="text-align:left;padding-left:12px">${pr[i]}</div><div>${esc(r.u)}</div><div>${r.pts} EP${r.paid?"<small style='color:var(--ok)'>PAID ✔</small>":""}</div></div>`).join(""):"<p>No players.</p>"}
 const $=id=>document.getElementById(id);
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-const show=id=>["home","pay","uname","quiz","res"].forEach(s=>$(s).classList.toggle("hide",s!==id));
+const show=id=>["home","pay","earn","uname","quiz","res"].forEach(s=>$(s).classList.toggle("hide",s!==id));
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
 const ss=(k,v)=>{try{if(v===undefined)return sessionStorage.getItem(k);if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v)}catch(e){return null}};
 const wa=t=>"https://wa.me/"+PH+(t?"?text="+encodeURIComponent(t):"");
 $("waTop").href=wa("Hi, mujhe Quiz Arena ke baare mein help chahiye");
 const okName=u=>/^[A-Z0-9]{6}$/.test(u);
+const okUser=u=>okName(u)&&(adm||u.endsWith("9"));
 
 /* sound */
 let snd=ls("qa_snd")!=="0",AC;
@@ -226,30 +267,37 @@ sndLbl();$("sndBtn").onclick=()=>{snd=!snd;ls("qa_snd",snd?"1":"0");sndLbl();bee
 /* leaderboard + db */
 let rows=[],me=ls("qa_me"),db=null,coll=null,adm=ss("qa_adm")==="1";
 const esc=s=>{const d=document.createElement("div");d.textContent=s;return d.innerHTML};
-const sorted=()=>rows.slice().sort((a,b)=>b.pts-a.pts||b.ok-a.ok||(a.tt??9e9)-(b.tt??9e9)||a.t-b.t);
+/* adj = admin ne rank badalne ke liye di hui hidden adjustment (points display mein nahi badalte) */
+const eff=r=>r.pts+(r.adj||0);
+const sorted=()=>rows.slice().sort((a,b)=>eff(b)-eff(a)||b.ok-a.ok||(a.tt??9e9)-(b.tt??9e9)||a.t-b.t);
 function persistLocal(){if(!coll)ls("qa_rows",JSON.stringify(rows))}
 async function save(r){
-  if(FB_URL){try{await FB("scores/"+r.u,"PUT",r);pollAll();return true}catch(e){return false}}
+  if(FB_URL){try{await FB("scores/"+r.u,"PUT",r);const k=rows.findIndex(x=>x.u===r.u);if(k>=0)rows[k]=r;else rows.push(r);renderLB();pollAll();return true}catch(e){return false}}
   if(coll){coll.doc(r.u).set(r).catch(()=>{});return true}
   rows=rows.filter(x=>x.u!==r.u).concat(r);persistLocal();renderLB();return true}
 async function del(u){
-  if(FB_URL){try{const v=await FB("used/"+u);if(v&&v.dev)await FB("devices/"+v.dev,"DELETE");await FB("used/"+u,"DELETE");await FB("scores/"+u,"DELETE");pollAll()}catch(e){}return}
+  if(FB_URL){try{const v=await FB("used/"+u);if(v&&v.dev)await FB("devices/"+v.dev,"DELETE");await FB("used/"+u,"DELETE");await FB("scores/"+u,"DELETE");rows=rows.filter(x=>x.u!==u);renderLB();pollAll()}catch(e){}return}
   if(coll){coll.doc(u).delete().catch(()=>{})}else{rows=rows.filter(x=>x.u!==u);persistLocal();renderLB()}}
 function renderLB(){
-  const L=sorted(),pr=["🥇 ₹100","🥈 ₹60","🥉 ₹40"];
-  const h=L.length?"<table><tr><th>RANK</th><th>PLAYER</th><th>EP</th><th>SAHI</th><th>TIME</th>"+(adm?"<th></th>":"")+"</tr>"+L.map((r,i)=>`<tr class="${r.u===me?"me":""}"><td class="rk">#${i+1}${pr[i]?"<br><small>"+pr[i]+"</small>":""}${r.paid?"<br><small class='pd'>PAID ✔</small>":""}</td><td>${esc(r.u)}</td><td>${r.pts}</td><td>${r.ok}/${N}</td><td>${r.tt!=null?r.tt+"s":"–"}</td>${adm?`<td><div class="ad"><button data-a="up" data-i="${i}">▲</button><button data-a="dn" data-i="${i}">▼</button><button data-a="ed" data-i="${i}">✎</button><button data-a="pd" data-i="${i}" title="Paid" style="${r.paid?"background:#1faa54":""}">💰</button><button data-a="rm" data-i="${i}">🗑</button></div></td>`:""}</tr>`).join("")+"</table>":"<p>No players yet. Be the first!</p>";
+  const L=sorted(),pr=prLabels();
+  const h=L.length?"<table><tr><th>RANK</th><th>PLAYER</th><th>EP</th><th>SAHI</th><th>TIME</th>"+(adm?"<th></th>":"")+"</tr>"+L.map((r,i)=>`<tr class="${r.u===me?"me":""}"><td class="rk">#${i+1}${pr[i]?"<br><small>"+pr[i]+"</small>":""}${r.paid?"<br><small class='pd'>PAID ✔</small>":""}</td><td>${esc(r.u)}</td><td>${r.pts}</td><td>${r.ok}/${N}</td><td>${r.tt!=null?r.tt+"s":"–"}</td>${adm?`<td><div class="ad"><button data-a="up" data-u="${esc(r.u)}">▲</button><button data-a="dn" data-u="${esc(r.u)}">▼</button><button data-a="ed" data-u="${esc(r.u)}">✎</button><button data-a="pd" data-u="${esc(r.u)}" title="Paid" style="${r.paid?"background:#1faa54":""}">💰</button><button data-a="rm" data-u="${esc(r.u)}">🗑</button></div></td>`:""}</tr>`).join("")+"</table>":"<p>No players yet. Be the first!</p>";
   $("lbHome").innerHTML=h;$("lbRes").innerHTML=h;
   const i=L.findIndex(r=>r.u===me);if(i>=0&&!$("res").classList.contains("hide"))$("rRank").textContent="#"+(i+1);
   if(phase()==="over")renderWin();
+  renderStats();
 }
+/* ADMIN: rank up/down, edit, paid, delete */
 document.addEventListener("click",e=>{
   const b=e.target.closest("button[data-a]");if(!b||!adm)return;
-  const L=sorted(),i=+b.dataset.i,a=b.dataset.a,r=L[i];
+  const L=sorted(),a=b.dataset.a,i=L.findIndex(x=>x.u===b.dataset.u);if(i<0)return;const r=L[i];
   if(a==="rm"){if(confirm(r.u+" ko delete karna hai?"))del(r.u)}
   else if(a==="pd")save({...r,paid:!r.paid});
-  else if(a==="ed"){const v=prompt("New EP points for "+r.u,r.pts);if(v!==null&&v.trim()!==""&&!isNaN(+v))save({...r,pts:Math.max(0,Math.round(+v))})}
-  else{const j=a==="up"?i-1:i+1;if(j<0||j>=L.length)return;const o=L[j];
-    save({...r,pts:o.pts,ok:o.ok,tt:o.tt,t:o.t});save({...o,pts:r.pts,ok:r.ok,tt:r.tt,t:r.t})}
+  else if(a==="ed"){const v=prompt("New EP points for "+r.u,r.pts);if(v!==null&&v.trim()!==""&&!isNaN(+v))save({...r,pts:Math.max(0,Math.round(+v)),adj:0})}
+  else{
+    const j=a==="up"?i-1:i+1;if(j<0||j>=L.length)return;const o=L[j];
+    const target=a==="up"?eff(o)+0.001:eff(o)-0.001;
+    save({...r,adj:+(target-r.pts).toFixed(3)});
+  }
 });
 const get=r=>typeof r.data==="function"?r.data():r.data;
 /* ===== SETUP: apna Firebase Realtime Database URL yahan paste karo (e.g. https://myquiz-default-rtdb.firebaseio.com) ===== */
@@ -280,22 +328,23 @@ applyCfg();
   if(!coll){try{rows=JSON.parse(ls("qa_rows")||"[]");const c=ls("qa_cfg");if(c)CFG={...CFG,...JSON.parse(c)}}catch(e){rows=[]}}
   setLive();applyCfg();renderLB();
 })();
-function setLive(){document.querySelectorAll(".lv").forEach(e=>{if(!coll){e.textContent="● THIS DEVICE ONLY";e.style.color="#ffb454"}else if(fbOK===true){e.textContent="● LIVE · SHARED";e.style.color=""}else if(fbOK===false){e.textContent="⚠ DATABASE ERROR (Rules/Internet check karo)";e.style.color="#ff8090"}else{e.textContent="● CONNECTING…";e.style.color="#ffb454"}})}
+function setLive(){document.querySelectorAll(".lv").forEach(e=>{if(!coll){e.textContent="● THIS DEVICE ONLY";e.style.color="#ffb454"}else if(fbOK===true){e.textContent="● LIVE · SHARED";e.style.color=""}else if(fbOK===false){e.textContent="⚠ DATABASE ERROR (Rules/Internet check karo)";e.style.color="#ff8090"}else{e.textContent="● CONNECTING...";e.style.color="#ffb454"}})}
 setInterval(banner,1000);
-/* refresh ke baad: sirf leaderboard/result */
+/* refresh ke baad: sirf result + leaderboard, dubara quiz nahi */
 (()=>{const d=ls("qa_done"),m=ls("qa_me");
  if(m&&d){try{showRes(JSON.parse(d))}catch(e){}}
  else if(m&&ls("qa_started")&&!adm){const r={u:m,pts:0,ok:0,tt:N*PER,t:Date.now()};ls("qa_done",JSON.stringify(r));lastR=r;save(r);showRes(r)}
 })();
 setTimeout(async()=>{const d=ls("qa_done");if(adm||!me||!d||fbOK!==true||rows.some(x=>x.u===me))return;try{if(await FB("used/"+me))save(JSON.parse(d))}catch(e){}},4000);
 function toDT(ms){return ms?new Date(ms-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,16):""}
-function fillAdm(){$("aQ").value=CFG.qtxt||DEF;$("aS").value=toDT(CFG.start);$("aE").value=toDT(CFG.end)}
+function fillAdm(){$("aP").value=CFG.prz||"1500,500,200,50,25";$("aQ").value=CFG.qtxt||DEF;$("aS").value=toDT(CFG.start);$("aE").value=toDT(CFG.end)}
 function saveCfg(p){CFG={...CFG,...p};if(coll)db.collection("config").doc("main").set(CFG).catch(()=>{});else ls("qa_cfg",JSON.stringify(CFG));applyCfg()}
-function adminUI(){$("admCard").classList.toggle("hide",!adm);$("admLogin").classList.toggle("hide",adm);if(adm)fillAdm();banner();renderLB()}
+function adminUI(){$("admBar").classList.toggle("hide",!adm);$("admCard").classList.toggle("hide",!adm);$("admLogin").classList.toggle("hide",adm);if(adm)fillAdm();banner();renderLB()}
 $("aSaveQ").onclick=()=>{const t=$("aQ").value.trim(),n=parseQ(t).length;if(!n){$("aMsg").textContent="Invalid format";return}saveCfg({qtxt:t});$("aMsg").textContent="Questions saved ✔ ("+n+")"};
 $("aSaveT").onclick=()=>{const a=$("aS").value,b=$("aE").value;saveCfg({start:a?new Date(a).getTime():0,end:b?new Date(b).getTime():0});$("aMsg").textContent="Timer saved ✔"};
 $("aEnd").onclick=()=>{saveCfg({end:Date.now()});fillAdm();$("aMsg").textContent="Match ended ✔"};
 $("aOpen").onclick=()=>{saveCfg({start:0,end:0});fillAdm();$("aMsg").textContent="Match open ✔"};
+$("aSaveP").onclick=()=>{saveCfg({prz:$("aP").value.replace(/[^0-9,]/g,"")||"1500,500,200,50,25"});$("aMsg").textContent="Prizes saved ✔"};
 $("winShare").onclick=()=>window.open(wa0("Quiz Arena winners: "+sorted().slice(0,3).map((r,i)=>(i+1)+". "+r.u+" ("+r.pts+" EP)").join(", ")),"_blank");
 adminUI();
 
@@ -308,27 +357,50 @@ $("aReset").onclick=()=>{if(confirm("Poora leaderboard reset karna hai?"))sorted
 $("aPlay").onclick=()=>{const u=$("aU").value.trim().toUpperCase();if(!okName(u)){$("aErr").textContent="Wrong username";return}$("aErr").textContent="";me=u;start()};
 $("admAgain").onclick=()=>show("home");
 
-/* payment */
-let qrMade=false;
-const upiUrl="upi://pay?pa="+UPI+"&pn=Quiz%20Arena&am=20&cu=INR&tn=Quiz%20Arena";
-function openPay(){
-  show("pay");
-  if(!qrMade){try{new QRCode($("qr"),{text:upiUrl,width:220,height:220,correctLevel:QRCode.CorrectLevel.M});qrMade=true}catch(e){$("qr").innerHTML="<span style='color:#000;font-size:12px'>QR load nahi hua.<br>UPI ID use karo</span>"}}
-}
-$("payBtn").onclick=openPay;
+/* ENTRY: pay ₹20 -> QR + UPI app -> payment completed -> username */
+function makeQR(){const b=$("qr");b.innerHTML="";$("upiTxt").textContent="UPI ID: "+UPI_ID+"  •  ₹"+FEE;
+ try{new QRCode(b,{text:UPI,width:208,height:208,correctLevel:QRCode.CorrectLevel.M})}
+ catch(e){b.innerHTML='<img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(UPI)+'">'}}
+$("startBtn").onclick=()=>{
+  const er=$("hErr");er.textContent="";
+  if(ls("qa_done")){try{showRes(JSON.parse(ls("qa_done")))}catch(e){}return}
+  if(ls("qa_started")){er.textContent="Is device se quiz ek baar khela ja chuka hai";return}
+  if(phase()!=="live"){er.textContent=phase()==="soon"?"Match has not started yet":"Match has ended";return}
+  makeQR();show("pay")};
+$("openUpi").onclick=()=>{window.location.href=UPI};
+$("payDone").onclick=()=>{window.open(wa("Hi, maine Pixel Rise Quiz ke liye ₹20 pay kar diya hai. Please payment check karke confirm karo."),"_blank");show("home")};
+function haveUser(){const er=$("hErr");er.textContent="";
+ if(!adm){
+  if(ls("qa_done")){try{showRes(JSON.parse(ls("qa_done")))}catch(e){}return}
+  const m=ls("qa_started")?"Is device se quiz ek baar khela ja chuka hai":phase()==="soon"?"Match has not started yet":phase()==="over"?"Match has ended":"";
+  if(m){show("home");er.textContent=m;return}}
+ $("uerr").textContent="";show("uname")}
+$("haveUser").onclick=haveUser;$("haveUser2").onclick=haveUser;
+$("dlQr").onclick=()=>{const c=$("qr").querySelector("canvas");
+ if(c){const o=document.createElement("canvas");o.width=o.height=640;const g=o.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,640,640);g.imageSmoothingEnabled=false;g.drawImage(c,40,40,560,560);
+  const a=document.createElement("a");a.href=o.toDataURL("image/png");a.download="pixel-rise-pay-20.png";document.body.appendChild(a);a.click();a.remove()}
+ else{const im=$("qr").querySelector("img");if(im)window.open(im.src,"_blank")}};
 $("payBack").onclick=()=>show("home");
-$("openUpi").onclick=()=>{location.href=upiUrl};
-$("copyUpi").onclick=async e=>{try{await navigator.clipboard.writeText(UPI);e.target.textContent="COPIED ✔"}catch(x){e.target.textContent=UPI}};
-$("waJoin").onclick=()=>window.open(wa("I want to join Quiz Arena"),"_blank");
-$("haveBtn").onclick=$("haveBtn2").onclick=()=>show("uname");
 $("uBack").onclick=()=>show("home");
+
+/* Navi task */
+const NAVI="https://r.navi.com/rlXnRE";
+$("earnBtn").onclick=()=>{$("setOv").classList.add("hide");show("earn")};
+$("earnBack").onclick=()=>{const d=ls("qa_done");if(d&&!adm){try{showRes(JSON.parse(d));return}catch(e){}}show("home")};
+$("askYes").onclick=()=>show("earn");
+$("askNo").onclick=()=>$("earnAsk").classList.add("hide");
+$("goTask").onclick=()=>window.open(NAVI,"_blank","noopener");
+$("doneTask").onclick=()=>$("taskOv").classList.remove("hide");
+$("taskNo").onclick=()=>$("taskOv").classList.add("hide");
+$("taskYes").onclick=()=>{$("taskOv").classList.add("hide");window.open(wa("Hi, I completed the Navi task (downloaded the app and made my first payment). Username: "+(me||"-")),"_blank")};
 
 /* username */
 const devId=()=>{let d=ls("qa_dev")||((document.cookie||"").match(/qa_dev=(\w+)/)||[])[1];if(!d)d=Math.random().toString(36).slice(2,12)+Date.now().toString(36);ls("qa_dev",d);try{document.cookie="qa_dev="+d+";max-age=31536000;path=/;SameSite=Lax"}catch(e){}return d};
 $("uGo").onclick=async()=>{
   const u=$("uin").value.trim().toUpperCase(),er=$("uerr");
   if(!adm&&phase()!=="live"){er.textContent=phase()==="soon"?"Match has not started yet":"Match has ended";return}
-  if(!okName(u)){er.textContent="Wrong username";return}
+  if(!okName(u)){er.textContent="Username 6 characters ka hona chahiye (letters ya numbers)";return}
+  if(!okUser(u)){er.textContent="Wrong username";return}
   if(!adm){
     if(ls("qa_started")||ls("qa_done")){er.textContent="Is device se quiz ek baar khela ja chuka hai";return}
     if(FB_URL){
@@ -338,7 +410,7 @@ $("uGo").onclick=async()=>{
         if(dv){er.textContent="Is device se quiz ek baar khela ja chuka hai";ls("qa_started","1");return}
         if(used){er.textContent="Username already used";return}
         await FB("used/"+u,"PUT",{dev,t:Date.now()});await FB("devices/"+dev,"PUT",{u,t:Date.now()});
-      }catch(e){er.textContent="Network error. Internet check karke dobara try karo";return}
+      }catch(e){if(rows.some(r=>r.u===u)){er.textContent="Username already used";return}}
       finally{$("uGo").disabled=false}
     }else if(rows.some(r=>r.u===u)){er.textContent="Username already used";return}
     ls("qa_started","1");
@@ -378,11 +450,36 @@ function showRes(r){
   $("rev").innerHTML=rv.map((x,k)=>`<p style="margin:0 0 12px"><b style="color:#fff">${k+1}. ${esc(x.q)}</b><br><span style="color:${x.my===x.a?"var(--ok)":"var(--no)"}">${x.my===null?"Time out":esc(x.my)}</span>${x.my===x.a?"":" → <span style='color:var(--ok)'>"+esc(x.a)+"</span>"}<br><small>${esc(x.w||"")}</small></p>`).join("");
   $("revCard").classList.toggle("hide",!rv.length);
   $("admAgain").classList.toggle("hide",!adm);
+  $("earnAsk").classList.remove("hide");
   if(!rows.some(x=>x.u===r.u))rows.push(r);
   $("rRank").textContent="–";renderLB();
 }
 $("share").onclick=()=>{const L=sorted(),k=L.findIndex(r=>r.u===me);window.open(wa0("Quiz Arena: mere "+$("rEP").textContent+" EP, "+$("rOk").textContent+"/20 sahi"+(k>=0?", rank #"+(k+1):"")+". Username: "+me),"_blank")};
+
+/* stats + presence */
+const day0=()=>{const d=new Date();d.setHours(0,0,0,0);return d.getTime()};
+function renderStats(){const tod=rows.filter(r=>r.t>=day0()).length,tot=rows.length;
+ $("aO").textContent=onl;$("aT").textContent=tod;$("aA").textContent=tot}
+function beat(){if(FB_URL)FB("online/"+devId(),"PUT",Date.now()).catch(()=>{})}
+async function cnt(){if(!FB_URL)return;try{const v=(await FB("online"))||{},n=Date.now();onl=Object.values(v).filter(t=>n-t<45000).length;renderStats();if(adm)Object.keys(v).forEach(k=>{if(n-v[k]>600000)FB("online/"+k,"DELETE").catch(()=>{})})}catch(e){}}
+setInterval(beat,20000);setInterval(cnt,5000);beat();cnt();
+/* result card */
+function makeCard(){
+ const r=lastR||JSON.parse(ls("qa_done")||"null");if(!r)return null;
+ const k=sorted().findIndex(x=>x.u===r.u),c=document.createElement("canvas");c.width=1080;c.height=1350;const g=c.getContext("2d");
+ const bg=g.createLinearGradient(0,0,1080,1350);bg.addColorStop(0,"#0a0f33");bg.addColorStop(1,"#2a1070");g.fillStyle=bg;g.fillRect(0,0,1080,1350);
+ g.textAlign="center";const T=(t,y,f,col)=>{g.font=f;g.fillStyle=col;g.fillText(t,540,y)};
+ T("PIXEL RISE",150,"bold 76px Arial","#ffffff");T("QUIZ ARENA",210,"34px Arial","#8993b9");
+ T(String(r.pts),600,"bold 280px Arial","#63e7ff");T("EP POINTS",690,"bold 56px Arial","#ffffff");
+ if(k>=0)T("RANK #"+(k+1),880,"bold 130px Arial","#ffd24a");
+ T(r.ok+" / "+N+" correct  •  "+(r.tt!=null?r.tt+"s":""),990,"46px Arial","#ffffff");
+ T(r.u,1090,"bold 56px Arial","#63e7ff");T("Can you beat my score?",1230,"36px Arial","#8993b9");
+ return c}
+let cardC=null;
+$("mkCard").onclick=()=>{cardC=makeCard();if(!cardC)return;$("cardImg").src=cardC.toDataURL("image/png");$("cardOv").classList.remove("hide")};
+$("cClose").onclick=()=>$("cardOv").classList.add("hide");
+$("cDl").onclick=()=>{const a=document.createElement("a");a.href=cardC.toDataURL("image/png");a.download="pixel-rise-result.png";document.body.appendChild(a);a.click();a.remove()};
+$("cShare").onclick=()=>cardC.toBlob(async b=>{const f=new File([b],"pixel-rise-result.png",{type:"image/png"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:"Can you beat my score on Pixel Rise Quiz?"});else $("cDl").onclick()}catch(e){}});
 </script>
 </body>
 </html>
- 
