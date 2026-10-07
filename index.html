@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<link rel="icon" type="image/png" href="./Heavycorn.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pixel Rise</title>
@@ -152,6 +151,28 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
   </div>
  </div>
 
+ <div id="pdfPage" class="hide">
+  <div class="card c">
+   <h2>📄 PREMIUM PDF PACK</h2>
+   <div class="big" style="font-size:44px">₹19</div>
+   <p><b>UPSC Prelims Level • 100 Questions • Hindi</b></p>
+   <h3>PDF KE FEATURES</h3>
+   <ul style="text-align:left">
+    <li>UPSC ke saare subjects se 100 sawal, poori Hindi mein</li>
+    <li>Itihas, Kala-Sanskriti, Bhugol, Rajvyavastha, Arthvyavastha, Paryavaran, Vigyan, Antarrashtriya Sambandh</li>
+    <li>Har sawal ka sahi jawab + chhoti vyakhya (answer key)</li>
+    <li>Subject-wise sections aur score card</li>
+    <li>Print-friendly A4 pages, har page par PixelRise watermark</li>
+   </ul>
+   <button class="btn" id="pdfBuy" style="background:linear-gradient(100deg,#1d4ed8,#2f8cff);display:flex;align-items:center;justify-content:center;gap:10px">
+    <svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="12" fill="#0b3fd1"/><path fill="#fff" d="M12 4.5a7.5 7.5 0 0 0-6.4 11.4L4.5 19.5l3.7-1A7.5 7.5 0 1 0 12 4.5z"/></svg>
+    BUY ON WHATSAPP
+   </button>
+   <p style="font-size:11px">Payment hone ke baad PDF aapko WhatsApp par bheji jayegi.</p>
+   <button class="btn s" id="pdfBack" style="background:transparent">BACK</button>
+  </div>
+ </div>
+
  <div id="uname" class="hide">
   <div class="card c">
    <h2>ENTER USERNAME</h2>
@@ -202,6 +223,7 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
 <div class="ov hide" id="setOv"><div class="card c">
  <h2>⚙ SETTINGS</h2>
  <button class="btn g" id="earnBtn">💰 EARN MONEY</button>
+ <button class="btn s" id="pdfBtn">📄 BUY PDF (₹19)</button>
  <button class="btn s" id="sndBtn"></button>
  <div id="admLogin">
   <h3>ADMIN LOGIN</h3>
@@ -276,7 +298,7 @@ First Prime Minister?|Jawaharlal Nehru|Sardar Patel|Rajendra Prasad|L. B. Shastr
 States in India?|28|25|29|30|India has 28 states.|INDIA GK
 Gateway of India is in?|Mumbai|Chennai|Kolkata|Delhi|It is in Mumbai.|INDIA GK`;
 function day0(){const d=new Date();d.setHours(0,0,0,0);return d.getTime()}
-let CFG={qtxt:DEF,start:0,end:0},QL=[],N=20,rv=[],st=0,tt=0,lastR=null,onl=0;
+let CFG={qtxt:DEF,start:new Date("2026-10-09T09:00:00+05:30").getTime(),end:new Date("2026-10-10T22:00:00+05:30").getTime()},QL=[],N=20,rv=[],st=0,tt=0,lastR=null,onl=0;
 const parseQ=t=>t.split("\n").map(l=>l.split("|").map(x=>x.trim())).filter(a=>a.length>=5&&a[0]);
 const prz=()=>(CFG.prz||"1500,500,200,50,25").split(",").map(x=>x.trim()).filter(Boolean);
 const prLabels=()=>prz().map((v,i)=>(["🥇","🥈","🥉"][i]||(i+1)+"th")+" ₹"+v);
@@ -294,7 +316,7 @@ function renderWin(){const L=sorted().slice(0,prz().length),pr=prLabels();
  $("winL").innerHTML=L.length?L.map((r,i)=>`<div class="sts" style="margin:6px 0"><div style="text-align:left;padding-left:12px">${pr[i]}</div><div>${esc(r.u)}</div><div>${r.pts} EP${r.paid?"<small style='color:var(--ok)'>PAID ✔</small>":""}</div></div>`).join(""):"<p>No players.</p>"}
 const $=id=>document.getElementById(id);
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-const show=id=>["home","pay","earn","uname","quiz","res"].forEach(s=>$(s).classList.toggle("hide",s!==id));
+const show=id=>["home","pay","earn","pdfPage","uname","quiz","res"].forEach(s=>$(s).classList.toggle("hide",s!==id));
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
 const ss=(k,v)=>{try{if(v===undefined)return sessionStorage.getItem(k);if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v)}catch(e){return null}};
 const wa=t=>"https://wa.me/"+PH+(t?"?text="+encodeURIComponent(t):"");
@@ -438,6 +460,11 @@ $("doneTask").onclick=()=>$("taskOv").classList.remove("hide");
 $("taskNo").onclick=()=>$("taskOv").classList.add("hide");
 $("taskYes").onclick=()=>{$("taskOv").classList.add("hide");window.open(wa("Hi, I completed the Navi task (downloaded the app and made my first payment). Username: "+(me||"-")),"_blank")};
 
+/* Premium PDF */
+$("pdfBtn").onclick=()=>{$("setOv").classList.add("hide");show("pdfPage")};
+$("pdfBuy").onclick=()=>window.open(wa("Hi, I want to buy the Premium ₹19 PDF (100 UPSC Questions, Hindi)."),"_blank");
+$("pdfBack").onclick=()=>{const d=ls("qa_done");if(d&&!adm){try{showRes(JSON.parse(d));return}catch(e){}}show("home")};
+
 /* username */
 const devId=()=>{let d=ls("qa_dev")||((document.cookie||"").match(/qa_dev=(\w+)/)||[])[1];if(!d)d=Math.random().toString(36).slice(2,12)+Date.now().toString(36);ls("qa_dev",d);try{document.cookie="qa_dev="+d+";max-age=31536000;path=/;SameSite=Lax"}catch(e){}return d};
 $("uGo").onclick=async()=>{
@@ -528,3 +555,4 @@ $("cShare").onclick=()=>cardC.toBlob(async b=>{const f=new File([b],"pixel-rise-
 </script>
 </body>
 </html>
+
