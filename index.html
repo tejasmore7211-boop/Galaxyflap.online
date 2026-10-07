@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<link rel="icon" type="image/png" href="./Heavycorn.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pixel Rise</title>
@@ -56,6 +55,7 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
 .ov .card{width:100%;max-width:400px;margin:0}
 .rk{font-size:15px}.logo{font-size:clamp(20px,6vw,28px)!important;letter-spacing:3px!important}.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding:6px 0}.pz div{font-size:13px;padding:10px 2px}.pz{gap:6px}#cardOv{align-items:flex-start;overflow-y:auto}
 .row{display:flex;gap:8px}.row .btn{flex:1;min-height:56px;font-size:12px;letter-spacing:.5px;padding:0 6px}
+[data-coin] svg{display:block;filter:drop-shadow(0 4px 10px rgba(255,190,40,.45))}
 </style>
 </head>
 <body>
@@ -72,6 +72,7 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
   <div class="card c" id="mBox"><div class="tag" id="mH" style="display:inline-block"></div><div class="big" id="mP" style="font-size:30px;margin-top:10px"></div></div>
   <div class="card c hide" id="winCard"><h2>🏆 WINNERS</h2><div id="winL"></div><button class="btn s g" id="winShare">SHARE WINNERS</button></div>
   <div class="card c" id="entry">
+   <div data-coin style="width:92px;height:92px;margin:0 auto 8px"></div>
    <h2>ENTRY FEE ₹20</h2>
    <p>20 sawal • 5 Math • 5 Science • 10 India GK</p>
    <div class="pz" id="pzBox"></div>
@@ -167,13 +168,14 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
    <div class="bar"><i id="tb"></i></div>
    <div class="q" id="qt"></div>
    <div id="ops"></div>
-   <div class="c" style="color:var(--mu);font-size:13px;margin-top:6px">EP: <b id="ep" style="color:var(--cy)">0</b></div>
+   <div class="c" style="color:var(--mu);font-size:13px;margin-top:6px"><span data-coin style="display:inline-block;width:22px;height:22px;vertical-align:middle;margin-right:4px"></span>EP: <b id="ep" style="color:var(--cy)">0</b></div>
   </div>
  </div>
 
  <div id="res" class="hide">
   <div class="card c">
    <h2>QUIZ COMPLETE 🎉</h2>
+   <div data-coin style="width:120px;height:120px;margin:4px auto 8px"></div>
    <div class="big" id="rEP"></div>
    <p>YOUR EP POINTS</p>
    <div class="sts"><div><span id="rOk"></span><small>SAHI</small></div><div><span id="rBad"></span><small>GALAT</small></div><div><span id="rRank"></span><small>RANK</small></div></div>
@@ -210,6 +212,45 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
 </div></div>
 
 <script>
+
+/* ===== EP GOLD COIN (Indian: Ashoka-chakra, lotus, paisley, beaded rim, Devanagari) ===== */
+let CN=0;
+function coinSVG(px){
+ const k="cn"+(++CN),sz=px?px:"100%";let beads="",spokes="",pais="",pet="";
+ for(let i=0;i<48;i++){const a=i*7.5*Math.PI/180;beads+=`<circle cx="${(100+91*Math.cos(a)).toFixed(2)}" cy="${(100+91*Math.sin(a)).toFixed(2)}" r="2.3" fill="url(#${k}b)" stroke="#7a4a05" stroke-width=".5"/>`}
+ for(let i=0;i<24;i++){const d=i*15;spokes+=`<line x1="100" y1="82" x2="100" y2="61" transform="rotate(${d} 100 100)"/>`;pais+=`<path d="M100 54 q-3.5 -4 0 -8 q3.5 4 0 8z" transform="rotate(${d} 100 100)"/>`}
+ for(let i=0;i<8;i++){pet+=`<ellipse cx="100" cy="69" rx="4.5" ry="9" transform="rotate(${i*45} 100 100)"/>`}
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="${sz}" height="${sz}" font-family="Arial,'Noto Sans Devanagari',sans-serif">
+<defs>
+<linearGradient id="${k}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff7b8"/><stop offset=".35" stop-color="#f7c948"/><stop offset=".65" stop-color="#c98a12"/><stop offset="1" stop-color="#ffe58a"/></linearGradient>
+<linearGradient id="${k}r" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffe58a"/><stop offset=".5" stop-color="#d9971b"/><stop offset="1" stop-color="#fff0a0"/></linearGradient>
+<radialGradient id="${k}d" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#ffe9a0"/><stop offset=".55" stop-color="#f1b92e"/><stop offset="1" stop-color="#b8780f"/></radialGradient>
+<radialGradient id="${k}m" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#fff2b0"/><stop offset=".6" stop-color="#e8a91f"/><stop offset="1" stop-color="#9a6208"/></radialGradient>
+<radialGradient id="${k}b" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff9cf"/><stop offset="1" stop-color="#e3a82a"/></radialGradient>
+<path id="${k}t" d="M32 100 A68 68 0 0 1 168 100"/><path id="${k}u" d="M24 100 A76 76 0 0 0 176 100"/>
+</defs>
+<circle cx="100" cy="100" r="97" fill="url(#${k}g)" stroke="#6b3d00" stroke-width="1.5"/>
+${beads}
+<circle cx="100" cy="100" r="85" fill="url(#${k}r)" stroke="#7a4a05" stroke-width="1"/>
+<circle cx="100" cy="100" r="82" fill="none" stroke="#fff0a0" stroke-width=".8" opacity=".8"/>
+<text font-size="10.5" font-weight="900" letter-spacing="1.2" fill="#5a3300" text-anchor="middle"><textPath href="#${k}t" startOffset="50%">PIXEL RISE  •  EP POINTS</textPath></text>
+<text font-size="12" font-weight="900" letter-spacing="1" fill="#5a3300" text-anchor="middle"><textPath href="#${k}u" startOffset="50%">★ अनुभव अंक ★</textPath></text>
+<path d="M27 94 l5 6 l-5 6 l-5 -6z" fill="#7a4a05"/><path d="M173 94 l5 6 l-5 6 l-5 -6z" fill="#7a4a05"/>
+<circle cx="100" cy="100" r="60" fill="url(#${k}d)" stroke="#7a4a05" stroke-width="1.4"/>
+<circle cx="100" cy="100" r="57.5" fill="none" stroke="#fff0a0" stroke-width=".6"/>
+<g fill="#b9770d" stroke="#7a4a05" stroke-width=".3">${pais}</g>
+<circle cx="100" cy="100" r="44" fill="none" stroke="#8a5a0a" stroke-width=".8"/>
+<circle cx="100" cy="100" r="40" fill="none" stroke="#8a5a0a" stroke-width="1.1"/>
+<g stroke="#8a5a0a" stroke-width=".6" opacity=".75">${spokes}</g>
+<g fill="url(#${k}b)" stroke="#8a5a0a" stroke-width=".6">${pet}</g>
+<circle cx="100" cy="100" r="22" fill="url(#${k}m)" stroke="#6b3d00" stroke-width="1.5"/>
+<circle cx="100" cy="100" r="19.5" fill="none" stroke="#fff0a0" stroke-width=".6"/>
+<text x="99.2" y="107.2" font-size="22" font-weight="900" text-anchor="middle" fill="#fff3b8">EP</text>
+<text x="100" y="108" font-size="22" font-weight="900" text-anchor="middle" fill="#5a3300">EP</text>
+<ellipse cx="72" cy="48" rx="46" ry="20" transform="rotate(-35 72 48)" fill="#fff" opacity=".16"/>
+</svg>`}
+function paintCoins(){document.querySelectorAll("[data-coin]").forEach(e=>{e.innerHTML=coinSVG()})}
+paintCoins();
 const PH="919689155635",PER=59,ADMIN="tejas1";
 const UPI_ID="9689155635@nyes",FEE="20";
 const UPI="upi://pay?pa="+UPI_ID+"&pn="+encodeURIComponent("Pixel Rise")+"&am="+FEE+".00&cu=INR&tn="+encodeURIComponent("Quiz Entry");
@@ -233,6 +274,7 @@ Constitution came into force?|26 Jan 1950|15 Aug 1947|2 Oct 1950|26 Nov 1949|Cel
 First Prime Minister?|Jawaharlal Nehru|Sardar Patel|Rajendra Prasad|L. B. Shastri|Served 1947 to 1964.|INDIA GK
 States in India?|28|25|29|30|India has 28 states.|INDIA GK
 Gateway of India is in?|Mumbai|Chennai|Kolkata|Delhi|It is in Mumbai.|INDIA GK`;
+function day0(){const d=new Date();d.setHours(0,0,0,0);return d.getTime()}
 let CFG={qtxt:DEF,start:0,end:0},QL=[],N=20,rv=[],st=0,tt=0,lastR=null,onl=0;
 const parseQ=t=>t.split("\n").map(l=>l.split("|").map(x=>x.trim())).filter(a=>a.length>=5&&a[0]);
 const prz=()=>(CFG.prz||"1500,500,200,50,25").split(",").map(x=>x.trim()).filter(Boolean);
@@ -332,10 +374,10 @@ applyCfg();
 function setLive(){document.querySelectorAll(".lv").forEach(e=>{if(!coll){e.textContent="● THIS DEVICE ONLY";e.style.color="#ffb454"}else if(fbOK===true){e.textContent="● LIVE · SHARED";e.style.color=""}else if(fbOK===false){e.textContent="⚠ DATABASE ERROR (Rules/Internet check karo)";e.style.color="#ff8090"}else{e.textContent="● CONNECTING...";e.style.color="#ffb454"}})}
 setInterval(banner,1000);
 /* refresh ke baad: sirf result + leaderboard, dubara quiz nahi */
-(()=>{const d=ls("qa_done"),m=ls("qa_me");
+try{(()=>{const d=ls("qa_done"),m=ls("qa_me");
  if(m&&d){try{showRes(JSON.parse(d))}catch(e){}}
  else if(m&&ls("qa_started")&&!adm){const r={u:m,pts:0,ok:0,tt:N*PER,t:Date.now()};ls("qa_done",JSON.stringify(r));lastR=r;save(r);showRes(r)}
-})();
+})()}catch(e){console.error(e)}
 setTimeout(async()=>{const d=ls("qa_done");if(adm||!me||!d||fbOK!==true||rows.some(x=>x.u===me))return;try{if(await FB("used/"+me))save(JSON.parse(d))}catch(e){}},4000);
 function toDT(ms){return ms?new Date(ms-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,16):""}
 function fillAdm(){$("aP").value=CFG.prz||"1500,500,200,50,25";$("aQ").value=CFG.qtxt||DEF;$("aS").value=toDT(CFG.start);$("aE").value=toDT(CFG.end)}
@@ -458,26 +500,27 @@ function showRes(r){
 $("share").onclick=()=>{const L=sorted(),k=L.findIndex(r=>r.u===me);window.open(wa0("Quiz Arena: mere "+$("rEP").textContent+" EP, "+$("rOk").textContent+"/20 sahi"+(k>=0?", rank #"+(k+1):"")+". Username: "+me),"_blank")};
 
 /* stats + presence */
-const day0=()=>{const d=new Date();d.setHours(0,0,0,0);return d.getTime()};
+
 function renderStats(){const tod=rows.filter(r=>r.t>=day0()).length,tot=rows.length;
  $("aO").textContent=onl;$("aT").textContent=tod;$("aA").textContent=tot}
 function beat(){if(FB_URL)FB("online/"+devId(),"PUT",Date.now()).catch(()=>{})}
 async function cnt(){if(!FB_URL)return;try{const v=(await FB("online"))||{},n=Date.now();onl=Object.values(v).filter(t=>n-t<45000).length;renderStats();if(adm)Object.keys(v).forEach(k=>{if(n-v[k]>600000)FB("online/"+k,"DELETE").catch(()=>{})})}catch(e){}}
 setInterval(beat,20000);setInterval(cnt,5000);beat();cnt();
 /* result card */
-function makeCard(){
+async function makeCard(){
  const r=lastR||JSON.parse(ls("qa_done")||"null");if(!r)return null;
  const k=sorted().findIndex(x=>x.u===r.u),c=document.createElement("canvas");c.width=1080;c.height=1350;const g=c.getContext("2d");
  const bg=g.createLinearGradient(0,0,1080,1350);bg.addColorStop(0,"#0a0f33");bg.addColorStop(1,"#2a1070");g.fillStyle=bg;g.fillRect(0,0,1080,1350);
  g.textAlign="center";const T=(t,y,f,col)=>{g.font=f;g.fillStyle=col;g.fillText(t,540,y)};
- T("PIXEL RISE",150,"bold 76px Arial","#ffffff");T("QUIZ ARENA",210,"34px Arial","#8993b9");
- T(String(r.pts),600,"bold 280px Arial","#63e7ff");T("EP POINTS",690,"bold 56px Arial","#ffffff");
- if(k>=0)T("RANK #"+(k+1),880,"bold 130px Arial","#ffd24a");
- T(r.ok+" / "+N+" correct  •  "+(r.tt!=null?r.tt+"s":""),990,"46px Arial","#ffffff");
- T(r.u,1090,"bold 56px Arial","#63e7ff");T("Can you beat my score?",1230,"36px Arial","#8993b9");
+ T("PIXEL RISE",130,"bold 76px Arial","#ffffff");T("QUIZ ARENA",185,"34px Arial","#8993b9");
+ try{const im=new Image();await new Promise((ok,no)=>{im.onload=ok;im.onerror=no;im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(coinSVG(400))});g.drawImage(im,390,230,300,300)}catch(e){}
+ T(String(r.pts),740,"bold 230px Arial","#63e7ff");T("EP POINTS",810,"bold 52px Arial","#ffffff");
+ if(k>=0)T("RANK #"+(k+1),960,"bold 120px Arial","#ffd24a");
+ T(r.ok+" / "+N+" correct  •  "+(r.tt!=null?r.tt+"s":""),1050,"46px Arial","#ffffff");
+ T(r.u,1140,"bold 56px Arial","#63e7ff");T("Can you beat my score?",1260,"36px Arial","#8993b9");
  return c}
 let cardC=null;
-$("mkCard").onclick=()=>{cardC=makeCard();if(!cardC)return;$("cardImg").src=cardC.toDataURL("image/png");$("cardOv").classList.remove("hide")};
+$("mkCard").onclick=async()=>{cardC=await makeCard();if(!cardC)return;$("cardImg").src=cardC.toDataURL("image/png");$("cardOv").classList.remove("hide")};
 $("cClose").onclick=()=>$("cardOv").classList.add("hide");
 $("cDl").onclick=()=>{const a=document.createElement("a");a.href=cardC.toDataURL("image/png");a.download="pixel-rise-result.png";document.body.appendChild(a);a.click();a.remove()};
 $("cShare").onclick=()=>cardC.toBlob(async b=>{const f=new File([b],"pixel-rise-result.png",{type:"image/png"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:"Can you beat my score on Pixel Rise Quiz?"});else $("cDl").onclick()}catch(e){}});
