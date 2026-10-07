@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<link rel="icon" type="image/png" href="./Heavycorn.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pixel Rise</title>
@@ -57,6 +56,17 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
 .rk{font-size:15px}.logo{font-size:clamp(20px,6vw,28px)!important;letter-spacing:3px!important}.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding:6px 0}.pz div{font-size:13px;padding:10px 2px}.pz{gap:6px}#cardOv{align-items:flex-start;overflow-y:auto}
 .row{display:flex;gap:8px}.row .btn{flex:1;min-height:56px;font-size:12px;letter-spacing:.5px;padding:0 6px}
 [data-coin] svg{display:block;filter:drop-shadow(0 4px 10px rgba(255,190,40,.45))}
+#setOv{align-items:flex-start;overflow-y:auto}
+s{text-decoration:line-through;text-decoration-thickness:2px}
+.price{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0 2px}
+.price s{font-size:26px;font-weight:900;color:var(--no)}
+.price b{font-size:46px;color:var(--cy);text-shadow:0 0 20px rgba(60,220,255,.6)}
+.off{background:#ff3b5c;color:#fff;font-size:12px;font-weight:900;letter-spacing:1px;padding:5px 9px;border-radius:20px}
+.btn.gold{background:linear-gradient(100deg,#f59e0b,#ffcf4a);color:#2a1a00}
+.btn.gold s{color:#7a1d2b}
+.lk{background:none;color:var(--mu);text-decoration:underline;font-size:12px;padding:6px 8px}
+#siteFoot{max-width:480px;margin:0 auto;padding:6px 16px 30px;text-align:center;color:var(--mu);font-size:12px}
+.pol h3{margin-top:16px}.pol ul{text-align:left}
 </style>
 </head>
 <body>
@@ -77,6 +87,7 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
    <h2>ENTRY FEE ₹20</h2>
    <p>20 sawal • 5 Math • 5 Science • 10 India GK</p>
    <div class="pz" id="pzBox"></div>
+   <p class="pd hide" id="refNote">🎁 Invite link se aaye ho: quiz poora karne par +50 EP bonus!</p>
    <button class="btn" id="startBtn">PAY ₹20 FOR ENTRY</button>
    <button class="btn s" id="haveUser">👤 I HAVE USERNAME</button>
    <div class="err" id="hErr"></div>
@@ -101,6 +112,7 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
    <button class="btn s" id="aEnd">END MATCH NOW (SHOW WINNERS)</button>
    <button class="btn s" id="aOpen">OPEN MATCH (NO TIMER)</button>
    <div class="err" id="aMsg" style="color:var(--ok)"></div>
+   <button class="btn s" id="aCsv">⬇ EXPORT CSV (PLAYERS • EP • PAID)</button>
    <button class="btn s" id="aReset">RESET LEADERBOARD</button>
    <button class="btn s" id="aOut">ADMIN LOGOUT</button>
   </div>
@@ -110,7 +122,7 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
    <h3>KAISE KHELNA HAI</h3>
    <ul><li>PAY ₹20 FOR ENTRY dabao, "Open UPI App" se ya QR download/scan karke ₹20 pay karo.</li><li>Payment ke baad "PAYMENT COMPLETED" dabao, WhatsApp par message jayega. Phir "I HAVE USERNAME" dabake 6 character ka username daalo aur quiz shuru karo.</li><li>Har sawal ke 4 option hain, 1 sahi. Option dabate hi agla sawal aa jata hai.</li><li>Quiz khatam hone par apne EP points, rank aur result card milta hai.</li></ul>
    <h3>POINTS (EP)</h3>
-   <ul><li>Har sahi jawab = 20 EP.</li><li>Har sawal par 59 second milte hain. Bache hue har second ka +1 EP.</li><li>🔥 Streak bonus: lagatar 3 ya zyada sahi jawab par har sahi jawab ke saath +5 EP extra.</li><li>Galat ya time-out = 0 EP, aur streak toot jati hai.</li><li><b>Highest possible: 1670 EP</b> (20 × 79 = 1580, plus streak bonus 90). Practically thoda kam, kyunki tap karne mein 1-2 second lagte hain.</li></ul>
+   <ul><li>Har sahi jawab = 20 EP.</li><li>Har sawal par 59 second milte hain. Bache hue har second ka +1 EP.</li><li>🔥 Streak bonus: lagatar 3 ya zyada sahi jawab par har sahi jawab ke saath +5 EP extra.</li><li>Galat ya time-out = 0 EP, aur streak toot jati hai.</li><li><b>Highest possible: 1670 EP</b> (20 × 79 = 1580, plus streak bonus 90). Practically thoda kam, kyunki tap karne mein 1-2 second lagte hain.</li><li>🎁 Referral: dost ko apna invite link bhejo. Wo quiz poora kare to aap dono ko +50 EP bonus milta hai.</li></ul>
    <h3>INAAM (TOP 5)</h3>
    <ul><li>Match khatam hone par leaderboard ke Top 5 ko inaam milta hai. Rashi upar dikhti hai.</li><li>Winner apna username WhatsApp support par bhejein.</li><li>Points barabar hon to jiske sahi jawab zyada wo upar, phir jiska total time kam ho.</li></ul>
    <h3>EARN MONEY (NAVI TASK)</h3>
@@ -155,7 +167,7 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
  <div id="pdfPage" class="hide">
   <div class="card c">
    <h2>📄 PREMIUM PDF PACK</h2>
-   <div class="big" style="font-size:44px">₹19</div>
+   <div class="big" style="font-size:44px">₹39</div>
    <p><b>UPSC Prelims Level • 100 Questions • Hindi</b></p>
    <h3>PDF KE FEATURES</h3>
    <ul style="text-align:left">
@@ -171,6 +183,79 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
    </button>
    <p style="font-size:11px">Payment hone ke baad PDF aapko WhatsApp par bheji jayegi.</p>
    <button class="btn s" id="pdfBack" style="background:transparent">BACK</button>
+  </div>
+ </div>
+
+ <div id="polPage" class="hide">
+  <div class="card c">
+   <div class="tag" style="display:inline-block;color:#ffcf4a">⭐ PREMIUM EXCLUSIVE</div>
+   <h2 style="margin-top:12px">🚔 POLICE BHARTI MARATHI PDF</h2>
+   <div class="price"><s>₹59</s><b>₹29</b><span class="off">50% OFF</span></div>
+   <p><b>१०१ प्रश्न • मराठी • उत्तरतालिकेसह</b></p>
+   <h3>PDF KE FEATURES</h3>
+   <ul style="text-align:left">
+    <li>101 sawal poori Marathi mein (4 subject × 25 + 1 bonus sawal)</li>
+    <li>Subjects: बुद्धिमत्ता चाचणी, मराठी व्याकरण, अंकगणित, सामान्य ज्ञान</li>
+    <li>Buddhimatta aur Marathi compulsory sections shamil</li>
+    <li>Last page par poori answer key (उत्तरतालिका)</li>
+    <li>Print-friendly A4 pages, har page par PixelRise watermark • by Tejas More</li>
+   </ul>
+   <button class="btn" id="polBuy" style="background:linear-gradient(100deg,#1d4ed8,#2f8cff);display:flex;align-items:center;justify-content:center;gap:10px">
+    <svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="12" fill="#0b3fd1"/><path fill="#fff" d="M12 4.5a7.5 7.5 0 0 0-6.4 11.4L4.5 19.5l3.7-1A7.5 7.5 0 1 0 12 4.5z"/></svg>
+    BUY ON WHATSAPP
+   </button>
+   <p style="font-size:11px">Payment hone ke baad PDF aapko WhatsApp par bheji jayegi.</p>
+   <button class="btn s" id="polBack" style="background:transparent">BACK</button>
+  </div>
+ </div>
+
+ <div id="legalPage" class="hide">
+  <div class="card pol">
+   <h2>📜 PRIVACY POLICY & TERMS</h2>
+   <p>Last updated: October 2026 • Pixel Rise Quiz Arena (by Tejas More)</p>
+
+   <h3>1. PRIVACY POLICY</h3>
+   <ul>
+    <li><b>Hum kya collect karte hain:</b> aapka username (6 character), quiz score/EP, jawab dene ka time, ek anonymous device ID (ek device = ek entry rule ke liye) aur online presence.</li>
+    <li><b>Payment:</b> entry fee aur PDF ka payment seedha UPI se hota hai. Hum aapka bank, card ya UPI PIN store nahi karte.</li>
+    <li><b>Kaise use hota hai:</b> leaderboard, winners chunne, fraud rokne aur support dene ke liye.</li>
+    <li><b>Public info:</b> aapka username, EP aur rank leaderboard par sabko dikhta hai. Isliye username mein naam, phone ya personal detail na rakhein.</li>
+    <li><b>Third-party services:</b> data Google Firebase par store hota hai. WhatsApp support ke liye aur Navi/UPI apps ke links unki apni privacy policy se chalte hain.</li>
+    <li>Hum aapka data bechte nahi hain.</li>
+    <li><b>Delete request:</b> WhatsApp support par username bhejo, hum leaderboard se data hata denge.</li>
+    <li><b>Umar:</b> 18 saal se kam umar ke players apne parents/guardian ki permission se hi participate karein.</li>
+   </ul>
+
+   <h3>2. TERMS OF USE</h3>
+   <ul>
+    <li>Ek username aur ek device se sirf ek baar quiz khela ja sakta hai. Multiple account, cheating, bot ya fake referral milne par disqualify kiya ja sakta hai, aur refund nahi milega.</li>
+    <li>PDFs sirf aapke personal use ke liye hain. Unhe bechna, share karna ya online post karna mana hai. Content ka copyright Pixel Rise / Tejas More ke paas hai.</li>
+    <li>Quiz ke sawal aur explanation jaankari ke liye hain. Pixel Rise kisi exam mein selection ki guarantee nahi deta.</li>
+    <li>Internet ya device ki problem se hue nuksan ke liye Pixel Rise zimmedar nahi hai.</li>
+    <li>Ye terms kabhi bhi badle ja sakte hain. Site use karte rehna naye terms maanna hai.</li>
+   </ul>
+
+   <h3>3. REFUND RULES</h3>
+   <ul>
+    <li><b>Quiz entry (₹20):</b> payment hone ke baad refund nahi milta. Sirf in cases mein refund hoga: (a) double payment, (b) payment kata par username nahi mila, (c) match admin ne cancel kar diya.</li>
+    <li><b>PDFs (₹39 / ₹29):</b> ye digital product hain. PDF bhej dene ke baad refund nahi milta. Agar PDF nahi mili ya file kharab hai, to pehle wahi PDF dobara bheji jayegi; na ho paye to refund milega.</li>
+    <li><b>Refund kaise maange:</b> payment ke 7 din ke andar WhatsApp support par payment screenshot aur username bhejo.</li>
+    <li>Approved refund usi UPI par 5-7 working days mein bheja jata hai.</li>
+   </ul>
+
+   <h3>4. CONTEST NIYAM</h3>
+   <ul>
+    <li>Quiz sirf match ke timer ke andar khela ja sakta hai. Match shuru hone se pehle ya khatam hone ke baad entry nahi hoti.</li>
+    <li>Har sawal ke 4 option, 1 sahi. Har sawal par 59 second milte hain.</li>
+    <li>Har sahi jawab = 20 EP, bache hue har second ka +1 EP, aur lagatar 3+ sahi jawab par +5 EP streak bonus. Galat ya time-out = 0 EP.</li>
+    <li>Ranking: pehle zyada EP, barabar hone par zyada sahi jawab, phir kam total time.</li>
+    <li>Top 5 players ko leaderboard par dikhai gayi rashi milti hai. Winner apna username WhatsApp support par bheje; verification ke baad prize UPI par bheja jata hai.</li>
+    <li>Quiz beech mein chhodne ya refresh karne par dobara chance nahi milta.</li>
+    <li><b>Referral:</b> dost aapke invite link se aakar quiz poora kare, to aap dono ko +50 EP bonus milta hai. Khud ko refer karna ya fake account se bonus lena valid nahi hai.</li>
+    <li>Admin ka faisla final hoga.</li>
+   </ul>
+   <p>Sawal ho to WhatsApp par SUPPORT button dabao.</p>
+   <button class="btn s" id="legBack" style="background:transparent">BACK</button>
   </div>
  </div>
 
@@ -203,9 +288,11 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
    <p>YOUR EP POINTS</p>
    <div class="sts"><div><span id="rOk"></span><small>SAHI</small></div><div><span id="rBad"></span><small>GALAT</small></div><div><span id="rRank"></span><small>RANK</small></div></div>
    <p id="rUser"></p>
+   <p id="rRef" class="pd hide"></p>
    <div class="err hide" id="saveMsg">Score leaderboard par save nahi hua (internet ya Rules).<button class="btn s" id="retry">RETRY</button></div>
    <button class="btn" id="mkCard">CREATE RESULT CARD</button>
    <button class="btn s g" id="share">SHARE ON WHATSAPP</button>
+   <button class="btn s" id="invRes">🎁 INVITE FRIEND (+50 EP BONUS)</button>
    <button class="btn s hide" id="admAgain">ADMIN: HOME</button>
   </div>
   <div class="card c" id="earnAsk">
@@ -219,12 +306,18 @@ tr.me td{background:rgba(99,231,255,.1);font-weight:900}
  </div>
 </div>
 
+<div id="siteFoot"><button class="lk" id="lnkLegal">Privacy Policy</button>•<button class="lk" id="lnkLegal2">Terms & Refund</button><br>© Pixel Rise • by Tejas More</div>
+
 <div class="ov hide" id="taskOv"><div class="card c"><h2>Task completed?</h2><p>Kya aapne Navi app download karke apna first payment kar liya hai?</p><button class="btn g" id="taskYes">YES</button><button class="btn s" id="taskNo">NO</button></div></div>
 <div class="ov hide" id="cardOv"><div class="card c"><img id="cardImg" alt="Result card" style="width:auto;max-width:100%;max-height:55vh;border-radius:14px"><button class="btn g" id="cShare">SHARE (WHATSAPP STATUS)</button><button class="btn s" id="cDl">DOWNLOAD IMAGE</button><button class="btn s" id="cClose" style="background:transparent">CLOSE</button></div></div>
 <div class="ov hide" id="setOv"><div class="card c">
  <h2>⚙ SETTINGS</h2>
  <button class="btn g" id="earnBtn">💰 EARN MONEY</button>
- <button class="btn s" id="pdfBtn">📄 BUY PDF (₹19)</button>
+ <h3>⭐ PREMIUM EXCLUSIVE</h3>
+ <button class="btn s" id="pdfBtn">📄 UPSC PDF (100 Q) • ₹39</button>
+ <button class="btn gold" id="polBtn">🚔 POLICE BHARTI MARATHI PDF (101 Q) • <s>₹59</s> ₹29</button>
+ <button class="btn s" id="invSet">🎁 INVITE FRIEND (+50 EP BONUS)</button>
+ <button class="btn s" id="legBtn">📜 PRIVACY • TERMS • REFUND</button>
  <button class="btn s" id="sndBtn"></button>
  <div id="admLogin">
   <h3>ADMIN LOGIN</h3>
@@ -317,7 +410,7 @@ function renderWin(){const L=sorted().slice(0,prz().length),pr=prLabels();
  $("winL").innerHTML=L.length?L.map((r,i)=>`<div class="sts" style="margin:6px 0"><div style="text-align:left;padding-left:12px">${pr[i]}</div><div>${esc(r.u)}</div><div>${r.pts} EP${r.paid?"<small style='color:var(--ok)'>PAID ✔</small>":""}</div></div>`).join(""):"<p>No players.</p>"}
 const $=id=>document.getElementById(id);
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-const show=id=>["home","pay","earn","pdfPage","uname","quiz","res"].forEach(s=>$(s).classList.toggle("hide",s!==id));
+const show=id=>["home","pay","earn","pdfPage","polPage","legalPage","uname","quiz","res"].forEach(s=>$(s).classList.toggle("hide",s!==id));
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
 const ss=(k,v)=>{try{if(v===undefined)return sessionStorage.getItem(k);if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v)}catch(e){return null}};
 const wa=t=>"https://wa.me/"+PH+(t?"?text="+encodeURIComponent(t):"");
@@ -330,6 +423,30 @@ let snd=ls("qa_snd")!=="0",AC;
 function beep(f,d){if(!snd)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
 const sndLbl=()=>$("sndBtn").textContent=snd?"🔊 SOUND: ON":"🔇 SOUND: OFF";
 sndLbl();$("sndBtn").onclick=()=>{snd=!snd;ls("qa_snd",snd?"1":"0");sndLbl();beep(660,.1)};
+
+/* ===== SITE LINK + REFERRAL ===== */
+const SITE_URL="";/* yahan apni site ka link daalo (https://...). Khali chhodo to current page ka link use hoga */
+const REF_BONUS=50;
+const siteBase=()=>{if(SITE_URL)return SITE_URL.replace(/[?#].*$/,"");try{return /^https?:/.test(location.protocol)?location.origin+location.pathname:""}catch(e){return ""}};
+const refLink=u=>{const b=siteBase();return b?b+(u?"?ref="+encodeURIComponent(u):""):""};
+try{const m=(location.search.match(/[?&]ref=([A-Za-z0-9]{6})/)||[])[1];if(m&&!ls("qa_ref")&&!ls("qa_me"))ls("qa_ref",m.toUpperCase());if(ls("qa_ref")&&!ls("qa_refdone")&&!ls("qa_me"))$("refNote").classList.remove("hide")}catch(e){}
+async function refApply(r){
+ let rb=0;
+ try{
+  const ref=ls("qa_ref");
+  if(ref&&ref!==r.u&&okName(ref)&&!ls("qa_refdone")){
+   rb+=REF_BONUS;r.ref=ref;ls("qa_refdone","1");
+   if(FB_URL){try{
+    await FB("referrals/"+r.u,"PUT",{by:ref,t:Date.now()});
+    const rr=await FB("scores/"+ref);
+    if(rr)await FB("scores/"+ref,"PUT",{...rr,pts:rr.pts+REF_BONUS,refs:(rr.refs||0)+1});
+    else await FB("refpend/"+ref+"/"+r.u,"PUT",true);
+   }catch(e){}}
+  }
+  if(FB_URL){try{const pend=await FB("refpend/"+r.u),k=pend?Object.keys(pend).length:0;if(k){rb+=k*REF_BONUS;r.refs=(r.refs||0)+k;await FB("refpend/"+r.u,"DELETE")}}catch(e){}}
+ }catch(e){}
+ r.pts+=rb;r.rb=rb;pts=r.pts;
+}
 
 /* leaderboard + db */
 let rows=[],me=ls("qa_me"),db=null,coll=null,adm=ss("qa_adm")==="1";
@@ -349,7 +466,7 @@ function renderLB(){
   const L=sorted(),pr=prLabels();
   const h=L.length?"<table><tr><th>RANK</th><th>PLAYER</th><th>EP</th><th>SAHI</th><th>TIME</th>"+(adm?"<th></th>":"")+"</tr>"+L.map((r,i)=>`<tr class="${r.u===me?"me":""}"><td class="rk">#${i+1}${pr[i]?"<br><small>"+pr[i]+"</small>":""}${r.paid?"<br><small class='pd'>PAID ✔</small>":""}</td><td>${esc(r.u)}</td><td>${r.pts}</td><td>${r.ok}/${N}</td><td>${r.tt!=null?r.tt+"s":"–"}</td>${adm?`<td><div class="ad"><button data-a="up" data-u="${esc(r.u)}">▲</button><button data-a="dn" data-u="${esc(r.u)}">▼</button><button data-a="ed" data-u="${esc(r.u)}">✎</button><button data-a="pd" data-u="${esc(r.u)}" title="Paid" style="${r.paid?"background:#1faa54":""}">💰</button><button data-a="rm" data-u="${esc(r.u)}">🗑</button></div></td>`:""}</tr>`).join("")+"</table>":"<p>No players yet. Be the first!</p>";
   $("lbHome").innerHTML=h;$("lbRes").innerHTML=h;
-  const i=L.findIndex(r=>r.u===me);if(i>=0&&!$("res").classList.contains("hide"))$("rRank").textContent="#"+(i+1);
+  const i=L.findIndex(r=>r.u===me);if(i>=0&&!$("res").classList.contains("hide")){$("rRank").textContent="#"+(i+1);if(!adm)$("rEP").textContent=L[i].pts}
   if(phase()==="over")renderWin();
   renderStats();
 }
@@ -463,7 +580,7 @@ $("taskYes").onclick=()=>{$("taskOv").classList.add("hide");window.open(wa("Hi, 
 
 /* Premium PDF */
 $("pdfBtn").onclick=()=>{$("setOv").classList.add("hide");show("pdfPage")};
-$("pdfBuy").onclick=()=>window.open(wa("Hi, I want to buy the Premium ₹19 PDF (100 UPSC Questions, Hindi)."),"_blank");
+$("pdfBuy").onclick=()=>window.open(wa("Hi, I want to buy the Premium ₹39 PDF (100 UPSC Questions, Hindi)."),"_blank");
 $("pdfBack").onclick=()=>{const d=ls("qa_done");if(d&&!adm){try{showRes(JSON.parse(d));return}catch(e){}}show("home")};
 
 /* username */
@@ -510,6 +627,7 @@ function answer(o){
 async function finish(){
   clearInterval(iv);
   const old=rows.find(x=>x.u===me),r={u:me,pts,ok,tt,t:Date.now()};if(old&&old.paid)r.paid=true;
+  if(!adm)await refApply(r);
   lastR=r;if(!adm)ls("qa_done",JSON.stringify(r));
   showRes(r);
   const good=await save(r);$("saveMsg").classList.toggle("hide",good);
@@ -518,7 +636,7 @@ $("retry").onclick=async()=>{if(lastR&&await save(lastR))$("saveMsg").classList.
 function showRes(r){
   show("res");
   $("rEP").textContent=r.pts;$("rOk").textContent=r.ok;$("rBad").textContent=N-r.ok;
-  $("rUser").textContent="USERNAME: "+r.u;
+  $("rUser").textContent="USERNAME: "+r.u;const rbv=r.rb||0;$("rRef").textContent=rbv?"🎁 Referral bonus +"+rbv+" EP included":"";$("rRef").classList.toggle("hide",!rbv);
   $("rev").innerHTML=rv.map((x,k)=>`<p style="margin:0 0 12px"><b style="color:#fff">${k+1}. ${esc(x.q)}</b><br><span style="color:${x.my===x.a?"var(--ok)":"var(--no)"}">${x.my===null?"Time out":esc(x.my)}</span>${x.my===x.a?"":" → <span style='color:var(--ok)'>"+esc(x.a)+"</span>"}<br><small>${esc(x.w||"")}</small></p>`).join("");
   $("revCard").classList.toggle("hide",!rv.length);
   $("admAgain").classList.toggle("hide",!adm);
@@ -526,7 +644,7 @@ function showRes(r){
   if(!rows.some(x=>x.u===r.u))rows.push(r);
   $("rRank").textContent="–";renderLB();
 }
-$("share").onclick=()=>{const L=sorted(),k=L.findIndex(r=>r.u===me);window.open(wa0("Quiz Arena: mere "+$("rEP").textContent+" EP, "+$("rOk").textContent+"/20 sahi"+(k>=0?", rank #"+(k+1):"")+". Username: "+me),"_blank")};
+$("share").onclick=()=>{const L=sorted(),k=L.findIndex(r=>r.u===me);window.open(wa0("Quiz Arena: mere "+$("rEP").textContent+" EP, "+$("rOk").textContent+"/20 sahi"+(k>=0?", rank #"+(k+1):"")+". Username: "+me+(refLink(me||"")?"\nJoin karo (dono ko +"+REF_BONUS+" EP): "+refLink(me||""):"")),"_blank")};
 
 /* stats + presence */
 
@@ -536,24 +654,55 @@ function beat(){if(FB_URL)FB("online/"+devId(),"PUT",Date.now()).catch(()=>{})}
 async function cnt(){if(!FB_URL)return;try{const v=(await FB("online"))||{},n=Date.now();onl=Object.values(v).filter(t=>n-t<45000).length;renderStats();if(adm)Object.keys(v).forEach(k=>{if(n-v[k]>600000)FB("online/"+k,"DELETE").catch(()=>{})})}catch(e){}}
 setInterval(beat,20000);setInterval(cnt,5000);beat();cnt();
 /* result card */
+function qrCanvas(text,size){try{const d=document.createElement("div");d.style.cssText="position:fixed;left:-9999px;top:0";document.body.appendChild(d);new QRCode(d,{text,width:size,height:size,correctLevel:QRCode.CorrectLevel.M});const c=d.querySelector("canvas"),o=document.createElement("canvas");o.width=o.height=size;const x=o.getContext("2d");x.imageSmoothingEnabled=false;x.drawImage(c,0,0,size,size);d.remove();return o}catch(e){return null}}
 async function makeCard(){
  const r=lastR||JSON.parse(ls("qa_done")||"null");if(!r)return null;
- const k=sorted().findIndex(x=>x.u===r.u),c=document.createElement("canvas");c.width=1080;c.height=1350;const g=c.getContext("2d");
- const bg=g.createLinearGradient(0,0,1080,1350);bg.addColorStop(0,"#0a0f33");bg.addColorStop(1,"#2a1070");g.fillStyle=bg;g.fillRect(0,0,1080,1350);
- g.textAlign="center";const T=(t,y,f,col)=>{g.font=f;g.fillStyle=col;g.fillText(t,540,y)};
- T("PIXEL RISE",130,"bold 76px Arial","#ffffff");T("QUIZ ARENA",185,"34px Arial","#8993b9");
- try{const im=new Image();await new Promise((ok,no)=>{im.onload=ok;im.onerror=no;im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(coinSVG(400))});g.drawImage(im,390,230,300,300)}catch(e){}
- T(String(r.pts),740,"bold 230px Arial","#63e7ff");T("EP POINTS",810,"bold 52px Arial","#ffffff");
- if(k>=0)T("RANK #"+(k+1),960,"bold 120px Arial","#ffd24a");
- T(r.ok+" / "+N+" correct  •  "+(r.tt!=null?r.tt+"s":""),1050,"46px Arial","#ffffff");
- T(r.u,1140,"bold 56px Arial","#63e7ff");T("Can you beat my score?",1260,"36px Arial","#8993b9");
+ const k=sorted().findIndex(x=>x.u===r.u),c=document.createElement("canvas");c.width=1080;c.height=1600;const g=c.getContext("2d");
+ const bg=g.createLinearGradient(0,0,1080,1600);bg.addColorStop(0,"#0a0f33");bg.addColorStop(1,"#2a1070");g.fillStyle=bg;g.fillRect(0,0,1080,1600);
+ g.textAlign="center";const T=(t,y,f,col,x)=>{g.font=f;g.fillStyle=col;g.fillText(t,x||540,y)};
+ T("PIXEL RISE",120,"bold 76px Arial","#ffffff");T("QUIZ ARENA",170,"34px Arial","#8993b9");
+ try{const im=new Image();await new Promise((ok,no)=>{im.onload=ok;im.onerror=no;im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(coinSVG(400))});g.drawImage(im,410,200,260,260)}catch(e){}
+ T(String(r.pts),680,"bold 200px Arial","#63e7ff");T("EP POINTS",740,"bold 48px Arial","#ffffff");
+ if(k>=0)T("RANK #"+(k+1),860,"bold 108px Arial","#ffd24a");
+ T(r.ok+" / "+N+" correct  •  "+(r.tt!=null?r.tt+"s":""),940,"44px Arial","#ffffff");
+ T(r.u,1020,"bold 54px Arial","#63e7ff");
+ g.fillStyle="rgba(255,255,255,.09)";g.beginPath();if(g.roundRect)g.roundRect(60,1070,960,420,36);else g.rect(60,1070,960,420);g.fill();
+ const link=refLink(r.u),qc=link?qrCanvas(link,300):null;
+ if(qc){
+  g.fillStyle="#fff";g.fillRect(90,1110,340,340);g.drawImage(qc,110,1130,300,300);
+  const tx=745;T("SCAN KARO &",1190,"bold 48px Arial","#ffffff",tx);T("JOIN KARO",1250,"bold 48px Arial","#ffffff",tx);
+  T("Dono ko +"+REF_BONUS+" EP bonus 🎁",1315,"bold 34px Arial","#ffd24a",tx);
+  const shown=link.replace(/^https?:\/\//,"");let fs=30;g.font="bold "+fs+"px Arial";while(g.measureText(shown).width>520&&fs>14){fs--;g.font="bold "+fs+"px Arial"}
+  T(shown,1385,"bold "+fs+"px Arial","#63e7ff",tx);
+ }else{
+  T("JOIN PIXEL RISE QUIZ",1230,"bold 56px Arial","#ffffff");T("Dost ke saath khelo aur jeeto!",1300,"38px Arial","#ffd24a");
+ }
+ T("Can you beat my score?",1560,"36px Arial","#8993b9");
  return c}
 let cardC=null;
 $("mkCard").onclick=async()=>{cardC=await makeCard();if(!cardC)return;$("cardImg").src=cardC.toDataURL("image/png");$("cardOv").classList.remove("hide")};
 $("cClose").onclick=()=>$("cardOv").classList.add("hide");
 $("cDl").onclick=()=>{const a=document.createElement("a");a.href=cardC.toDataURL("image/png");a.download="pixel-rise-result.png";document.body.appendChild(a);a.click();a.remove()};
-$("cShare").onclick=()=>cardC.toBlob(async b=>{const f=new File([b],"pixel-rise-result.png",{type:"image/png"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:"Can you beat my score on Pixel Rise Quiz?"});else $("cDl").onclick()}catch(e){}});
+$("cShare").onclick=()=>cardC.toBlob(async b=>{const f=new File([b],"pixel-rise-result.png",{type:"image/png"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:"Can you beat my score on Pixel Rise Quiz?"+(refLink(me||"")?" "+refLink(me||""):"")});else $("cDl").onclick()}catch(e){}});
+
+/* ===== new features: PDFs, legal, invite, CSV ===== */
+const backHome=()=>{const d=ls("qa_done");if(d&&!adm){try{showRes(JSON.parse(d));return}catch(e){}}show("home")};
+$("polBtn").onclick=()=>{$("setOv").classList.add("hide");show("polPage")};
+$("polBuy").onclick=()=>window.open(wa("Hi, I want to buy the Police Bharti Marathi PDF (101 Questions) for ₹29 (50% OFF). Username: "+(me||"-")),"_blank");
+$("polBack").onclick=backHome;
+const openLegal=()=>{$("setOv").classList.add("hide");show("legalPage");window.scrollTo(0,0)};
+$("legBtn").onclick=openLegal;$("lnkLegal").onclick=openLegal;$("lnkLegal2").onclick=openLegal;$("legBack").onclick=backHome;
+const inviteGo=()=>{const l=refLink(me||"");window.open(wa0("Pixel Rise Quiz khelo! Mere link se join karoge to hum dono ko +"+REF_BONUS+" EP bonus milega 🎁"+(l?"\n"+l:"")),"_blank")};
+$("invSet").onclick=()=>{$("setOv").classList.add("hide");inviteGo()};$("invRes").onclick=inviteGo;
+$("aCsv").onclick=()=>{
+ const q=v=>{v=String(v==null?"":v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+ const L=sorted(),H=["Rank","Username","EP","Correct","Total Questions","Time (s)","Paid","Referral Bonus EP","Referrals","Played At"];
+ const lines=[H.join(",")].concat(L.map((r,i)=>[i+1,r.u,r.pts,r.ok,N,r.tt!=null?r.tt:"",r.paid?"YES":"NO",r.rb||0,r.refs||0,new Date(r.t).toLocaleString("en-IN")].map(q).join(",")));
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"}));
+ a.download="pixel-rise-players-"+new Date().toISOString().slice(0,10)+".csv";document.body.appendChild(a);a.click();a.remove();
+ $("aMsg").textContent="CSV exported ✔ ("+L.length+" players)"};
 </script>
 </body>
 </html>
+
 
