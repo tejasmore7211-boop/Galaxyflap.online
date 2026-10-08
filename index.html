@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pixel Rise</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{--bg:#050617;--c1:#101637;--c2:#080b20;--bd:rgba(140,160,255,.23);--mu:#8993b9;--cy:#63e7ff;--ok:#2ee59d;--no:#ff8090;--g:linear-gradient(100deg,#5953ff,#10c7ed);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -50,24 +49,13 @@ td,th{padding:10px 4px;border-bottom:1px solid rgba(140,160,255,.12);text-align:
 th{color:var(--mu);font-size:11px;letter-spacing:1px}
 tr.me td{background:rgba(99,231,255,.1);font-weight:900}
 .live{color:var(--ok);font-size:11px;font-weight:900;letter-spacing:1px}
-.ad{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap;min-width:84px}.ad button{background:#252d63;border-radius:8px;width:30px;height:30px;font-size:13px}#lbHome,#lbRes{overflow-x:auto}.pd{color:var(--ok)}.in.sm{font-size:14px;letter-spacing:0;margin-top:6px}.ta{width:100%;min-height:170px;padding:10px;border-radius:12px;border:1px solid rgba(150,170,255,.25);background:#06091a;color:#fff;font-size:12px;margin-top:6px}
+.ad{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap;min-width:84px}.ad button{background:#252d63;border-radius:8px;width:26px;height:26px;font-size:12px}#lbHome,#lbRes{overflow-x:auto}.pd{color:var(--ok)}.in.sm{font-size:14px;letter-spacing:0;margin-top:6px}.ta{width:100%;min-height:170px;padding:10px;border-radius:12px;border:1px solid rgba(150,170,255,.25);background:#06091a;color:#fff;font-size:12px;margin-top:6px}
 .hide{display:none!important}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
 .ov .card{width:100%;max-width:400px;margin:0}
-.rk{font-size:15px}.logo{font-size:clamp(20px,6vw,28px)!important;letter-spacing:3px!important}.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding:6px 0}.pz div{font-size:13px;padding:10px 2px}.pz{gap:6px}#cardOv{align-items:flex-start;overflow-y:auto}
-.row{display:flex;gap:8px}.row .btn{flex:1;min-height:56px;font-size:12px;letter-spacing:.5px;padding:0 6px}
-[data-coin] svg{display:block;filter:drop-shadow(0 4px 10px rgba(255,190,40,.45))}
-#setOv{align-items:flex-start;overflow-y:auto}
-s{text-decoration:line-through;text-decoration-thickness:2px}
-.price{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0 2px}
-.price s{font-size:26px;font-weight:900;color:var(--no)}
-.price b{font-size:46px;color:var(--cy);text-shadow:0 0 20px rgba(60,220,255,.6)}
-.off{background:#ff3b5c;color:#fff;font-size:12px;font-weight:900;letter-spacing:1px;padding:5px 9px;border-radius:20px}
-.btn.gold{background:linear-gradient(100deg,#f59e0b,#ffcf4a);color:#2a1a00}
-.btn.gold s{color:#7a1d2b}
-.lk{background:none;color:var(--mu);text-decoration:underline;font-size:12px;padding:6px 8px}
-#siteFoot{max-width:480px;margin:0 auto;padding:6px 16px 30px;text-align:center;color:var(--mu);font-size:12px}
-.pol h3{margin-top:16px}.pol ul{text-align:left}
+.rk{font-size:15px}.logo{font-size:clamp(20px,6vw,28px)!important;letter-spacing:3px!important}.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding:6px 0}.pz div{font-size:13px;padding:10px 2px}.pz{gap:6px}#cardOv,#setOv{align-items:flex-start;overflow-y:auto}button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}.w{position:relative;z-index:1}.wm{position:fixed;top:46%;left:50%;transform:translate(-50%,-50%) rotate(-28deg);font:900 clamp(60px,22vw,120px) Arial;color:rgba(120,140,255,.07);pointer-events:none;z-index:0;white-space:nowrap}.foot{max-width:480px;margin:0 auto;padding:6px 16px 60px;text-align:center;font-size:12px;color:var(--mu);position:relative;z-index:1}.foot a{color:var(--cy)}
+.gm{color:var(--ok)!important}.rdg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.rdg .btn{margin:0;min-height:48px;font-size:15px;letter-spacing:0;color:var(--ok);padding:0}.rdg .btn:disabled{opacity:.5}.mkt{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#0b1030;padding:8px 0 10px;margin:-4px 0 0;border-radius:12px}.op.sel{border-color:var(--cy);background:#1b2a63}.ol{display:inline-flex;width:28px;height:28px;border-radius:9px;background:#252d63;align-items:center;justify-content:center;margin-right:10px;font-size:13px}.op.sel .ol{background:var(--g)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(14px + env(safe-area-inset-top,0px));z-index:99;background:#1faa54;color:#fff;padding:12px 18px;border-radius:14px;font-weight:900;font-size:14px;max-width:90%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 </style>
 </head>
 <body>
@@ -79,27 +67,32 @@ s{text-decoration:line-through;text-decoration-thickness:2px}
  <div class="logo">WELCOME TO PIXEL RISE</div>
  <div class="sub">QUIZ ARENA&nbsp;&nbsp;•&nbsp;&nbsp;THINK&nbsp;&nbsp;•&nbsp;&nbsp;TAP&nbsp;&nbsp;•&nbsp;&nbsp;RISE</div>
  <div id="admBar" class="sts sticky hide"><div><span id="aO">0</span><small>🟢 LIVE PLAYERS</small></div><div><span id="aT">0</span><small>PLAYED TODAY</small></div><div><span id="aA">0</span><small>TOTAL QUIZ GIVEN</small></div></div>
+ <div id="pubStat" class="sts"><div><span id="pO">0</span><small>🟢 ONLINE NOW</small></div><div><span id="pT">0</span><small>PLAYED TODAY</small></div></div>
 
  <div id="home">
-  <div class="card c" id="mBox"><div class="tag" id="mH" style="display:inline-block"></div><div class="big" id="mP" style="font-size:30px;margin-top:10px"></div></div>
+  <div class="card c" id="mBox"><div class="tag" id="mH" style="display:inline-block"></div><div class="big" id="mP" style="font-size:30px;margin-top:10px"></div><button class="btn s hide" id="remBtn">🔔 REMIND ME WHEN MATCH STARTS</button></div>
   <div class="card c hide" id="winCard"><h2>🏆 WINNERS</h2><div id="winL"></div><button class="btn s g" id="winShare">SHARE WINNERS</button></div>
   <div class="card c" id="entry">
-   <div data-coin style="width:92px;height:92px;margin:0 auto 8px"></div>
-   <h2>ENTRY FEE ₹20</h2>
-   <p>20 sawal • 5 Math • 5 Science • 10 India GK</p>
+   <h2>ENTRY FEE <span class="gm">₹<span id="feeT">20</span></span></h2>
+   <p>20 sawal • 5 Math • 5 Science • 10 India GK</p><p>1) Neeche REGISTER ON WHATSAPP dabao aur entry fee bhejo. 2) Admin aapko username dega. 3) Register karke wapas aao, tab START QUIZ button dikhega. Usme username aur (optional) referral code daalo.</p>
    <div class="pz" id="pzBox"></div>
-   <p class="pd hide" id="refNote">🎁 Invite link se aaye ho: quiz poora karne par +50 EP bonus!</p>
-   <button class="btn" id="startBtn">PAY ₹20 FOR ENTRY</button>
-   <button class="btn s" id="haveUser">👤 I HAVE USERNAME</button>
-   <div class="err" id="hErr"></div>
+   <button class="btn g" id="regWa">📲 PAY ₹<span id="feeB">20</span> &amp; REGISTER ON WHATSAPP</button><button class="btn hide" id="startBtn">START QUIZ</button>
   </div>
   <div class="card hide" id="admCard">
    <h2>🔧 ADMIN MODE</h2>
    <p>Unlimited play. Leaderboard mein ▲▼ se rank badlo, ✎ se points edit, 🗑 se delete.</p>
-   <input class="in" id="aU" maxlength="20" value="TEJAS1" placeholder="USERNAME" autocomplete="off">
+   <div id="aDash"></div><input class="in" id="aU" maxlength="20" placeholder="USERNAME" autocomplete="off">
    <div class="err" id="aErr"></div>
    <button class="btn" id="aPlay">PLAY (UNLIMITED)</button>
-   <h3>PRIZES (₹, comma separated)</h3>
+   <h3>EXPORT</h3>
+   <button class="btn s" id="aCsv">DOWNLOAD CSV (PLAYERS, EP, PAID)</button>
+   <h3>PDF PRICES (₹)</h3>
+   <p>Police price / Police MRP / UPSC price / UPSC MRP</p>
+   <div style="display:flex;gap:6px"><input class="in sm" id="pp1" inputmode="numeric"><input class="in sm" id="pp2" inputmode="numeric"><input class="in sm" id="pp3" inputmode="numeric"><input class="in sm" id="pp4" inputmode="numeric"></div>
+   <button class="btn s" id="aSaveD">SAVE PDF PRICES</button>
+   <h3>COUPON CODES</h3><p>Code, % off aur kin items par valid. Same code dobara ADD karo to update ho jata hai.</p><div style="display:flex;gap:6px"><input class="in sm" id="aCp" maxlength="12" autocapitalize="characters" placeholder="CODE"><input class="in sm" id="aCpP" inputmode="numeric" placeholder="% OFF"></div><p style="margin:6px 0"><label><input type="checkbox" id="cpI0" checked> Police PDF</label> &nbsp; <label><input type="checkbox" id="cpI1" checked> UPSC PDF</label> &nbsp; <label><input type="checkbox" id="cpI2" checked> Mock</label></p><button class="btn s" id="aCpAdd">ADD / UPDATE COUPON</button><div id="aCpL" style="text-align:left;margin-top:8px"></div><h3>PAYMENTS</h3><div id="aPayS"></div><div id="aPay" style="text-align:left;max-height:320px;overflow-y:auto"></div><button class="btn s" id="aPayCsv">DOWNLOAD PAYMENTS CSV</button><h3>REDEEM CODES</h3><div id="aRc" style="text-align:left"></div>
+   <h3>REFERRALS</h3><div id="aRf" style="text-align:left"></div>
+   <h3>ENTRY FEE &amp; REGISTERED USERNAMES</h3><p>Entry fee ₹</p><input class="in sm" id="aFee" inputmode="numeric"><button class="btn s" id="aFeeSave">SAVE FEE</button><p>Payment aane par username yahan add karo, phir wahi username player ko WhatsApp par do:</p><div style="display:flex;gap:6px"><input class="in sm" id="aAllow" maxlength="6" autocapitalize="characters" placeholder="USERNAME"><button class="btn s" id="aAllowAdd" style="width:auto;padding:0 16px;margin-top:6px">ADD</button><button class="btn s" id="aAllowGen" title="Random username" style="width:auto;padding:0 14px;margin-top:6px">🎲</button></div><div id="aAllowL" style="text-align:left;margin-top:8px"></div><h3>MOCK TEST</h3><p>Price ₹ / 7-char code / minutes</p><div style="display:flex;gap:6px"><input class="in sm" id="mk1" inputmode="numeric"><input class="in sm" id="mk2" maxlength="7"><input class="in sm" id="mk3" inputmode="numeric"></div><p>Custom questions (optional, same format as QUESTIONS; khali = auto 100 reasoning)</p><textarea class="ta" id="mk4" spellcheck="false"></textarea><button class="btn s" id="mkSave">SAVE MOCK SETTINGS</button><h3>PRIZES (₹, comma separated)</h3>
    <input class="in sm" id="aP" placeholder="1500,500,200,50,25">
    <button class="btn s" id="aSaveP">SAVE PRIZES</button>
    <h3>QUESTIONS</h3>
@@ -107,43 +100,35 @@ s{text-decoration:line-through;text-decoration-thickness:2px}
    <textarea class="ta" id="aQ" spellcheck="false"></textarea>
    <button class="btn s" id="aSaveQ">SAVE QUESTIONS</button>
    <h3>MATCH TIMER</h3>
-   <p style="margin:6px 0 0">Start time</p><input class="in sm" type="datetime-local" id="aS">
-   <p style="margin:6px 0 0">End time</p><input class="in sm" type="datetime-local" id="aE">
-   <button class="btn s" id="aSaveT">SAVE TIMER</button>
+   <p style="margin:6px 0 0">Start after</p>
+   <select class="in sm" id="aIn"><option value="0">Now</option><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">1 hour</option><option value="180">3 hours</option><option value="360">6 hours</option><option value="720">12 hours</option><option value="1440">24 hours</option></select>
+   <p style="margin:6px 0 0">Match duration</p>
+   <select class="in sm" id="aDur"><option value="30">30 minutes</option><option value="60">1 hour</option><option value="120">2 hours</option><option value="180">3 hours</option><option value="360">6 hours</option><option value="720">12 hours</option><option value="1440" selected>24 hours</option><option value="4320">3 days</option><option value="10080">7 days</option></select>
+   <button class="btn s" id="aStart">START TIMER</button><p style="margin:10px 0 0">Ya exact time chuno (start / end)</p><input class="in sm" type="datetime-local" id="aS"><input class="in sm" type="datetime-local" id="aE"><button class="btn s" id="aSetT">SET EXACT TIME</button>
+   <div class="err" id="aTimer" style="color:var(--cy)"></div>
    <button class="btn s" id="aEnd">END MATCH NOW (SHOW WINNERS)</button>
    <button class="btn s" id="aOpen">OPEN MATCH (NO TIMER)</button>
    <div class="err" id="aMsg" style="color:var(--ok)"></div>
-   <button class="btn s" id="aCsv">⬇ EXPORT CSV (PLAYERS • EP • PAID)</button>
-   <button class="btn s" id="aReset">RESET LEADERBOARD</button>
+   <button class="btn s" id="aReset">NEW MATCH: RESET LEADERBOARD &amp; DEVICES</button>
    <button class="btn s" id="aOut">ADMIN LOGOUT</button>
   </div>
   <div class="card"><h2>🏅 LIVE LEADERBOARD <span class="live lv">● LIVE</span></h2><div id="lbHome"></div></div>
   <div class="card">
    <h2>📘 INSTRUCTIONS</h2>
    <h3>KAISE KHELNA HAI</h3>
-   <ul><li>PAY ₹20 FOR ENTRY dabao, "Open UPI App" se ya QR download/scan karke ₹20 pay karo.</li><li>Payment ke baad "PAYMENT COMPLETED" dabao, WhatsApp par message jayega. Phir "I HAVE USERNAME" dabake 6 character ka username daalo aur quiz shuru karo.</li><li>Har sawal ke 4 option hain, 1 sahi. Option dabate hi agla sawal aa jata hai.</li><li>Quiz khatam hone par apne EP points, rank aur result card milta hai.</li></ul>
+   <ul><li>Pehle REGISTER ON WHATSAPP se entry fee bhejo. Admin jo username dega, wahi START QUIZ mein daalo (optional referral code bhi).</li><li>Har sawal ke 4 option hain, 1 sahi. Option dabate hi agla sawal aa jata hai.</li><li>Quiz khatam hone par apne EP points, rank aur result card milta hai.</li></ul>
    <h3>POINTS (EP)</h3>
-   <ul><li>Har sahi jawab = 20 EP.</li><li>Har sawal par 59 second milte hain. Bache hue har second ka +1 EP.</li><li>🔥 Streak bonus: lagatar 3 ya zyada sahi jawab par har sahi jawab ke saath +5 EP extra.</li><li>Galat ya time-out = 0 EP, aur streak toot jati hai.</li><li><b>Highest possible: 1670 EP</b> (20 × 79 = 1580, plus streak bonus 90). Practically thoda kam, kyunki tap karne mein 1-2 second lagte hain.</li><li>🎁 Referral: dost ko apna invite link bhejo. Wo quiz poora kare to aap dono ko +50 EP bonus milta hai.</li></ul>
+   <ul><li>Har sahi jawab = 20 EP.</li><li>Har sawal par 59 second milte hain. Bache hue har second ka +1 EP.</li><li>🔥 Streak bonus: lagatar 3 ya zyada sahi jawab par har sahi jawab ke saath +5 EP extra.</li><li>Galat ya time-out = 0 EP, aur streak toot jati hai.</li><li><b>Highest possible: 1670 EP</b> (20 × 79 = 1580, plus streak bonus 90). Practically thoda kam, kyunki tap karne mein 1-2 second lagte hain.</li></ul>
    <h3>INAAM (TOP 5)</h3>
    <ul><li>Match khatam hone par leaderboard ke Top 5 ko inaam milta hai. Rashi upar dikhti hai.</li><li>Winner apna username WhatsApp support par bhejein.</li><li>Points barabar hon to jiske sahi jawab zyada wo upar, phir jiska total time kam ho.</li></ul>
    <h3>EARN MONEY (NAVI TASK)</h3>
-   <ul><li>Quiz ke baad ya ⚙ Settings mein "Earn Money" kholo aur Navi task poora karo: app download karo aur first payment karo.</li><li>Task ke baad "Task completed?" dabake YES karo, aapka message WhatsApp par chala jayega.</li><li>Sirf naye users valid hain, aur app 5 din use karna hai.</li></ul>
+   <ul><li>⚙ Settings mein "Earn Money" kholo aur Navi task poora karo: app download karo aur first payment karo.</li><li>Task ke baad "Task completed?" dabake YES karo, aapka message WhatsApp par chala jayega.</li><li>Sirf naye users valid hain, aur app 5 din use karna hai.</li></ul>
+   <h3>STUDY PDFs AUR REFERRAL</h3>
+   <ul><li>⚙ Settings mein "Study PDFs" se Police Bharti (Marathi) ya UPSC (Hindi) PDF kharid sakte ho. BUY ON WHATSAPP dabake payment karo, screenshot bhejo, PDF WhatsApp par milegi.</li><li>"Refer &amp; Earn" mein aapka apna referral code hai. Dost aapke link se aake pehla quiz poora kare to aapke wallet mein ₹1 aata hai. ₹10 hone par redeem code claim karo.</li></ul>
    <h3>RULES</h3>
-   <ul><li>Ek username aur ek device se sirf ek hi baar khel sakte hain (admin ke liye limit nahi).</li><li>Quiz beech mein chhodne ya refresh karne par dubara chance nahi milega. Refresh par aapko sirf result aur leaderboard dikhega.</li><li>Match ka timer upar dikhta hai. Match shuru hone se pehle ya khatam hone ke baad quiz nahi khel sakte.</li><li>Quiz ke baad aapke har jawab ka review aur explanation dikhta hai.</li><li>Admin ka faisla final hoga.</li></ul>
+   <ul><li>Ek username aur ek device se sirf ek hi baar khel sakte hain (admin ke liye limit nahi).</li><li>Quiz beech mein chhodne ya refresh karne par dubara chance nahi milega.</li><li>Match ka timer upar dikhta hai. Match shuru hone se pehle ya khatam hone ke baad quiz nahi khel sakte.</li><li>Quiz ke baad aapke har jawab ka review aur explanation dikhta hai.</li><li>Admin ka faisla final hoga.</li></ul>
   </div>
- </div>
-
- <div id="pay" class="hide">
-  <div class="card c">
-   <h2>PAY ₹20 FOR ENTRY</h2>
-   <p>QR scan karke pay karo ya neeche se UPI app kholo.</p>
-   <div class="qr" id="qr"></div>
-   <div class="upiId" id="upiTxt"></div>
-   <div class="row"><button class="btn" id="openUpi">📲 OPEN UPI APP</button><button class="btn s" id="dlQr">⬇ DOWNLOAD QR</button></div>
-   <div class="row"><button class="btn g" id="payDone">✔ PAYMENT COMPLETED</button><button class="btn s" id="haveUser2">👤 I HAVE USERNAME</button></div>
-   <p style="font-size:11px">Payment ke baad "PAYMENT COMPLETED" dabao, aapka message WhatsApp par chala jayega.</p>
-   <button class="btn s" id="payBack" style="background:transparent">BACK</button>
-  </div>
+  <div class="card c" id="walCard"><div id="walBox"></div></div>
  </div>
 
  <div id="earn" class="hide">
@@ -165,108 +150,18 @@ s{text-decoration:line-through;text-decoration-thickness:2px}
   </div>
  </div>
 
- <div id="pdfPage" class="hide">
-  <div class="card c">
-   <h2>📄 PREMIUM PDF PACK</h2>
-   <div class="big" style="font-size:44px">₹39</div>
-   <p><b>UPSC Prelims Level • 100 Questions • Hindi</b></p>
-   <h3>PDF KE FEATURES</h3>
-   <ul style="text-align:left">
-    <li>UPSC ke saare subjects se 100 sawal, poori Hindi mein</li>
-    <li>Itihas, Kala-Sanskriti, Bhugol, Rajvyavastha, Arthvyavastha, Paryavaran, Vigyan, Antarrashtriya Sambandh</li>
-    <li>Har sawal ka sahi jawab + chhoti vyakhya (answer key)</li>
-    <li>Subject-wise sections aur score card</li>
-    <li>Print-friendly A4 pages, har page par PixelRise watermark</li>
-   </ul>
-   <button class="btn" id="pdfBuy" style="background:linear-gradient(100deg,#1d4ed8,#2f8cff);display:flex;align-items:center;justify-content:center;gap:10px">
-    <svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="12" fill="#0b3fd1"/><path fill="#fff" d="M12 4.5a7.5 7.5 0 0 0-6.4 11.4L4.5 19.5l3.7-1A7.5 7.5 0 1 0 12 4.5z"/></svg>
-    BUY ON WHATSAPP
-   </button>
-   <p style="font-size:11px">Payment hone ke baad PDF aapko WhatsApp par bheji jayegi.</p>
-   <button class="btn s" id="pdfBack" style="background:transparent">BACK</button>
-  </div>
- </div>
-
- <div id="polPage" class="hide">
-  <div class="card c">
-   <div class="tag" style="display:inline-block;color:#ffcf4a">⭐ PREMIUM EXCLUSIVE</div>
-   <h2 style="margin-top:12px">🚔 POLICE BHARTI MARATHI PDF</h2>
-   <div class="price"><s>₹59</s><b>₹29</b><span class="off">50% OFF</span></div>
-   <p><b>१०१ प्रश्न • मराठी • उत्तरतालिकेसह</b></p>
-   <h3>PDF KE FEATURES</h3>
-   <ul style="text-align:left">
-    <li>101 sawal poori Marathi mein (4 subject × 25 + 1 bonus sawal)</li>
-    <li>Subjects: बुद्धिमत्ता चाचणी, मराठी व्याकरण, अंकगणित, सामान्य ज्ञान</li>
-    <li>Buddhimatta aur Marathi compulsory sections shamil</li>
-    <li>Last page par poori answer key (उत्तरतालिका)</li>
-    <li>Print-friendly A4 pages, har page par PixelRise watermark • by Tejas More</li>
-   </ul>
-   <button class="btn" id="polBuy" style="background:linear-gradient(100deg,#1d4ed8,#2f8cff);display:flex;align-items:center;justify-content:center;gap:10px">
-    <svg viewBox="0 0 24 24" width="28" height="28"><circle cx="12" cy="12" r="12" fill="#0b3fd1"/><path fill="#fff" d="M12 4.5a7.5 7.5 0 0 0-6.4 11.4L4.5 19.5l3.7-1A7.5 7.5 0 1 0 12 4.5z"/></svg>
-    BUY ON WHATSAPP
-   </button>
-   <p style="font-size:11px">Payment hone ke baad PDF aapko WhatsApp par bheji jayegi.</p>
-   <button class="btn s" id="polBack" style="background:transparent">BACK</button>
-  </div>
- </div>
-
- <div id="legalPage" class="hide">
-  <div class="card pol">
-   <h2>📜 PRIVACY POLICY & TERMS</h2>
-   <p>Last updated: October 2026 • Pixel Rise Quiz Arena (by Tejas More)</p>
-
-   <h3>1. PRIVACY POLICY</h3>
-   <ul>
-    <li><b>Hum kya collect karte hain:</b> aapka username (6 character), quiz score/EP, jawab dene ka time, ek anonymous device ID (ek device = ek entry rule ke liye) aur online presence.</li>
-    <li><b>Payment:</b> entry fee aur PDF ka payment seedha UPI se hota hai. Hum aapka bank, card ya UPI PIN store nahi karte.</li>
-    <li><b>Kaise use hota hai:</b> leaderboard, winners chunne, fraud rokne aur support dene ke liye.</li>
-    <li><b>Public info:</b> aapka username, EP aur rank leaderboard par sabko dikhta hai. Isliye username mein naam, phone ya personal detail na rakhein.</li>
-    <li><b>Third-party services:</b> data Google Firebase par store hota hai. WhatsApp support ke liye aur Navi/UPI apps ke links unki apni privacy policy se chalte hain.</li>
-    <li>Hum aapka data bechte nahi hain.</li>
-    <li><b>Delete request:</b> WhatsApp support par username bhejo, hum leaderboard se data hata denge.</li>
-    <li><b>Umar:</b> 18 saal se kam umar ke players apne parents/guardian ki permission se hi participate karein.</li>
-   </ul>
-
-   <h3>2. TERMS OF USE</h3>
-   <ul>
-    <li>Ek username aur ek device se sirf ek baar quiz khela ja sakta hai. Multiple account, cheating, bot ya fake referral milne par disqualify kiya ja sakta hai, aur refund nahi milega.</li>
-    <li>PDFs sirf aapke personal use ke liye hain. Unhe bechna, share karna ya online post karna mana hai. Content ka copyright Pixel Rise / Tejas More ke paas hai.</li>
-    <li>Quiz ke sawal aur explanation jaankari ke liye hain. Pixel Rise kisi exam mein selection ki guarantee nahi deta.</li>
-    <li>Internet ya device ki problem se hue nuksan ke liye Pixel Rise zimmedar nahi hai.</li>
-    <li>Ye terms kabhi bhi badle ja sakte hain. Site use karte rehna naye terms maanna hai.</li>
-   </ul>
-
-   <h3>3. REFUND RULES</h3>
-   <ul>
-    <li><b>Quiz entry (₹20):</b> payment hone ke baad refund nahi milta. Sirf in cases mein refund hoga: (a) double payment, (b) payment kata par username nahi mila, (c) match admin ne cancel kar diya.</li>
-    <li><b>PDFs (₹39 / ₹29):</b> ye digital product hain. PDF bhej dene ke baad refund nahi milta. Agar PDF nahi mili ya file kharab hai, to pehle wahi PDF dobara bheji jayegi; na ho paye to refund milega.</li>
-    <li><b>Refund kaise maange:</b> payment ke 7 din ke andar WhatsApp support par payment screenshot aur username bhejo.</li>
-    <li>Approved refund usi UPI par 5-7 working days mein bheja jata hai.</li>
-   </ul>
-
-   <h3>4. CONTEST NIYAM</h3>
-   <ul>
-    <li>Quiz sirf match ke timer ke andar khela ja sakta hai. Match shuru hone se pehle ya khatam hone ke baad entry nahi hoti.</li>
-    <li>Har sawal ke 4 option, 1 sahi. Har sawal par 59 second milte hain.</li>
-    <li>Har sahi jawab = 20 EP, bache hue har second ka +1 EP, aur lagatar 3+ sahi jawab par +5 EP streak bonus. Galat ya time-out = 0 EP.</li>
-    <li>Ranking: pehle zyada EP, barabar hone par zyada sahi jawab, phir kam total time.</li>
-    <li>Top 5 players ko leaderboard par dikhai gayi rashi milti hai. Winner apna username WhatsApp support par bheje; verification ke baad prize UPI par bheja jata hai.</li>
-    <li>Quiz beech mein chhodne ya refresh karne par dobara chance nahi milta.</li>
-    <li><b>Referral:</b> dost aapke invite link se aakar quiz poora kare, to aap dono ko +50 EP bonus milta hai. Khud ko refer karna ya fake account se bonus lena valid nahi hai.</li>
-    <li>Admin ka faisla final hoga.</li>
-   </ul>
-   <p>Sawal ho to WhatsApp par SUPPORT button dabao.</p>
-   <button class="btn s" id="legBack" style="background:transparent">BACK</button>
-  </div>
- </div>
-
+ <div id="pdfs" class="hide"><div class="card c"><h2>📚 STUDY PDFs</h2><p>50% OFF • Limited offer</p><div id="pdfList"></div><button class="btn s" id="pdfsBack" style="background:transparent">BACK</button></div></div>
+ <div id="pdfd" class="hide"><div class="card c" id="pdfDet"></div></div>
+ <div id="mock" class="hide"><div class="card c" id="mkBox"></div></div>
+ <div id="refer" class="hide"><div class="card c"><h2>🎁 REFER &amp; EARN</h2><div id="refBox"></div><button class="btn s" id="refBack" style="background:transparent">BACK</button></div></div>
+ <div id="legal" class="hide"><div class="card"><h2 id="lgT"></h2><div id="lgB"></div><button class="btn s" id="lgBack" style="background:transparent">BACK</button></div></div>
  <div id="uname" class="hide">
   <div class="card c">
    <h2>ENTER USERNAME</h2>
-   <p>6 character ka username daalo (letters ya numbers).</p>
+   <p>Admin ne jo username diya hai wo daalo.</p>
    <input class="in" id="uin" maxlength="20" autocomplete="off" placeholder="USERNAME">
    <div class="err" id="uerr"></div>
-   <button class="btn" id="uGo">START QUIZ</button>
+   <input class="in sm" id="rin" maxlength="6" autocapitalize="characters" placeholder="Referral code (optional)" style="margin-top:10px"><button class="btn" id="uGo">START QUIZ</button>
    <button class="btn s" id="uBack" style="background:transparent">BACK</button>
   </div>
  </div>
@@ -277,48 +172,40 @@ s{text-decoration:line-through;text-decoration-thickness:2px}
    <div class="bar"><i id="tb"></i></div>
    <div class="q" id="qt"></div>
    <div id="ops"></div>
-   <div class="c" style="color:var(--mu);font-size:13px;margin-top:6px"><span data-coin style="display:inline-block;width:22px;height:22px;vertical-align:middle;margin-right:4px"></span>EP: <b id="ep" style="color:var(--cy)">0</b></div>
+   <div class="c" style="color:var(--mu);font-size:13px;margin-top:6px">EP: <b id="ep" style="color:var(--cy)">0</b></div>
   </div>
  </div>
 
  <div id="res" class="hide">
   <div class="card c">
    <h2>QUIZ COMPLETE 🎉</h2>
-   <div data-coin style="width:120px;height:120px;margin:4px auto 8px"></div>
    <div class="big" id="rEP"></div>
    <p>YOUR EP POINTS</p>
    <div class="sts"><div><span id="rOk"></span><small>SAHI</small></div><div><span id="rBad"></span><small>GALAT</small></div><div><span id="rRank"></span><small>RANK</small></div></div>
    <p id="rUser"></p>
-   <p id="rRef" class="pd hide"></p>
    <div class="err hide" id="saveMsg">Score leaderboard par save nahi hua (internet ya Rules).<button class="btn s" id="retry">RETRY</button></div>
    <button class="btn" id="mkCard">CREATE RESULT CARD</button>
-   <button class="btn s g" id="share">SHARE ON WHATSAPP</button>
-   <button class="btn s" id="invRes">🎁 INVITE FRIEND (+50 EP BONUS)</button>
+   <button class="btn s" id="resPdf">⬇ DOWNLOAD RESULT PDF</button><button class="btn s g" id="share">SHARE ON WHATSAPP</button>
+   <button class="btn s" id="homeBtn" style="background:transparent">BACK TO HOME</button>
    <button class="btn s hide" id="admAgain">ADMIN: HOME</button>
-  </div>
-  <div class="card c" id="earnAsk">
-   <h2>💰 Want to earn money?</h2>
-   <p>Complete Navi task aur ₹50 kamao.</p>
-   <button class="btn g" id="askYes">💰 YES, GO</button>
-   <button class="btn s" id="askNo">NO, NOT NOW</button>
   </div>
   <div class="card hide" id="revCard"><h2>📝 ANSWER REVIEW</h2><div id="rev"></div></div>
   <div class="card"><h2>🏅 LIVE LEADERBOARD <span class="live lv">● LIVE</span></h2><div id="lbRes"></div></div>
  </div>
 </div>
 
-<div id="siteFoot"><button class="lk" id="lnkLegal">Privacy Policy</button>•<button class="lk" id="lnkLegal2">Terms & Refund</button><br>© Pixel Rise • by Tejas More</div>
-
+<div class="wm">PixelRise</div>
+<div class="toast hide" id="toast"></div>
+<div class="foot">PixelRise • By Tejas More<br><a href="#" id="fPriv">Privacy Policy</a> • <a href="#" id="fTerm">Terms &amp; Rules</a></div>
 <div class="ov hide" id="taskOv"><div class="card c"><h2>Task completed?</h2><p>Kya aapne Navi app download karke apna first payment kar liya hai?</p><button class="btn g" id="taskYes">YES</button><button class="btn s" id="taskNo">NO</button></div></div>
 <div class="ov hide" id="cardOv"><div class="card c"><img id="cardImg" alt="Result card" style="width:auto;max-width:100%;max-height:55vh;border-radius:14px"><button class="btn g" id="cShare">SHARE (WHATSAPP STATUS)</button><button class="btn s" id="cDl">DOWNLOAD IMAGE</button><button class="btn s" id="cClose" style="background:transparent">CLOSE</button></div></div>
 <div class="ov hide" id="setOv"><div class="card c">
  <h2>⚙ SETTINGS</h2>
  <button class="btn g" id="earnBtn">💰 EARN MONEY</button>
- <h3>⭐ PREMIUM EXCLUSIVE</h3>
- <button class="btn s" id="pdfBtn">📄 UPSC PDF (100 Q) • ₹39</button>
- <button class="btn gold" id="polBtn">🚔 POLICE BHARTI MARATHI PDF (101 Q) • <s>₹59</s> ₹29</button>
- <button class="btn s" id="invSet">🎁 INVITE FRIEND (+50 EP BONUS)</button>
- <button class="btn s" id="legBtn">📜 PRIVACY • TERMS • REFUND</button>
+ <button class="btn s" id="pdfBtn">📚 STUDY PDFs (50% OFF)</button>
+ <button class="btn s" id="refBtn">💰 WALLET &amp; REFERRAL</button>
+ <button class="btn s" id="privBtn">🔒 PRIVACY POLICY</button>
+ <button class="btn s" id="termBtn">📄 TERMS &amp; RULES</button>
  <button class="btn s" id="sndBtn"></button>
  <div id="admLogin">
   <h3>ADMIN LOGIN</h3>
@@ -329,57 +216,17 @@ s{text-decoration:line-through;text-decoration-thickness:2px}
  <button class="btn s" id="setClose" style="background:transparent">CLOSE</button>
 </div></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-
-/* ===== EP GOLD COIN (Indian: Ashoka-chakra, lotus, paisley, beaded rim, Devanagari) ===== */
-let CN=0;
-function coinSVG(px){
- const k="cn"+(++CN),sz=px?px:"100%";let beads="",spokes="",pais="",pet="";
- for(let i=0;i<48;i++){const a=i*7.5*Math.PI/180;beads+=`<circle cx="${(100+91*Math.cos(a)).toFixed(2)}" cy="${(100+91*Math.sin(a)).toFixed(2)}" r="2.3" fill="url(#${k}b)" stroke="#7a4a05" stroke-width=".5"/>`}
- for(let i=0;i<24;i++){const d=i*15;spokes+=`<line x1="100" y1="82" x2="100" y2="61" transform="rotate(${d} 100 100)"/>`;pais+=`<path d="M100 54 q-3.5 -4 0 -8 q3.5 4 0 8z" transform="rotate(${d} 100 100)"/>`}
- for(let i=0;i<8;i++){pet+=`<ellipse cx="100" cy="69" rx="4.5" ry="9" transform="rotate(${i*45} 100 100)"/>`}
- return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="${sz}" height="${sz}" font-family="Arial,'Noto Sans Devanagari',sans-serif">
-<defs>
-<linearGradient id="${k}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff7b8"/><stop offset=".35" stop-color="#f7c948"/><stop offset=".65" stop-color="#c98a12"/><stop offset="1" stop-color="#ffe58a"/></linearGradient>
-<linearGradient id="${k}r" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffe58a"/><stop offset=".5" stop-color="#d9971b"/><stop offset="1" stop-color="#fff0a0"/></linearGradient>
-<radialGradient id="${k}d" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#ffe9a0"/><stop offset=".55" stop-color="#f1b92e"/><stop offset="1" stop-color="#b8780f"/></radialGradient>
-<radialGradient id="${k}m" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#fff2b0"/><stop offset=".6" stop-color="#e8a91f"/><stop offset="1" stop-color="#9a6208"/></radialGradient>
-<radialGradient id="${k}b" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff9cf"/><stop offset="1" stop-color="#e3a82a"/></radialGradient>
-<path id="${k}t" d="M32 100 A68 68 0 0 1 168 100"/><path id="${k}u" d="M24 100 A76 76 0 0 0 176 100"/>
-</defs>
-<circle cx="100" cy="100" r="97" fill="url(#${k}g)" stroke="#6b3d00" stroke-width="1.5"/>
-${beads}
-<circle cx="100" cy="100" r="85" fill="url(#${k}r)" stroke="#7a4a05" stroke-width="1"/>
-<circle cx="100" cy="100" r="82" fill="none" stroke="#fff0a0" stroke-width=".8" opacity=".8"/>
-<text font-size="10.5" font-weight="900" letter-spacing="1.2" fill="#5a3300" text-anchor="middle"><textPath href="#${k}t" startOffset="50%">PIXEL RISE  •  EP POINTS</textPath></text>
-<text font-size="12" font-weight="900" letter-spacing="1" fill="#5a3300" text-anchor="middle"><textPath href="#${k}u" startOffset="50%">★ अनुभव अंक ★</textPath></text>
-<path d="M27 94 l5 6 l-5 6 l-5 -6z" fill="#7a4a05"/><path d="M173 94 l5 6 l-5 6 l-5 -6z" fill="#7a4a05"/>
-<circle cx="100" cy="100" r="60" fill="url(#${k}d)" stroke="#7a4a05" stroke-width="1.4"/>
-<circle cx="100" cy="100" r="57.5" fill="none" stroke="#fff0a0" stroke-width=".6"/>
-<g fill="#b9770d" stroke="#7a4a05" stroke-width=".3">${pais}</g>
-<circle cx="100" cy="100" r="44" fill="none" stroke="#8a5a0a" stroke-width=".8"/>
-<circle cx="100" cy="100" r="40" fill="none" stroke="#8a5a0a" stroke-width="1.1"/>
-<g stroke="#8a5a0a" stroke-width=".6" opacity=".75">${spokes}</g>
-<g fill="url(#${k}b)" stroke="#8a5a0a" stroke-width=".6">${pet}</g>
-<circle cx="100" cy="100" r="22" fill="url(#${k}m)" stroke="#6b3d00" stroke-width="1.5"/>
-<circle cx="100" cy="100" r="19.5" fill="none" stroke="#fff0a0" stroke-width=".6"/>
-<text x="99.2" y="107.2" font-size="22" font-weight="900" text-anchor="middle" fill="#fff3b8">EP</text>
-<text x="100" y="108" font-size="22" font-weight="900" text-anchor="middle" fill="#5a3300">EP</text>
-<ellipse cx="72" cy="48" rx="46" ry="20" transform="rotate(-35 72 48)" fill="#fff" opacity=".16"/>
-</svg>`}
-function paintCoins(){document.querySelectorAll("[data-coin]").forEach(e=>{e.innerHTML=coinSVG()})}
-paintCoins();
 const PH="919689155635",PER=59,ADMIN="tejas1";
-const UPI_ID="9689155635@nyes",FEE="20";
-const UPI="upi://pay?pa="+UPI_ID+"&pn="+encodeURIComponent("Pixel Rise")+"&am="+FEE+".00&cu=INR&tn="+encodeURIComponent("Quiz Entry");
 const DEF=`12 × 8 = ?|96|84|92|108|8 × 12 = 96.|MATH
 Square root of 144?|12|14|16|10|12 × 12 = 144.|MATH
 15% of 200?|30|20|25|35|10% is 20 and 5% is 10.|MATH
 25 + 37 × 2 = ?|99|124|74|89|Multiply first: 74 + 25.|MATH
 Sum of angles in a triangle?|180°|90°|270°|360°|It is always 180°.|MATH
-Chemical formula of water?|H2O|CO2|O2|NaCl|Two hydrogen, one oxygen.|SCIENCE
+Chemical formula of water?|H₂O|CO₂|O₂|NaCl|Two hydrogen, one oxygen.|SCIENCE
 Largest planet?|Jupiter|Saturn|Earth|Mars|Jupiter is the biggest.|SCIENCE
-Gas absorbed in photosynthesis?|CO2|O2|N2|H2|Plants take in CO2.|SCIENCE
+Gas absorbed in photosynthesis?|CO₂|O₂|N₂|H₂|Plants take in CO₂.|SCIENCE
 Bones in an adult body?|206|201|212|300|Adults have 206 bones.|SCIENCE
 Sound travels fastest in?|Solids|Air|Water|Vacuum|Particles are closest.|SCIENCE
 Capital of India?|New Delhi|Mumbai|Kolkata|Chennai|New Delhi is the capital.|INDIA GK
@@ -392,32 +239,34 @@ Constitution came into force?|26 Jan 1950|15 Aug 1947|2 Oct 1950|26 Nov 1949|Cel
 First Prime Minister?|Jawaharlal Nehru|Sardar Patel|Rajendra Prasad|L. B. Shastri|Served 1947 to 1964.|INDIA GK
 States in India?|28|25|29|30|India has 28 states.|INDIA GK
 Gateway of India is in?|Mumbai|Chennai|Kolkata|Delhi|It is in Mumbai.|INDIA GK`;
-function day0(){const d=new Date();d.setHours(0,0,0,0);return d.getTime()}
-let CFG={qtxt:DEF,start:new Date("2026-10-09T09:00:00+05:30").getTime(),end:new Date("2026-10-10T22:00:00+05:30").getTime()},QL=[],N=20,rv=[],st=0,tt=0,lastR=null,onl=0;
+var OFF=0;const NOW=()=>Date.now()+OFF;const MIN_EPOCH=100;
+let CFG={qtxt:DEF,start:0,end:0},QL=[],N=20,rv=[],st=0,tt=0,lastR=null,onl=0,reloading=false;
+const curEpoch=()=>Math.max(MIN_EPOCH,CFG.epoch||0);
+function epochCheck(){const cur=curEpoch(),st=+ls("qa_epoch")||0;if(st>=cur)return false;["qa_started","qa_done","qa_me","qa_refd"].forEach(k=>ls(k,null));ls("qa_epoch",cur);return st>0}
 const parseQ=t=>t.split("\n").map(l=>l.split("|").map(x=>x.trim())).filter(a=>a.length>=5&&a[0]);
 const prz=()=>(CFG.prz||"1500,500,200,50,25").split(",").map(x=>x.trim()).filter(Boolean);
 const prLabels=()=>prz().map((v,i)=>(["🥇","🥈","🥉"][i]||(i+1)+"th")+" ₹"+v);
-const phase=()=>{const n=Date.now();return CFG.start&&n<CFG.start?"soon":CFG.end&&n>CFG.end?"over":"live"};
+const phase=()=>{const n=NOW();return CFG.start&&n<CFG.start?"soon":CFG.end&&n>CFG.end?"over":"live"};
 const hms=ms=>{ms=Math.max(0,ms/1000|0);const d=ms/86400|0,h=ms%86400/3600|0,m=ms%3600/60|0,x=ms%60;return(d?d+"d ":"")+[h,m,x].map(v=>String(v).padStart(2,"0")).join(":")};
 const wa0=t=>"https://wa.me/?text="+encodeURIComponent(t);
-function applyCfg(){QL=parseQ(CFG.qtxt||DEF);if(!QL.length)QL=parseQ(DEF);N=QL.length;$("pzBox").innerHTML=prz().map((v,i)=>`<div>${["🥇","🥈","🥉"][i]||(i+1)+"th"}<br><b>₹${v}</b></div>`).join("");banner();if(adm&&document.activeElement!==$("aQ"))fillAdm()}
-function banner(){const p=phase(),n=Date.now();
+function applyCfg(){if(epochCheck()){reloading=true;location.reload();return}const sg=JSON.stringify(CFG);if(sg===window._sg&&QL.length)return;window._sg=sg;QL=parseQ(CFG.qtxt||DEF);if(!QL.length)QL=parseQ(DEF);N=QL.length;$("pzBox").innerHTML=prz().map((v,i)=>`<div>${["🥇","🥈","🥉"][i]||(i+1)+"th"}<br><b>₹${v}</b></div>`).join("");banner();if(adm&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))fillAdm()}
+function banner(){const p=phase(),n=NOW();if($("feeT")){$("feeT").textContent=$("feeB").textContent=+CFG.fee||20}ntf();
  $("mH").textContent=p==="soon"?"MATCH STARTS IN":p==="over"?"MATCH ENDED":"MATCH LIVE";
  $("mP").textContent=p==="soon"?hms(CFG.start-n):p==="over"?"Winners below":CFG.end?"Ends in "+hms(CFG.end-n):"Join now";
  $("entry").classList.toggle("hide",p==="over"&&!adm);
  $("winCard").classList.toggle("hide",p!=="over");
  if(p==="over")renderWin()}
 function renderWin(){const L=sorted().slice(0,prz().length),pr=prLabels();
- $("winL").innerHTML=L.length?L.map((r,i)=>`<div class="sts" style="margin:6px 0"><div style="text-align:left;padding-left:12px">${pr[i]}</div><div>${esc(r.u)}</div><div>${r.pts} EP${r.paid?"<small style='color:var(--ok)'>PAID ✔</small>":""}</div></div>`).join(""):"<p>No players.</p>"}
+ setH("winL",L.length?L.map((r,i)=>`<div class="sts" style="margin:6px 0"><div style="text-align:left;padding-left:12px">${pr[i]}</div><div>${esc(r.u)}</div><div>${r.pts} EP${r.paid?"<small style='color:var(--ok)'>PAID ✔</small>":""}</div></div>`).join(""):"<p>No players.</p>")}
 const $=id=>document.getElementById(id);
+const setH=(id,h)=>{const e=$(id);if(e._h!==h){e._h=h;e.innerHTML=h}};
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-const show=id=>["home","pay","earn","pdfPage","polPage","legalPage","uname","quiz","res"].forEach(s=>$(s).classList.toggle("hide",s!==id));
+const show=id=>["home","earn","uname","quiz","res","pdfs","pdfd","refer","legal","mock"].forEach(s=>$(s).classList.toggle("hide",s!==id));
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
 const ss=(k,v)=>{try{if(v===undefined)return sessionStorage.getItem(k);if(v===null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v)}catch(e){return null}};
 const wa=t=>"https://wa.me/"+PH+(t?"?text="+encodeURIComponent(t):"");
 $("waTop").href=wa("Hi, mujhe Quiz Arena ke baare mein help chahiye");
-const okName=u=>/^[A-Z0-9]{6}$/.test(u);
-const okUser=u=>okName(u)&&(adm||u.endsWith("9"));
+const okName=u=>/^[A-Z0-9]{5}9$/.test(u);
 
 /* sound */
 let snd=ls("qa_snd")!=="0",AC;
@@ -425,64 +274,35 @@ function beep(f,d){if(!snd)return;try{AC=AC||new(window.AudioContext||window.web
 const sndLbl=()=>$("sndBtn").textContent=snd?"🔊 SOUND: ON":"🔇 SOUND: OFF";
 sndLbl();$("sndBtn").onclick=()=>{snd=!snd;ls("qa_snd",snd?"1":"0");sndLbl();beep(660,.1)};
 
-/* ===== SITE LINK + REFERRAL ===== */
-const SITE_URL="";/* yahan apni site ka link daalo (https://...). Khali chhodo to current page ka link use hoga */
-const REF_BONUS=50;
-const siteBase=()=>{if(SITE_URL)return SITE_URL.replace(/[?#].*$/,"");try{return /^https?:/.test(location.protocol)?location.origin+location.pathname:""}catch(e){return ""}};
-const refLink=u=>{const b=siteBase();return b?b+(u?"?ref="+encodeURIComponent(u):""):""};
-try{const m=(location.search.match(/[?&]ref=([A-Za-z0-9]{6})/)||[])[1];if(m&&!ls("qa_ref")&&!ls("qa_me"))ls("qa_ref",m.toUpperCase());if(ls("qa_ref")&&!ls("qa_refdone")&&!ls("qa_me"))$("refNote").classList.remove("hide")}catch(e){}
-async function refApply(r){
- let rb=0;
- try{
-  const ref=ls("qa_ref");
-  if(ref&&ref!==r.u&&okName(ref)&&!ls("qa_refdone")){
-   rb+=REF_BONUS;r.ref=ref;ls("qa_refdone","1");
-   if(FB_URL){try{
-    await FB("referrals/"+r.u,"PUT",{by:ref,t:Date.now()});
-    const rr=await FB("scores/"+ref);
-    if(rr)await FB("scores/"+ref,"PUT",{...rr,pts:rr.pts+REF_BONUS,refs:(rr.refs||0)+1});
-    else await FB("refpend/"+ref+"/"+r.u,"PUT",true);
-   }catch(e){}}
-  }
-  if(FB_URL){try{const pend=await FB("refpend/"+r.u),k=pend?Object.keys(pend).length:0;if(k){rb+=k*REF_BONUS;r.refs=(r.refs||0)+k;await FB("refpend/"+r.u,"DELETE")}}catch(e){}}
- }catch(e){}
- r.pts+=rb;r.rb=rb;pts=r.pts;
-}
-
 /* leaderboard + db */
+epochCheck();
 let rows=[],me=ls("qa_me"),db=null,coll=null,adm=ss("qa_adm")==="1";
 const esc=s=>{const d=document.createElement("div");d.textContent=s;return d.innerHTML};
-/* adj = admin ne rank badalne ke liye di hui hidden adjustment (points display mein nahi badalte) */
-const eff=r=>r.pts+(r.adj||0);
-const sorted=()=>rows.slice().sort((a,b)=>eff(b)-eff(a)||b.ok-a.ok||(a.tt??9e9)-(b.tt??9e9)||a.t-b.t);
+const sorted=()=>rows.slice().sort((a,b)=>b.pts-a.pts||b.ok-a.ok||(a.tt??9e9)-(b.tt??9e9)||a.t-b.t);
 function persistLocal(){if(!coll)ls("qa_rows",JSON.stringify(rows))}
 async function save(r){
-  if(FB_URL){try{await FB("scores/"+r.u,"PUT",r);const k=rows.findIndex(x=>x.u===r.u);if(k>=0)rows[k]=r;else rows.push(r);renderLB();pollAll();return true}catch(e){return false}}
+  if(FB_URL){try{await FB("scores/"+r.u,"PUT",r);pollAll();return true}catch(e){return false}}
   if(coll){coll.doc(r.u).set(r).catch(()=>{});return true}
   rows=rows.filter(x=>x.u!==r.u).concat(r);persistLocal();renderLB();return true}
 async function del(u){
-  if(FB_URL){try{const v=await FB("used/"+u);if(v&&v.dev)await FB("devices/"+v.dev,"DELETE");await FB("used/"+u,"DELETE");await FB("scores/"+u,"DELETE");rows=rows.filter(x=>x.u!==u);renderLB();pollAll()}catch(e){}return}
+  if(FB_URL){try{const v=await FB("used/"+u);if(v&&v.dev)await FB("devices/"+v.dev,"DELETE");await FB("used/"+u,"DELETE");await FB("scores/"+u,"DELETE");pollAll()}catch(e){}return}
   if(coll){coll.doc(u).delete().catch(()=>{})}else{rows=rows.filter(x=>x.u!==u);persistLocal();renderLB()}}
 function renderLB(){
   const L=sorted(),pr=prLabels();
-  const h=L.length?"<table><tr><th>RANK</th><th>PLAYER</th><th>EP</th><th>SAHI</th><th>TIME</th>"+(adm?"<th></th>":"")+"</tr>"+L.map((r,i)=>`<tr class="${r.u===me?"me":""}"><td class="rk">#${i+1}${pr[i]?"<br><small>"+pr[i]+"</small>":""}${r.paid?"<br><small class='pd'>PAID ✔</small>":""}</td><td>${esc(r.u)}</td><td>${r.pts}</td><td>${r.ok}/${N}</td><td>${r.tt!=null?r.tt+"s":"–"}</td>${adm?`<td><div class="ad"><button data-a="up" data-u="${esc(r.u)}">▲</button><button data-a="dn" data-u="${esc(r.u)}">▼</button><button data-a="ed" data-u="${esc(r.u)}">✎</button><button data-a="pd" data-u="${esc(r.u)}" title="Paid" style="${r.paid?"background:#1faa54":""}">💰</button><button data-a="rm" data-u="${esc(r.u)}">🗑</button></div></td>`:""}</tr>`).join("")+"</table>":"<p>No players yet. Be the first!</p>";
-  $("lbHome").innerHTML=h;$("lbRes").innerHTML=h;
-  const i=L.findIndex(r=>r.u===me);if(i>=0&&!$("res").classList.contains("hide")){$("rRank").textContent="#"+(i+1);if(!adm)$("rEP").textContent=L[i].pts}
+  const h=L.length?"<table><tr><th>RANK</th><th>PLAYER</th><th>EP</th><th>SAHI</th><th>TIME</th>"+(adm?"<th></th>":"")+"</tr>"+L.map((r,i)=>`<tr class="${r.u===me?"me":""}"><td class="rk">#${i+1}${pr[i]?"<br><small>"+pr[i]+"</small>":""}${r.paid?"<br><small class='pd'>PAID ✔</small>":""}</td><td>${esc(r.u)}</td><td>${r.pts}</td><td>${r.ok}/${N}</td><td>${r.tt!=null?r.tt+"s":"–"}</td>${adm?`<td><div class="ad"><button data-a="up" data-i="${i}">▲</button><button data-a="dn" data-i="${i}">▼</button><button data-a="ed" data-i="${i}">✎</button><button data-a="pd" data-i="${i}" title="Paid" style="${r.paid?"background:#1faa54":""}">💰</button><button data-a="rm" data-i="${i}">🗑</button></div></td>`:""}</tr>`).join("")+"</table>":"<p>No players yet. Be the first!</p>";
+  setH("lbHome",h);setH("lbRes",h);
+  const i=L.findIndex(r=>r.u===me);if(i>=0&&!$("res").classList.contains("hide"))$("rRank").textContent="#"+(i+1);
   if(phase()==="over")renderWin();
   renderStats();
 }
-/* ADMIN: rank up/down, edit, paid, delete */
 document.addEventListener("click",e=>{
   const b=e.target.closest("button[data-a]");if(!b||!adm)return;
-  const L=sorted(),a=b.dataset.a,i=L.findIndex(x=>x.u===b.dataset.u);if(i<0)return;const r=L[i];
+  const L=sorted(),i=+b.dataset.i,a=b.dataset.a,r=L[i];
   if(a==="rm"){if(confirm(r.u+" ko delete karna hai?"))del(r.u)}
   else if(a==="pd")save({...r,paid:!r.paid});
-  else if(a==="ed"){const v=prompt("New EP points for "+r.u,r.pts);if(v!==null&&v.trim()!==""&&!isNaN(+v))save({...r,pts:Math.max(0,Math.round(+v)),adj:0})}
-  else{
-    const j=a==="up"?i-1:i+1;if(j<0||j>=L.length)return;const o=L[j];
-    const target=a==="up"?eff(o)+0.001:eff(o)-0.001;
-    save({...r,adj:+(target-r.pts).toFixed(3)});
-  }
+  else if(a==="ed"){const v=prompt("New EP points for "+r.u,r.pts);if(v!==null&&v.trim()!==""&&!isNaN(+v))save({...r,pts:Math.max(0,Math.round(+v))})}
+  else{const j=a==="up"?i-1:i+1;if(j<0||j>=L.length)return;const o=L[j];
+    save({...r,pts:o.pts,ok:o.ok,tt:o.tt,t:o.t});save({...o,pts:r.pts,ok:r.ok,tt:r.tt,t:r.t})}
 });
 const get=r=>typeof r.data==="function"?r.data():r.data;
 /* ===== SETUP: apna Firebase Realtime Database URL yahan paste karo (e.g. https://myquiz-default-rtdb.firebaseio.com) ===== */
@@ -509,25 +329,27 @@ applyCfg();
   try{const c=FB_URL?fbShim(FB_URL):(window.claude&&await claude.use("db"));
     if(c){db=c;coll=db.collection("scores");
       coll.onSnapshot(s=>{rows=s.docs.map(get).filter(Boolean);renderLB()},()=>{});
-      db.collection("config").doc("main").onSnapshot(s=>{if(exs(s)){const d=get(s);if(d){CFG={...CFG,...d};applyCfg()}}},()=>{});}}catch(e){}
+      db.collection("config").doc("main").onSnapshot(s=>{if(exs(s)){const d=get(s);if(d){CFG={...CFG,...d};applyCfg()}}abandonCheck()},()=>{});}}catch(e){}
   if(!coll){try{rows=JSON.parse(ls("qa_rows")||"[]");const c=ls("qa_cfg");if(c)CFG={...CFG,...JSON.parse(c)}}catch(e){rows=[]}}
-  setLive();applyCfg();renderLB();
+  setLive();applyCfg();renderLB();if(!FB_URL)abandonCheck();
 })();
-function setLive(){document.querySelectorAll(".lv").forEach(e=>{if(!coll){e.textContent="● THIS DEVICE ONLY";e.style.color="#ffb454"}else if(fbOK===true){e.textContent="● LIVE · SHARED";e.style.color=""}else if(fbOK===false){e.textContent="⚠ DATABASE ERROR (Rules/Internet check karo)";e.style.color="#ff8090"}else{e.textContent="● CONNECTING...";e.style.color="#ffb454"}})}
+function setLive(){document.querySelectorAll(".lv").forEach(e=>{if(!coll){e.textContent="● THIS DEVICE ONLY";e.style.color="#ffb454"}else if(fbOK===true){e.textContent="● LIVE · SHARED";e.style.color=""}else if(fbOK===false){e.textContent="⚠ DATABASE ERROR (Rules/Internet check karo)";e.style.color="#ff8090"}else{e.textContent="● CONNECTING…";e.style.color="#ffb454"}})}
 setInterval(banner,1000);
-/* refresh ke baad: sirf result + leaderboard, dubara quiz nahi */
-try{(()=>{const d=ls("qa_done"),m=ls("qa_me");
- if(m&&d){try{showRes(JSON.parse(d))}catch(e){}}
- else if(m&&ls("qa_started")&&!adm){const r={u:m,pts:0,ok:0,tt:N*PER,t:Date.now()};ls("qa_done",JSON.stringify(r));lastR=r;save(r);showRes(r)}
-})()}catch(e){console.error(e)}
-setTimeout(async()=>{const d=ls("qa_done");if(adm||!me||!d||fbOK!==true||rows.some(x=>x.u===me))return;try{if(await FB("used/"+me))save(JSON.parse(d))}catch(e){}},4000);
+/* refresh ke baad: sirf leaderboard/result */
+(()=>{const d=ls("qa_done"),m=ls("qa_me");if(m&&d){try{showRes(JSON.parse(d))}catch(e){}}})();
+let abDone=false;
+async function abandonCheck(){if(abDone||reloading)return;abDone=true;const m=ls("qa_me");if(m&&!ls("qa_done")&&ls("qa_started")&&!adm){if(FB_URL){try{if(!(await FB("used/"+m))){["qa_started","qa_me","qa_done"].forEach(k=>ls(k,null));return}}catch(e){abDone=false;return}}const r={u:m,pts:0,ok:0,tt:N*PER,t:Date.now()};ls("qa_done",JSON.stringify(r));lastR=r;save(r);showRes(r)}}
 function toDT(ms){return ms?new Date(ms-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,16):""}
-function fillAdm(){$("aP").value=CFG.prz||"1500,500,200,50,25";$("aQ").value=CFG.qtxt||DEF;$("aS").value=toDT(CFG.start);$("aE").value=toDT(CFG.end)}
+function showT(){const f=t=>t?new Date(t).toLocaleString([],{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"—";$("aTimer").textContent=(CFG.start||CFG.end)?"Start: "+f(CFG.start)+"  →  End: "+f(CFG.end):"No timer (match always open)"}
+function fillAdm(){$("aP").value=CFG.prz||"1500,500,200,50,25";$("aQ").value=CFG.qtxt||DEF;showT();$("aFee").value=CFG.fee||20;$("mk1").value=CFG.mkp||2;$("mk2").value=CFG.mkc||"MOCK100";$("mk3").value=CFG.mkm||60;$("mk4").value=CFG.mqtxt||"";const a=(CFG.pdfp||"29,59,69,138").split(",");[1,2,3,4].forEach(i=>$("pp"+i).value=a[i-1]||"")}
 function saveCfg(p){CFG={...CFG,...p};if(coll)db.collection("config").doc("main").set(CFG).catch(()=>{});else ls("qa_cfg",JSON.stringify(CFG));applyCfg()}
-function adminUI(){$("admBar").classList.toggle("hide",!adm);$("admCard").classList.toggle("hide",!adm);$("admLogin").classList.toggle("hide",adm);if(adm)fillAdm();banner();renderLB()}
+function adminUI(){if($("startBtn"))$("startBtn").classList.toggle("hide",!ls("qa_reg")&&!adm);$("admBar").classList.toggle("hide",!adm);$("admCard").classList.toggle("hide",!adm);$("admLogin").classList.toggle("hide",adm);if(adm)fillAdm();banner();renderLB()}
 $("aSaveQ").onclick=()=>{const t=$("aQ").value.trim(),n=parseQ(t).length;if(!n){$("aMsg").textContent="Invalid format";return}saveCfg({qtxt:t});$("aMsg").textContent="Questions saved ✔ ("+n+")"};
-$("aSaveT").onclick=()=>{const a=$("aS").value,b=$("aE").value;saveCfg({start:a?new Date(a).getTime():0,end:b?new Date(b).getTime():0});$("aMsg").textContent="Timer saved ✔"};
-$("aEnd").onclick=()=>{saveCfg({end:Date.now()});fillAdm();$("aMsg").textContent="Match ended ✔"};
+$("aStart").onclick=()=>{const st=NOW()+(+$("aIn").value)*60000;saveCfg({start:st,end:st+(+$("aDur").value)*60000});showT();$("aMsg").textContent="Timer started ✔"};
+$("aSetT").onclick=()=>{const a=+new Date($("aS").value),b=+new Date($("aE").value);if(!a||!b||b<=a){$("aMsg").textContent="Start/End time sahi chuno";return}saveCfg({start:a,end:b});showT();$("aMsg").textContent="Exact timer set ✔"};
+$("aSaveD").onclick=()=>{saveCfg({pdfp:[1,2,3,4].map(i=>+$("pp"+i).value||0).join(",")});$("aMsg").textContent="PDF prices saved ✔"};
+$("aCsv").onclick=csv;
+$("aEnd").onclick=()=>{saveCfg({end:NOW()});fillAdm();$("aMsg").textContent="Match ended ✔"};
 $("aOpen").onclick=()=>{saveCfg({start:0,end:0});fillAdm();$("aMsg").textContent="Match open ✔"};
 $("aSaveP").onclick=()=>{saveCfg({prz:$("aP").value.replace(/[^0-9,]/g,"")||"1500,500,200,50,25"});$("aMsg").textContent="Prizes saved ✔"};
 $("winShare").onclick=()=>window.open(wa0("Quiz Arena winners: "+sorted().slice(0,3).map((r,i)=>(i+1)+". "+r.u+" ("+r.pts+" EP)").join(", ")),"_blank");
@@ -538,69 +360,42 @@ $("setBtn").onclick=()=>{$("aCodeErr").textContent="";$("aCode").value="";$("set
 $("setClose").onclick=()=>$("setOv").classList.add("hide");
 $("aSign").onclick=()=>{if($("aCode").value.trim().toLowerCase()===ADMIN){adm=true;ss("qa_adm","1");ls("qa_done",null);$("setOv").classList.add("hide");show("home");adminUI()}else $("aCodeErr").textContent="Wrong code"};
 $("aOut").onclick=()=>{adm=false;ss("qa_adm",null);adminUI()};
-$("aReset").onclick=()=>{if(confirm("Poora leaderboard reset karna hai?"))sorted().forEach(r=>del(r.u))};
+$("aReset").onclick=async()=>{if(!confirm("NEW MATCH: leaderboard saaf hoga aur sabhi devices ek baar phir khel paayenge. Pakka?"))return;
+  try{await FB("scores","DELETE");await FB("devices","DELETE");await FB("used","DELETE")}catch(e){$("aMsg").textContent="Reset fail. Internet/Rules check karo";return}
+  const ne=curEpoch()+1;ls("qa_epoch",ne);rows=[];saveCfg({epoch:ne});renderLB();$("aMsg").textContent="New match ready ✔"};
 $("aPlay").onclick=()=>{const u=$("aU").value.trim().toUpperCase();if(!okName(u)){$("aErr").textContent="Wrong username";return}$("aErr").textContent="";me=u;start()};
 $("admAgain").onclick=()=>show("home");
 
-/* ENTRY: pay ₹20 -> QR + UPI app -> payment completed -> username */
-function makeQR(){const b=$("qr");b.innerHTML="";$("upiTxt").textContent="UPI ID: "+UPI_ID+"  •  ₹"+FEE;
- try{new QRCode(b,{text:UPI,width:208,height:208,correctLevel:QRCode.CorrectLevel.M})}
- catch(e){b.innerHTML='<img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(UPI)+'">'}}
-$("startBtn").onclick=()=>{
-  const er=$("hErr");er.textContent="";
-  if(ls("qa_done")){try{showRes(JSON.parse(ls("qa_done")))}catch(e){}return}
-  if(ls("qa_started")){er.textContent="Is device se quiz ek baar khela ja chuka hai";return}
-  if(phase()!=="live"){er.textContent=phase()==="soon"?"Match has not started yet":"Match has ended";return}
-  makeQR();show("pay")};
-$("openUpi").onclick=()=>{window.location.href=UPI};
-$("payDone").onclick=()=>{window.open(wa("Hi, maine Pixel Rise Quiz ke liye ₹20 pay kar diya hai. Please payment check karke confirm karo."),"_blank");show("home")};
-function haveUser(){const er=$("hErr");er.textContent="";
- if(!adm){
-  if(ls("qa_done")){try{showRes(JSON.parse(ls("qa_done")))}catch(e){}return}
-  const m=ls("qa_started")?"Is device se quiz ek baar khela ja chuka hai":phase()==="soon"?"Match has not started yet":phase()==="over"?"Match has ended":"";
-  if(m){show("home");er.textContent=m;return}}
- $("uerr").textContent="";show("uname")}
-$("haveUser").onclick=haveUser;$("haveUser2").onclick=haveUser;
-$("dlQr").onclick=()=>{const c=$("qr").querySelector("canvas");
- if(c){const o=document.createElement("canvas");o.width=o.height=640;const g=o.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,640,640);g.imageSmoothingEnabled=false;g.drawImage(c,40,40,560,560);
-  const a=document.createElement("a");a.href=o.toDataURL("image/png");a.download="pixel-rise-pay-20.png";document.body.appendChild(a);a.click();a.remove()}
- else{const im=$("qr").querySelector("img");if(im)window.open(im.src,"_blank")}};
-$("payBack").onclick=()=>show("home");
+$("startBtn").onclick=()=>{$("rin").value=ls("qa_ref")||"";$("uerr").textContent="";show("uname")};
 $("uBack").onclick=()=>show("home");
-
-/* Navi task */
-const NAVI="https://r.navi.com/rlXnRE";
+const NAVI="https://r.navi.com/rlXnRE",UPI="9689155635@nyes",SITE="https://tejasmore7211-boop.github.io/Pixelrise.online/",REFMIN=10;
 $("earnBtn").onclick=()=>{$("setOv").classList.add("hide");show("earn")};
-$("earnBack").onclick=()=>{const d=ls("qa_done");if(d&&!adm){try{showRes(JSON.parse(d));return}catch(e){}}show("home")};
-$("askYes").onclick=()=>show("earn");
-$("askNo").onclick=()=>$("earnAsk").classList.add("hide");
+$("earnBack").onclick=()=>show("home");
 $("goTask").onclick=()=>window.open(NAVI,"_blank","noopener");
 $("doneTask").onclick=()=>$("taskOv").classList.remove("hide");
 $("taskNo").onclick=()=>$("taskOv").classList.add("hide");
 $("taskYes").onclick=()=>{$("taskOv").classList.add("hide");window.open(wa("Hi, I completed the Navi task (downloaded the app and made my first payment). Username: "+(me||"-")),"_blank")};
-
-/* Premium PDF */
-$("pdfBtn").onclick=()=>{$("setOv").classList.add("hide");show("pdfPage")};
-$("pdfBuy").onclick=()=>window.open(wa("Hi, I want to buy the Premium ₹39 PDF (100 UPSC Questions, Hindi)."),"_blank");
-$("pdfBack").onclick=()=>{const d=ls("qa_done");if(d&&!adm){try{showRes(JSON.parse(d));return}catch(e){}}show("home")};
 
 /* username */
 const devId=()=>{let d=ls("qa_dev")||((document.cookie||"").match(/qa_dev=(\w+)/)||[])[1];if(!d)d=Math.random().toString(36).slice(2,12)+Date.now().toString(36);ls("qa_dev",d);try{document.cookie="qa_dev="+d+";max-age=31536000;path=/;SameSite=Lax"}catch(e){}return d};
 $("uGo").onclick=async()=>{
   const u=$("uin").value.trim().toUpperCase(),er=$("uerr");
   if(!adm&&phase()!=="live"){er.textContent=phase()==="soon"?"Match has not started yet":"Match has ended";return}
-  if(!okName(u)){er.textContent="Username 6 characters ka hona chahiye (letters ya numbers)";return}
-  if(!okUser(u)){er.textContent="Wrong username";return}
+  if(!okName(u)){er.textContent="Wrong username";return}
+  const mr=($("rin").value||"").trim().toUpperCase();if(mr&&!/^[A-Z0-9]{6}$/.test(mr)){er.textContent="❌ Referral code galat hai (6 letters/numbers).";return}
   if(!adm){
     if(ls("qa_started")||ls("qa_done")){er.textContent="Is device se quiz ek baar khela ja chuka hai";return}
     if(FB_URL){
       $("uGo").disabled=true;er.textContent="Checking...";
       try{
-        const dev=devId(),[used,dv]=await Promise.all([FB("used/"+u),FB("devices/"+dev)]);
-        if(dv){er.textContent="Is device se quiz ek baar khela ja chuka hai";ls("qa_started","1");return}
-        if(used){er.textContent="Username already used";return}
-        await FB("used/"+u,"PUT",{dev,t:Date.now()});await FB("devices/"+dev,"PUT",{u,t:Date.now()});
-      }catch(e){if(rows.some(r=>r.u===u)){er.textContent="Username already used";return}}
+        const dev=devId(),[used,dv,al,rv0]=await Promise.all([FB("used/"+u),FB("devices/"+dev),FB("allowed/"+u),mr?FB("used/"+mr):null]);
+        if(!al){er.textContent="Ye username registered nahi hai. Pehle REGISTER ON WHATSAPP se entry fee bhejo.";return}
+        if(mr&&(mr===u||!rv0)){er.textContent="❌ Referral code galat hai. Sahi code daalo ya khali chhodo.";return}
+        if(mr)ls("qa_ref",mr);
+        if(dv&&(dv.e||0)>=curEpoch()){er.textContent="Is device se quiz ek baar khela ja chuka hai";ls("qa_started","1");return}
+        if(used&&(used.e||0)>=curEpoch()){er.textContent="Username already used";return}
+        await FB("used/"+u,"PUT",{dev,t:Date.now(),e:curEpoch(),ip:MYIP});await FB("devices/"+dev,"PUT",{u,t:Date.now(),e:curEpoch()});await creditRef(u);
+      }catch(e){er.textContent="Network error. Internet check karke dobara try karo";return}
       finally{$("uGo").disabled=false}
     }else if(rows.some(r=>r.u===u)){er.textContent="Username already used";return}
     ls("qa_started","1");
@@ -628,80 +423,247 @@ function answer(o){
 async function finish(){
   clearInterval(iv);
   const old=rows.find(x=>x.u===me),r={u:me,pts,ok,tt,t:Date.now()};if(old&&old.paid)r.paid=true;
-  if(!adm)await refApply(r);
   lastR=r;if(!adm)ls("qa_done",JSON.stringify(r));
-  showRes(r);
-  const good=await save(r);$("saveMsg").classList.toggle("hide",good);
+  try{showRes(r)}catch(e){show("res")}
+  let good=false;try{good=await save(r)}catch(e){}
+  $("saveMsg").classList.toggle("hide",good);
+  if(good){creditRef();renderRef()}
 }
 $("retry").onclick=async()=>{if(lastR&&await save(lastR))$("saveMsg").classList.add("hide")};
 function showRes(r){
   show("res");
   $("rEP").textContent=r.pts;$("rOk").textContent=r.ok;$("rBad").textContent=N-r.ok;
-  $("rUser").textContent="USERNAME: "+r.u;const rbv=r.rb||0;$("rRef").textContent=rbv?"🎁 Referral bonus +"+rbv+" EP included":"";$("rRef").classList.toggle("hide",!rbv);
+  $("rUser").textContent="USERNAME: "+r.u;
   $("rev").innerHTML=rv.map((x,k)=>`<p style="margin:0 0 12px"><b style="color:#fff">${k+1}. ${esc(x.q)}</b><br><span style="color:${x.my===x.a?"var(--ok)":"var(--no)"}">${x.my===null?"Time out":esc(x.my)}</span>${x.my===x.a?"":" → <span style='color:var(--ok)'>"+esc(x.a)+"</span>"}<br><small>${esc(x.w||"")}</small></p>`).join("");
   $("revCard").classList.toggle("hide",!rv.length);
   $("admAgain").classList.toggle("hide",!adm);
-  $("earnAsk").classList.remove("hide");
-  if(!rows.some(x=>x.u===r.u))rows.push(r);
+  if(!FB_URL&&!rows.some(x=>x.u===r.u))rows.push(r);
   $("rRank").textContent="–";renderLB();
 }
-$("share").onclick=()=>{const L=sorted(),k=L.findIndex(r=>r.u===me);window.open(wa0("Quiz Arena: mere "+$("rEP").textContent+" EP, "+$("rOk").textContent+"/20 sahi"+(k>=0?", rank #"+(k+1):"")+". Username: "+me+(refLink(me||"")?"\nJoin karo (dono ko +"+REF_BONUS+" EP): "+refLink(me||""):"")),"_blank")};
+$("share").onclick=()=>{const L=sorted(),k=L.findIndex(r=>r.u===me);window.open(wa0("Quiz Arena: mere "+$("rEP").textContent+" EP, "+$("rOk").textContent+"/20 sahi"+(k>=0?", rank #"+(k+1):"")+". Username: "+me),"_blank")};
 
 /* stats + presence */
-
+function day0(){const d=new Date();d.setHours(0,0,0,0);return d.getTime()}
 function renderStats(){const tod=rows.filter(r=>r.t>=day0()).length,tot=rows.length;
- $("aO").textContent=onl;$("aT").textContent=tod;$("aA").textContent=tot}
-function beat(){if(FB_URL)FB("online/"+devId(),"PUT",Date.now()).catch(()=>{})}
+ $("pO").textContent=$("aO").textContent=onl;$("pT").textContent=$("aT").textContent=tod;$("aA").textContent=tot}
+function beat(){if(FB_URL)FB("online/"+devId(),"PUT",{".sv":"timestamp"}).then(v=>{if(typeof v==="number")OFF=v-Date.now()}).catch(()=>{})}
 async function cnt(){if(!FB_URL)return;try{const v=(await FB("online"))||{},n=Date.now();onl=Object.values(v).filter(t=>n-t<45000).length;renderStats();if(adm)Object.keys(v).forEach(k=>{if(n-v[k]>600000)FB("online/"+k,"DELETE").catch(()=>{})})}catch(e){}}
 setInterval(beat,20000);setInterval(cnt,5000);beat();cnt();
 /* result card */
-function qrCanvas(text,size){try{const d=document.createElement("div");d.style.cssText="position:fixed;left:-9999px;top:0";document.body.appendChild(d);new QRCode(d,{text,width:size,height:size,correctLevel:QRCode.CorrectLevel.M});const c=d.querySelector("canvas"),o=document.createElement("canvas");o.width=o.height=size;const x=o.getContext("2d");x.imageSmoothingEnabled=false;x.drawImage(c,0,0,size,size);d.remove();return o}catch(e){return null}}
-async function makeCard(){
+function qrCanvas(text,size){try{const d=document.createElement("div");new QRCode(d,{text,width:size,height:size,correctLevel:QRCode.CorrectLevel.M});return d.querySelector("canvas")}catch(e){return null}}
+function makeCard(){
  const r=lastR||JSON.parse(ls("qa_done")||"null");if(!r)return null;
- const k=sorted().findIndex(x=>x.u===r.u),c=document.createElement("canvas");c.width=1080;c.height=1600;const g=c.getContext("2d");
- const bg=g.createLinearGradient(0,0,1080,1600);bg.addColorStop(0,"#0a0f33");bg.addColorStop(1,"#2a1070");g.fillStyle=bg;g.fillRect(0,0,1080,1600);
- g.textAlign="center";const T=(t,y,f,col,x)=>{g.font=f;g.fillStyle=col;g.fillText(t,x||540,y)};
- T("PIXEL RISE",120,"bold 76px Arial","#ffffff");T("QUIZ ARENA",170,"34px Arial","#8993b9");
- try{const im=new Image();await new Promise((ok,no)=>{im.onload=ok;im.onerror=no;im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(coinSVG(400))});g.drawImage(im,410,200,260,260)}catch(e){}
- T(String(r.pts),680,"bold 200px Arial","#63e7ff");T("EP POINTS",740,"bold 48px Arial","#ffffff");
- if(k>=0)T("RANK #"+(k+1),860,"bold 108px Arial","#ffd24a");
- T(r.ok+" / "+N+" correct  •  "+(r.tt!=null?r.tt+"s":""),940,"44px Arial","#ffffff");
- T(r.u,1020,"bold 54px Arial","#63e7ff");
- g.fillStyle="rgba(255,255,255,.09)";g.beginPath();if(g.roundRect)g.roundRect(60,1070,960,420,36);else g.rect(60,1070,960,420);g.fill();
- const link=refLink(r.u),qc=link?qrCanvas(link,300):null;
- if(qc){
-  g.fillStyle="#fff";g.fillRect(90,1110,340,340);g.drawImage(qc,110,1130,300,300);
-  const tx=745;T("SCAN KARO &",1190,"bold 48px Arial","#ffffff",tx);T("JOIN KARO",1250,"bold 48px Arial","#ffffff",tx);
-  T("Dono ko +"+REF_BONUS+" EP bonus 🎁",1315,"bold 34px Arial","#ffd24a",tx);
-  const shown=link.replace(/^https?:\/\//,"");let fs=30;g.font="bold "+fs+"px Arial";while(g.measureText(shown).width>520&&fs>14){fs--;g.font="bold "+fs+"px Arial"}
-  T(shown,1385,"bold "+fs+"px Arial","#63e7ff",tx);
- }else{
-  T("JOIN PIXEL RISE QUIZ",1230,"bold 56px Arial","#ffffff");T("Dost ke saath khelo aur jeeto!",1300,"38px Arial","#ffd24a");
- }
- T("Can you beat my score?",1560,"36px Arial","#8993b9");
+ const k=sorted().findIndex(x=>x.u===r.u),c=document.createElement("canvas");c.width=1080;c.height=1500;const g=c.getContext("2d");
+ const bg=g.createLinearGradient(0,0,1080,1500);bg.addColorStop(0,"#0a0f33");bg.addColorStop(1,"#2a1070");g.fillStyle=bg;g.fillRect(0,0,1080,1500);
+ g.textAlign="center";const T=(t,y,f,col)=>{g.font=f;g.fillStyle=col;g.fillText(t,540,y)};
+ T("PIXEL RISE",140,"bold 76px Arial","#ffffff");T("QUIZ ARENA",200,"34px Arial","#8993b9");
+ T(String(r.pts),560,"bold 260px Arial","#63e7ff");T("EP POINTS",640,"bold 54px Arial","#ffffff");
+ if(k>=0)T("RANK #"+(k+1),790,"bold 120px Arial","#ffd24a");
+ T(r.ok+" / "+N+" correct  •  "+(r.tt!=null?r.tt+"s":""),880,"44px Arial","#ffffff");
+ T(r.u,960,"bold 52px Arial","#63e7ff");
+ const q=qrCanvas(SITE+(r.u?"?ref="+r.u:""),240);
+ if(q){g.fillStyle="#fff";g.fillRect(400,990,280,280);g.drawImage(q,420,1010,240,240)}
+ T("Scan to play & beat my score",1320,"bold 40px Arial","#ffffff");
+ T(SITE.replace("https://",""),1372,"30px Arial","#8993b9");
+ T("PixelRise • By Tejas More",1450,"28px Arial","#8993b9");
  return c}
 let cardC=null;
-$("mkCard").onclick=async()=>{cardC=await makeCard();if(!cardC)return;$("cardImg").src=cardC.toDataURL("image/png");$("cardOv").classList.remove("hide")};
+$("mkCard").onclick=()=>{cardC=makeCard();if(!cardC)return;$("cardImg").src=cardC.toDataURL("image/png");$("cardOv").classList.remove("hide")};
 $("cClose").onclick=()=>$("cardOv").classList.add("hide");
 $("cDl").onclick=()=>{const a=document.createElement("a");a.href=cardC.toDataURL("image/png");a.download="pixel-rise-result.png";document.body.appendChild(a);a.click();a.remove()};
-$("cShare").onclick=()=>cardC.toBlob(async b=>{const f=new File([b],"pixel-rise-result.png",{type:"image/png"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:"Can you beat my score on Pixel Rise Quiz?"+(refLink(me||"")?" "+refLink(me||""):"")});else $("cDl").onclick()}catch(e){}});
+$("cShare").onclick=()=>cardC.toBlob(async b=>{const f=new File([b],"pixel-rise-result.png",{type:"image/png"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:"Can you beat my score on Pixel Rise Quiz?"});else $("cDl").onclick()}catch(e){}});
 
-/* ===== new features: PDFs, legal, invite, CSV ===== */
-const backHome=()=>{const d=ls("qa_done");if(d&&!adm){try{showRes(JSON.parse(d));return}catch(e){}}show("home")};
-$("polBtn").onclick=()=>{$("setOv").classList.add("hide");show("polPage")};
-$("polBuy").onclick=()=>window.open(wa("Hi, I want to buy the Police Bharti Marathi PDF (101 Questions) for ₹29 (50% OFF). Username: "+(me||"-")),"_blank");
-$("polBack").onclick=backHome;
-const openLegal=()=>{$("setOv").classList.add("hide");show("legalPage");window.scrollTo(0,0)};
-$("legBtn").onclick=openLegal;$("lnkLegal").onclick=openLegal;$("lnkLegal2").onclick=openLegal;$("legBack").onclick=backHome;
-const inviteGo=()=>{const l=refLink(me||"");window.open(wa0("Pixel Rise Quiz khelo! Mere link se join karoge to hum dono ko +"+REF_BONUS+" EP bonus milega 🎁"+(l?"\n"+l:"")),"_blank")};
-$("invSet").onclick=()=>{$("setOv").classList.add("hide");inviteGo()};$("invRes").onclick=inviteGo;
-$("aCsv").onclick=()=>{
- const q=v=>{v=String(v==null?"":v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
- const L=sorted(),H=["Rank","Username","EP","Correct","Total Questions","Time (s)","Paid","Referral Bonus EP","Referrals","Played At"];
- const lines=[H.join(",")].concat(L.map((r,i)=>[i+1,r.u,r.pts,r.ok,N,r.tt!=null?r.tt:"",r.paid?"YES":"NO",r.rb||0,r.refs||0,new Date(r.t).toLocaleString("en-IN")].map(q).join(",")));
- const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"}));
- a.download="pixel-rise-players-"+new Date().toISOString().slice(0,10)+".csv";document.body.appendChild(a);a.click();a.remove();
- $("aMsg").textContent="CSV exported ✔ ("+L.length+" players)"};
+/* ===== CSV, PDFs, referral, legal ===== */
+$("homeBtn").onclick=()=>show("home");
+function csv(){const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+ const R=[["Rank","Username","EP","Correct","Time(s)","Paid"]].concat(sorted().map((r,i)=>[i+1,r.u,r.pts,r.ok+"/"+N,r.tt!=null?r.tt:"",r.paid?"PAID":"PENDING"]));
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+R.map(r=>r.map(q).join(",")).join("\n")],{type:"text/csv"}));a.download="pixelrise-players.csv";document.body.appendChild(a);a.click();a.remove()}
+const pp=()=>{const a=(CFG.pdfp||"29,59,69,138").split(",").map(Number);return[
+ {n:"Police Bharti Marathi PDF",p:a[0]||29,m:a[1]||59,f:["101 practice questions in Marathi","7 subjects: Marathi grammar, Maharashtra GK, history, geography, polity, science, maths &amp; reasoning","4 options per question","Answer key on the last page","Print-friendly A4 PDF (12 pages)","Delivered on WhatsApp after payment verification"]},
+ {n:"UPSC Hindi PDF",p:a[2]||69,m:a[3]||138,f:["101 practice questions in Hindi","7 sections: history, polity, geography, economy, science &amp; tech, environment, general knowledge","4 options per question","Answer key on the last page","Print-friendly A4 PDF (13 pages)","Delivered on WhatsApp after payment verification"]}]};
+const offP=x=>Math.round((1-x.p/x.m)*20)*5;
+function renderPdfs(){$("pdfList").innerHTML=pp().map((x,i)=>`<div class="card" style="margin-bottom:10px;text-align:left"><h3 style="margin:0 0 4px">${x.n}</h3><p style="margin:0">${x.f[0]}</p><div style="margin:8px 0"><span style="text-decoration:line-through;color:var(--mu)">₹${x.m}</span> <b style="font-size:26px;color:var(--cy)">₹${x.p}</b> <span class="tag" style="color:#2ee59d">${offP(x)}% OFF</span></div><button class="btn s" data-pd="${i}">VIEW DETAILS</button></div>`).join("")+mockCard()}
+function openPdf(i,cp){const x0=pp()[i],x=cp?{...x0,p:Math.max(1,Math.round(x0.p*(100-cp.pct)/100))}:x0;
+ $("pdfDet").innerHTML=`<h2>${x.n}</h2><div style="margin:6px 0"><span style="text-decoration:line-through;color:var(--mu)">₹${x.m}</span> <b style="font-size:34px;color:var(--cy)">₹${x.p}</b> <span class="tag" style="color:#2ee59d">${offP(x)}% OFF</span></div><h3>FEATURES</h3><ul style="text-align:left">${x.f.map(t=>"<li>"+t+"</li>").join("")}</ul><h3>COUPON CODE</h3><div style="display:flex;gap:6px"><input class="in sm" id="cpIn" placeholder="Coupon code" autocapitalize="characters" value="${cp?cp.code:""}"><button class="btn s" id="cpGo" style="width:auto;padding:0 14px;margin-top:6px">APPLY</button></div><div class="err" id="cpMsg" style="color:${cp?"var(--ok)":"var(--no)"}">${cp?"✔ Coupon "+cp.code+" lagu: "+cp.pct+"% off":""}</div><input class="in sm" id="rcIn" placeholder="Redeem code (optional)"><button class="btn g" id="buyWa">BUY ON WHATSAPP</button><h3>PAYMENT QR (₹${x.p})</h3><div class="qr" id="payQr"></div><div class="upiId">${UPI}</div><button class="btn s" id="upiApp">OPEN UPI APP</button><button class="btn s" id="upiCopy">COPY UPI ID</button><h3>PDF KAISE MILEGA</h3><ol style="text-align:left"><li>BUY ON WHATSAPP dabao, message aapke saath khul jayega.</li><li>QR scan karo ya UPI app se ₹${x.p} bhejo.</li><li>Payment ka screenshot usi WhatsApp chat mein bhejo.</li><li>Verify hone par PDF aapko WhatsApp par bhej di jayegi.</li></ol><button class="btn s" id="pdBack" style="background:transparent">BACK</button>`;
+ show("pdfd");
+ $("cpGo").onclick=async()=>{const r=await getCoupon($("cpIn").value,i);if(r.e){$("cpMsg").style.color="var(--no)";$("cpMsg").textContent=r.e}else openPdf(i,r)};
+ const url="upi://pay?pa="+UPI+"&pn=Pixel%20Rise&am="+x.p+"&cu=INR&tn="+encodeURIComponent(x.n);
+ try{new QRCode($("payQr"),{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){$("payQr").innerHTML="<span style='color:#000;font-size:12px'>UPI ID use karo</span>"}
+ $("buyWa").onclick=()=>{logPay(x.n+(cp?" ["+cp.code+"]":""),x.p);const rc=$("rcIn").value.trim().toUpperCase();window.open(wa("Hi, I want to buy: "+x.n+" (₹"+x.p+"). Username: "+(ls("qa_me")||"-")+(cp?". Coupon: "+cp.code+" ("+cp.pct+"%)":"")+(rc?". Redeem code: "+rc:"")),"_blank")};
+ $("upiApp").onclick=()=>{location.href=url};
+ $("upiCopy").onclick=async e=>{try{await navigator.clipboard.writeText(UPI);e.target.textContent="COPIED ✔"}catch(z){e.target.textContent=UPI}};
+ $("pdBack").onclick=()=>show("pdfs")}
+(()=>{try{const r=(new URLSearchParams(location.search).get("ref")||"").toUpperCase();if(/^[A-Z0-9]{6}$/.test(r)&&!ls("qa_ref"))ls("qa_ref",r)}catch(e){}})();
+async function creditRef(u){u=u||me;const rf=ls("qa_ref");if(!FB_URL||adm||!rf||rf===u||ls("qa_refd"))return;try{if(await FB("used/"+rf)){await FB("ref/"+rf+"/"+u,"PUT",{t:Date.now(),dev:devId(),ip:MYIP});ls("qa_refd","1")}}catch(e){}}
+async function admLists(){if(!adm||!FB_URL)return;try{const v=await Promise.all([FB("redeem"),FB("ref")]),rd=v[0]||{},rf=v[1]||{};
+ $("aRc").innerHTML=Object.entries(rd).map(([k,x])=>`<p>${esc(k)} • ${esc(x.u)} • ₹${x.amt} • ${x.used?"USED":"<button class='btn s' data-rc='"+esc(k)+"' style='min-height:30px;width:auto;padding:0 10px;margin:0'>MARK USED</button>"}</p>`).join("")||"<p>No redeem codes.</p>";
+ void Object.entries(rf).map(([k,x])=>`<p>${esc(k)}: ${Object.keys(x).length} friend(s) — ${esc(Object.keys(x).join(", "))}</p>`).join("")||"<p>No referrals yet.</p>"}catch(e){}}
+setInterval(admLists,8000);setTimeout(admLists,1500);
+document.addEventListener("click",e=>{
+ const b=e.target.closest("[data-pd]");if(b){openPdf(+b.dataset.pd);return}
+ const m=e.target.closest("[data-rc]");if(m&&adm){const k=m.dataset.rc;FB("redeem/"+k).then(v=>{v.used=true;return FB("redeem/"+k,"PUT",v).then(()=>FB("rc/"+v.u+"/"+k,"PUT",{amt:v.amt,t:v.t,used:true}))}).then(admLists).catch(()=>{})}});
+/* ===== MOCK TEST (100 reasoning, timer, prev/next, live score, best/low) ===== */
+const MKP=()=>+CFG.mkp||2,MKC=()=>(CFG.mkc||"MOCK100").toUpperCase().slice(0,7),MKM=()=>+CFG.mkm||60;
+const mkH=()=>{try{return JSON.parse(ls("mk_hist")||"[]")}catch(e){return[]}},mkS=()=>{try{return JSON.parse(ls("mk_st")||"null")}catch(e){return null}};
+let MK=null,MQ=[],mkIv=null;
+function mkQs(){let sd=2026;const R=()=>(sd=(Math.imul(sd,1664525)+1013904223)>>>0)/4294967296,ri=(a,b)=>a+(R()*(b-a+1)|0),sh=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=R()*(k+1)|0;[a[k],a[j]]=[a[j],a[k]]}return a};
+ let rows=parseQ(CFG.mqtxt||"");
+ if(!rows.length){const L="ABCDEFGHIJKLMNOPQRSTUVWXYZ",W=["CAT","DOG","SUN","PEN","BAG","MAP","FAN","JAR","HEN","BOX"],enc=(w,k)=>[...w].map(c=>L[(L.indexOf(c)+k)%26]).join("");
+  const add=(q,a,w,e,c)=>{const u=[...new Set(w.map(String))].filter(x=>x!==String(a)).slice(0,3);rows.push([q,String(a),...u,e,c])};
+  for(let k=0;k<10;k++){
+   let a=ri(2,20),d=ri(2,9);add([0,1,2,3,4].map(j=>a+d*j).join(", ")+", ?",a+5*d,[a+4*d+1,a+5*d+1,a+5*d-1,a+6*d],"Har baar +"+d+" badhta hai.","NUMBER SERIES");
+   a=ri(2,5);d=ri(2,3);add([0,1,2,3].map(j=>a*d**j).join(", ")+", ?",a*d**4,[a*d**4+d,a*d**4-d,a*d**3*(d+1),a*d**4+a],"Har baar ×"+d+" hota hai.","NUMBER SERIES");
+   a=ri(1,4);d=ri(1,9);add([0,1,2,3].map(j=>(a+j)**2+d).join(", ")+", ?",(a+4)**2+d,[(a+4)**2+d+2,(a+4)**2+d-2,(a+3)**2+d+4,(a+5)**2+d],"Pattern: n² + "+d+".","NUMBER SERIES");
+   a=ri(0,5);d=ri(2,3);{const x=a+4*d;add([0,1,2,3].map(j=>L[a+d*j]).join(", ")+", ?",L[x],[L[x+1],L[x-1],L[x+2]],"Har baar "+d+" akshar aage.","ALPHABET SERIES")}
+   {const w=W[k],ex=W[(k+3)%10],t=ri(1,3);add("Agar "+ex+" ko "+enc(ex,t)+" likha jata hai, to "+w+" ko kaise likhenge?",enc(w,t),[1,2,3,4].filter(x=>x!==t).map(x=>enc(w,x)),"Har akshar "+t+" aage.","CODING-DECODING")}
+   {const m=ri(3,9),ms=sh([2,3,4,5,6,7,8,9,10,11,12]).slice(0,3).map(x=>x*m),o=ri(2,12)*m+ri(1,m-1);rows.push(["Beshak alag (odd one out) kaun sa hai?",String(o),...ms.map(String),"Baaki sab "+m+" ke multiple hain.","ODD ONE OUT"])}
+   {const t=[[3,4,5],[5,12,13],[8,15,17],[6,8,10]][k%4],z=ri(1,3),A=t[0]*z,B=t[1]*z,C=t[2]*z;add("Ek aadmi "+A+" km purab, phir "+B+" km uttar chalta hai. Shuru se doori?",C+" km",[(A+B)+" km",(C+3)+" km",(C-1)+" km",(C+5)+" km"],"Pythagoras: √("+A+"²+"+B+"²) = "+C+".","DIRECTION")}
+   {const x=ri(2,9),y=ri(10,30),z=ri(2,8);add("A, B se "+x+" saal bada hai. B abhi "+y+" saal ka hai. "+z+" saal baad A ki umar?",y+x+z,[y+x,y+z,y+x+z+2,y+x+z-2,y+x-z],"A abhi "+(y+x)+", baad mein "+(y+x+z)+".","AGE")}
+   {const p=ri(5,25),q=ri(5,25);add("Line mein Ram baayen se "+p+"wa aur daayen se "+q+"wa hai. Kul log?",p+q-1,[p+q,p+q+1,p+q-2,p+q+2],"Total = "+p+" + "+q+" − 1.","RANKING")}
+   {const a2=ri(3,9),u=ri(4,15),b=ri(a2+1,a2+8),an=b*u;add(a2+" kitabon ki keemat ₹"+(a2*u)+" hai. "+b+" kitabon ki keemat?","₹"+an,["₹"+(an+u),"₹"+(an-u),"₹"+(an+2*u),"₹"+(an+a2)],"Ek kitab ₹"+u+", to "+b+" kitab ₹"+an+".","ARITHMETIC REASONING")}
+  }}
+ rows=sh(rows).slice(0,100);
+ return rows.map(r=>({q:r[0],a:r[1],o:sh(r.slice(1,5)),e:r[5]||"",c:r[6]||"REASONING"}))}
+function mockCard(){return`<div class="card" style="margin-bottom:10px;text-align:left"><h3 style="margin:0 0 4px">📝 Reasoning Mock Test (100 Marks)</h3><p style="margin:0">100 questions • live timer • live score</p><div style="margin:8px 0"><b style="font-size:26px;color:var(--cy)">₹${MKP()}</b></div><button class="btn s" data-mk="1">VIEW DETAILS</button></div>`}
+function openMock(){show("mock");const s=mkS();if(s&&NOW()>s.end){MQ=mkQs();MK=s;return mkFinish()}mkInfo()}
+function mkInfo(cp){const P=cp?Math.max(1,Math.round(MKP()*(100-cp.pct)/100)):MKP(),s=mkS(),h=mkH(),url="upi://pay?pa="+UPI+"&pn=Pixel%20Rise&am="+P+"&cu=INR&tn=Mock%20Test";clearInterval(mkIv);
+ $("mkBox").innerHTML=`<h2>📝 REASONING MOCK TEST</h2><b class="big" style="font-size:34px">₹${P}</b><h3>FEATURES</h3><ul style="text-align:left"><li>100 reasoning questions = 100 marks</li><li>Timer: ${MKM()} minute, refresh karne par bhi chalta rahega</li><li>Live score: sahi, galat, baaki aur marks har sawal par</li><li>PREV / NEXT aur question palette se kisi bhi sawal par jao, jawab badal sakte ho</li><li>Result ke baad best score, lowest score aur poora review</li></ul>${s?'<button class="btn g" id="mkRes">▶ RESUME RUNNING TEST</button>':""}<h3>COUPON CODE</h3><div style="display:flex;gap:6px"><input class="in sm" id="mkCpIn" placeholder="Coupon code" autocapitalize="characters" value="${cp?cp.code:""}"><button class="btn s" id="mkCpGo" style="width:auto;padding:0 14px;margin-top:6px">APPLY</button></div><div class="err" id="mkCpMsg" style="color:${cp?"var(--ok)":"var(--no)"}">${cp?"✔ Coupon "+cp.code+" lagu: "+cp.pct+"% off":""}</div><h3>STEP 1: PAY ₹${P}</h3><div class="qr" id="mkQr"></div><div class="upiId">${UPI}</div><button class="btn s" id="mkUpi">OPEN UPI APP</button><h3>STEP 2: ENTER 7 DIGIT CODE</h3><input class="in" id="mkCode" maxlength="7" autocapitalize="characters" autocomplete="off" placeholder="CODE"><div class="err" id="mkErr"></div><button class="btn" id="mkGo">START MOCK TEST</button><button class="btn s" id="mkWa">PAYMENT DONE? GET CODE ON WHATSAPP</button>${h.length?`<h3>YOUR SCORES</h3><p>Best: <b style="color:var(--ok)">${Math.max(...h.map(x=>x.m))}</b> • Lowest: <b style="color:var(--no)">${Math.min(...h.map(x=>x.m))}</b> • Attempts: ${h.length}</p>`:""}<button class="btn s" id="mkBack" style="background:transparent">BACK</button>`;
+ try{new QRCode($("mkQr"),{text:url,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){$("mkQr").innerHTML="<span style='color:#000;font-size:12px'>UPI ID use karo</span>"}
+ $("mkCpGo").onclick=async()=>{const r=await getCoupon($("mkCpIn").value,2);if(r.e){$("mkCpMsg").style.color="var(--no)";$("mkCpMsg").textContent=r.e}else mkInfo(r)};$("mkUpi").onclick=()=>{location.href=url};$("mkBack").onclick=()=>{renderPdfs();show("pdfs")};
+ $("mkWa").onclick=()=>{logPay("Reasoning Mock Test"+(cp?" ["+cp.code+"]":""),P);window.open(wa("Hi, maine Reasoning Mock Test (₹"+P+")"+(cp?" [coupon "+cp.code+"]":"")+" ka payment kiya hai. Username: "+(ls("qa_me")||"-")+". Code bhejiye, screenshot attached."),"_blank")};
+ if(s)$("mkRes").onclick=()=>{MQ=mkQs();MK=s;mkRun()};
+ $("mkGo").onclick=()=>{if(($("mkCode").value||"").trim().toUpperCase()!==MKC()){$("mkErr").textContent="Galat code. Payment ke baad code WhatsApp par milega.";return}MQ=mkQs();MK={ans:[],idx:0,end:NOW()+MKM()*60000,t0:NOW()};ls("mk_st",JSON.stringify(MK));mkRun()}}
+function mkRun(){clearInterval(mkIv);mkRender();mkIv=setInterval(mkTick,500)}
+function mkTick(){const e=$("mkTm"),ms=MK.end-NOW();if(ms<=0){mkFinish();return}if(e){const t=ms/1000|0;e.textContent="⏱ "+String(t/60|0).padStart(2,"0")+":"+String(t%60).padStart(2,"0");e.style.color=t<60?"var(--no)":""}}
+function mkStat(){let c=0,w=0;MQ.forEach((x,k)=>{if(MK.ans[k]!=null)MK.ans[k]===x.a?c++:w++});return{c,w,b:MQ.length-c-w}}
+function mkRender(){const q=MQ[MK.idx],n=MQ.length,a=MK.ans,mk=MK.mk=MK.mk||[],S=mkStat(),done=n-S.b,sv=()=>ls("mk_st",JSON.stringify(MK));
+ $("mkBox").innerHTML=`<div class="mkt"><div class="hd" style="margin:0 0 8px"><span>Q ${MK.idx+1}<small style="color:var(--mu)"> / ${n}</small></span><span class="tag" id="mkTm" style="font-size:15px;letter-spacing:1px"></span><span style="font-size:12px;color:var(--mu)">✔ ${done}/${n}</span></div><div class="bar" style="margin:0"><i style="width:${done*100/n}%"></i></div></div><div style="text-align:left;margin-top:14px"><span class="tag">${esc(q.c)}</span><div class="q" style="margin-top:12px">${esc(q.q)}</div></div><div id="mkOps"></div><div style="display:flex;gap:6px"><button class="btn s" id="mkPrev" style="flex:1">◀ PREV</button><button class="btn s" id="mkMark" style="flex:1;${mk[MK.idx]?"background:#b8860b":""}">⚑ ${mk[MK.idx]?"MARKED":"MARK"}</button><button class="btn s" id="mkClr" style="flex:1">CLEAR</button><button class="btn s" id="mkNext" style="flex:1">NEXT ▶</button></div><h3>QUESTION PALETTE</h3><div style="font-size:11px;color:var(--mu)">🟩 answered &nbsp; 🟨 marked &nbsp; ⬜ pending</div><div id="mkPal" style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:8px"></div><button class="btn g" id="mkSub">SUBMIT TEST</button>`;
+ q.o.forEach((o,j)=>{const b=document.createElement("button");b.className="op"+(a[MK.idx]===o?" sel":"");b.innerHTML='<span class="ol">'+"ABCD"[j]+"</span>"+esc(o);b.onclick=()=>{a[MK.idx]=o;sv();mkRender()};$("mkOps").appendChild(b)});
+ const go=k=>{MK.idx=k;sv();mkRender();window.scrollTo(0,0)};
+ MQ.forEach((x,k)=>{const b=document.createElement("button");b.textContent=k+1;b.style.cssText="width:34px;height:34px;border-radius:9px;font-size:12px;font-weight:900;border:2px solid "+(k===MK.idx?"#63e7ff":"transparent")+";background:"+(mk[k]?"#b8860b":a[k]!=null?"#1faa54":"#252d63");b.onclick=()=>go(k);$("mkPal").appendChild(b)});
+ $("mkPrev").onclick=()=>go(Math.max(0,MK.idx-1));$("mkNext").onclick=()=>go(Math.min(n-1,MK.idx+1));
+ $("mkMark").onclick=()=>{mk[MK.idx]=!mk[MK.idx];sv();mkRender()};$("mkClr").onclick=()=>{a[MK.idx]=null;sv();mkRender()};
+ $("mkSub").onclick=()=>{if(confirm(S.b+" sawal baaki hain. Submit karna hai?"))mkFinish()};mkTick()}
+function mkFinish(){clearInterval(mkIv);const S=mkStat(),used=Math.min(MKM()*60,Math.round((NOW()-(MK.t0||NOW()))/1000)),h=mkH(),ans=MK.ans.slice(),qs=MQ;h.push({m:S.c,c:S.c,w:S.w,n:MQ.length,t:NOW(),d:used});ls("mk_hist",JSON.stringify(h.slice(-20)));ls("mk_st",null);
+ const ms=h.map(x=>x.m),f=m=>Math.floor(m/60)+"m "+m%60+"s",acc=S.c+S.w?Math.round(S.c*100/(S.c+S.w)):0;
+ $("mkBox").innerHTML=`<h2>RESULT 🎉</h2><div class="big">${S.c}<span style="font-size:22px">/${qs.length}</span></div><p>MARKS</p><div class="sts"><div><span style="color:var(--ok)">${S.c}</span><small>SAHI</small></div><div><span style="color:var(--no)">${S.w}</span><small>GALAT</small></div><div><span>${S.b}</span><small>SKIPPED</small></div></div><p>Time: ${f(used)} • Accuracy: ${acc}%</p><div class="sts"><div><span style="color:var(--ok)">${Math.max(...ms)}</span><small>BEST SCORE</small></div><div><span style="color:var(--no)">${Math.min(...ms)}</span><small>LOWEST</small></div><div><span>${h.length}</span><small>ATTEMPTS</small></div></div><button class="btn" id="mkPdf">⬇ DOWNLOAD RESULT PDF</button><h3>PICHHLE ATTEMPTS</h3>${h.slice().reverse().slice(0,8).map(x=>`<p style="margin:2px 0">${new Date(x.t).toLocaleDateString()} • ${x.m}/${x.n}</p>`).join("")}<h3>ANSWER REVIEW</h3><div style="text-align:left">${qs.map((x,k)=>{const y=ans[k];return`<p style="margin:0 0 12px"><b style="color:#fff">${k+1}. ${esc(x.q)}</b><br><span style="color:${y===x.a?"var(--ok)":"var(--no)"}">${y==null?"Skipped":esc(y)}</span>${y===x.a?"":" → <span style='color:var(--ok)'>"+esc(x.a)+"</span>"}<br><small>${esc(x.e)}</small></p>`}).join("")}</div><button class="btn s" id="mkAgain">TAKE AGAIN</button><button class="btn s" id="mkBack2" style="background:transparent">BACK</button>`;
+ $("mkPdf").onclick=()=>{const it=[{t:"MOCK TEST RESULT",b:1,s:48,c:"#0a0f33",g:16},{t:"Marks: "+S.c+" / "+qs.length,b:1,s:36},{t:"Sahi: "+S.c+"   Galat: "+S.w+"   Skipped: "+S.b,s:32},{t:"Time: "+f(used)+"   Accuracy: "+acc+"%",s:32},{t:"Best: "+Math.max(...ms)+"   Lowest: "+Math.min(...ms)+"   Attempts: "+h.length,s:32,g:24},{t:"ANSWER REVIEW",b:1,s:36,g:12}];qs.forEach((x,k)=>{const y=ans[k];it.push({t:(k+1)+". "+x.q,b:1});it.push({t:"Your answer: "+(y==null?"Skipped":y)+(y===x.a?" (correct)":"  |  Correct: "+x.a),c:y===x.a?"#0a8f5a":"#c0283a",s:28});if(x.e)it.push({t:x.e,s:26,c:"#555",g:18})});pdfFrom(textPages("Mock Test Result",it),"pixelrise-mock-result.pdf")};
+ $("mkAgain").onclick=()=>mkInfo();$("mkBack2").onclick=()=>{renderPdfs();show("pdfs")};window.scrollTo(0,0)}
+$("mkSave")&&($("mkSave").onclick=()=>{const t=$("mk4").value.trim();saveCfg({mkp:+$("mk1").value||2,mkc:($("mk2").value.trim().toUpperCase()||"MOCK100").slice(0,7),mkm:+$("mk3").value||60,mqtxt:t});$("aMsg").textContent="Mock settings saved ✔"});
+document.addEventListener("click",e=>{if(e.target.closest("[data-mk]"))openMock()});
+
+/* ===== PDF export (no library) ===== */
+function pdfFrom(cs,name){const E=s=>new TextEncoder().encode(s),ch=[],off=[];let len=0;const put=b=>{if(typeof b==="string")b=E(b);ch.push(b);len+=b.length},n=cs.length;put("%PDF-1.4\n");
+ const obj=(i,body)=>{off[i]=len;put(i+" 0 obj\n"+body+"\nendobj\n")};
+ obj(1,"<</Type/Catalog/Pages 2 0 R>>");obj(2,"<</Type/Pages/Count "+n+"/Kids["+cs.map((c,k)=>(3+k*3)+" 0 R").join(" ")+"]>>");
+ cs.forEach((c,k)=>{const W=595,H=Math.round(595*c.height/c.width),b=3+k*3,bin=atob(c.toDataURL("image/jpeg",.85).split(",")[1]),by=new Uint8Array(bin.length);for(let j=0;j<bin.length;j++)by[j]=bin.charCodeAt(j);
+  obj(b,"<</Type/Page/Parent 2 0 R/MediaBox[0 0 "+W+" "+H+"]/Resources<</XObject<</Im0 "+(b+2)+" 0 R>>>>/Contents "+(b+1)+" 0 R>>");
+  const ct="q "+W+" 0 0 "+H+" 0 0 cm /Im0 Do Q";obj(b+1,"<</Length "+ct.length+">>\nstream\n"+ct+"\nendstream");
+  off[b+2]=len;put((b+2)+" 0 obj\n<</Type/XObject/Subtype/Image/Width "+c.width+"/Height "+c.height+"/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length "+by.length+">>\nstream\n");put(by);put("\nendstream\nendobj\n")});
+ const xr=len,tot=3+n*3;put("xref\n0 "+tot+"\n0000000000 65535 f \n");for(let i=1;i<tot;i++)put(String(off[i]).padStart(10,"0")+" 00000 n \n");put("trailer\n<</Size "+tot+"/Root 1 0 R>>\nstartxref\n"+xr+"\n%%EOF");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(ch,{type:"application/pdf"}));a.download=name;document.body.appendChild(a);a.click();a.remove()}
+function textPages(head,items){const W=1240,H=1754,P=[];let c,g,y;
+ const np=()=>{c=document.createElement("canvas");c.width=W;c.height=H;g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,W,H);g.save();g.translate(W/2,H/2);g.rotate(-.5);g.font="bold 220px Arial";g.textAlign="center";g.fillStyle="rgba(90,100,200,.07)";g.fillText("PixelRise",0,0);g.restore();g.fillStyle="#0a0f33";g.fillRect(0,0,W,150);g.textAlign="left";g.fillStyle="#63e7ff";g.font="bold 56px Arial";g.fillText("PIXEL RISE",60,95);g.fillStyle="#fff";g.font="28px Arial";g.textAlign="right";g.fillText(head,W-60,92);g.textAlign="center";g.fillStyle="#666";g.font="26px Arial";g.fillText("PixelRise • By Tejas More • "+SITE.replace("https://",""),W/2,H-40);g.textAlign="left";y=210;P.push(c)};
+ np();items.forEach(it=>{const s=it.s||30,F=(it.b?"bold ":"")+s+"px Arial",lh=s*1.45;g.font=F;let ln="";const out=[];String(it.t).split(" ").forEach(w=>{const t=ln?ln+" "+w:w;if(g.measureText(t).width>W-120&&ln){out.push(ln);ln=w}else ln=t});out.push(ln);
+  if(y+out.length*lh>H-90){np();g.font=F}g.fillStyle=it.c||"#111";out.forEach(l=>{g.fillText(l,60,y);y+=lh});y+=it.g||6});return P}
+$("resPdf").onclick=()=>{const r=lastR||JSON.parse(ls("qa_done")||"null");if(!r)return;const k=sorted().findIndex(x=>x.u===r.u),it=[{t:"QUIZ RESULT",b:1,s:48,c:"#0a0f33",g:16},{t:"Username: "+r.u,b:1,s:34},{t:"EP Points: "+r.pts,s:34},{t:"Correct: "+r.ok+" / "+N,s:34},{t:"Time: "+(r.tt!=null?r.tt+"s":"-"),s:34},{t:"Rank: "+(k>=0?"#"+(k+1):"-"),s:34,g:24}];
+ if(rv.length){it.push({t:"ANSWER REVIEW",b:1,s:36,g:12});rv.forEach((x,j)=>{it.push({t:(j+1)+". "+x.q,b:1});it.push({t:"Your answer: "+(x.my===null?"Time out":x.my)+(x.my===x.a?" (correct)":"  |  Correct: "+x.a),c:x.my===x.a?"#0a8f5a":"#c0283a",s:28});if(x.w)it.push({t:x.w,s:26,c:"#555",g:18})})}
+ pdfFrom(textPages("Quiz Result",it),"pixelrise-result.pdf")};
+/* ===== Admin payments ===== */
+let PAYS={};
+function logPay(item,amt){if(!FB_URL)return;const id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);FB("pay/"+id,"PUT",{u:ls("qa_me")||"-",item,amt,t:Date.now(),s:"PENDING"}).catch(()=>{})}
+async function admPay(){if(!adm||!FB_URL)return;try{PAYS=(await FB("pay"))||{}}catch(e){return}
+ const L=Object.entries(PAYS).sort((a,b)=>b[1].t-a[1].t),pd=L.filter(x=>x[1].s==="PAID"),tot=pd.reduce((s,x)=>s+(+x[1].amt||0),0);
+ setH("aPayS",`<div class="sts"><div><span class="gm">₹${tot}</span><small>RECEIVED</small></div><div><span>${L.length-pd.length}</span><small>PENDING</small></div><div><span>${pd.length}</span><small>PAID</small></div></div>`);
+ setH("aPay",L.map(([k,x])=>`<p style="margin:0 0 8px;border-bottom:1px solid var(--bd);padding-bottom:6px"><b style="color:#fff">${esc(x.u)}</b> • ${esc(x.item)} • <b class="gm">₹${x.amt}</b><br><small>${new Date(x.t).toLocaleString()}</small> <button class="btn s" data-pay="${k}" style="min-height:30px;width:auto;padding:0 10px;margin:0;${x.s==="PAID"?"background:#1faa54":""}">${x.s==="PAID"?"PAID ✔":"MARK PAID"}</button> <button class="btn s" data-payx="${k}" style="min-height:30px;width:auto;padding:0 10px;margin:0">🗑</button></p>`).join("")||"<p>No payments yet.</p>")}
+setInterval(admPay,8000);setTimeout(admPay,1500);
+$("aPayCsv").onclick=()=>{const q=v=>'"'+String(v).replace(/"/g,'""')+'"',R=[["Date","User","Item","Amount","Status"]].concat(Object.values(PAYS).sort((a,b)=>b.t-a.t).map(x=>[new Date(x.t).toLocaleString(),x.u,x.item,x.amt,x.s]));const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+R.map(r=>r.map(q).join(",")).join("\n")],{type:"text/csv"}));a.download="pixelrise-payments.csv";document.body.appendChild(a);a.click();a.remove()};
+document.addEventListener("click",e=>{if(!adm)return;const p=e.target.closest("[data-pay]"),x=e.target.closest("[data-payx]");
+ if(p){const k=p.dataset.pay,v=PAYS[k];if(v){v.s=v.s==="PAID"?"PENDING":"PAID";v.pt=Date.now();FB("pay/"+k,"PUT",v).then(admPay).catch(()=>{})}}
+ else if(x&&confirm("Delete payment record?"))FB("pay/"+x.dataset.payx,"DELETE").then(admPay).catch(()=>{})});
+/* ===== Wallet (home, bottom) ===== */
+const WLOGO='<svg viewBox="0 0 48 48" width="46" height="46"><defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5953ff"/><stop offset="1" stop-color="#10c7ed"/></linearGradient></defs><rect width="48" height="48" rx="13" fill="url(#wg)"/><rect x="10" y="15" width="28" height="20" rx="4" fill="#fff"/><path d="M10 19c0-2 1.6-4 4-4h18" fill="none" stroke="#0a0f33" stroke-width="2"/><rect x="27" y="22" width="13" height="8" rx="3" fill="#0a0f33"/><circle cx="32" cy="26" r="1.8" fill="#2ee59d"/></svg>';
+const GPLOGO='<svg viewBox="0 0 48 48" width="30" height="30"><path fill="#00d4ff" d="M6 5l20 19L6 43c-.6-.3-1-1-1-1.8V6.8c0-.8.4-1.5 1-1.8z"/><path fill="#00f076" d="M6 5l20 19 6.6-6.6L9 4.3C7.8 3.6 6.8 4.2 6 5z"/><path fill="#ff3a44" d="M6 43l20-19 6.6 6.6L9 43.7c-1.2.7-2.2.1-3-.7z"/><path fill="#ffd400" d="M32.6 17.4L26 24l6.6 6.6 8.2-4.7c1.6-.9 1.6-2.4 0-3.3z"/></svg>';
+let rdMsg=null;
+async function renderRef(){const c=ls("qa_me"),b=$("walBox");if(!b)return;
+ const head='<div style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:10px">'+WLOGO+'<div style="text-align:left"><h2 style="margin:0">PixelRise Wallet</h2><small style="color:var(--mu)">Refer • Earn • Redeem</small></div></div>';
+ if(!c||!ls("qa_done")){setH("walBox",head+"<p>Pehle quiz poora karo. Quiz ke baad aapka apna referral code aur wallet khul jayega.</p>");return}
+ if(!FB_URL){setH("walBox",head+"<p>Wallet abhi available nahi hai.</p>");return}
+ let ref={},clm=0,rc={};try{const v=await Promise.all([FB("ref/"+c),FB("wallet/"+c),FB("rc/"+c)]);ref=v[0]||{};clm=+v[1]||0;rc=v[2]||{}}catch(e){if(!b.innerHTML.trim())setH("walBox",head+"<p style='color:#ff8090'>Internet ya Database error.</p>");return}
+ const n=Object.keys(ref).length,bal=n-clm,link=SITE+"?ref="+c,m=rdMsg?`<div class="err" style="color:${rdMsg[0]==="e"?"var(--no)":"var(--ok)"}">${esc(rdMsg[1])}</div>${rdMsg[2]?`<a class="btn g" style="display:flex;align-items:center;justify-content:center;text-decoration:none;min-height:46px" target="_blank" rel="noopener" href="${rdMsg[2]}">OPEN WHATSAPP</a>`:""}`:"";
+ setH("walBox",head+`<div style="background:linear-gradient(135deg,#0b2a3a,#0b1a4a);border:1px solid var(--bd);border-radius:20px;padding:16px"><small style="color:var(--mu);letter-spacing:2px">WALLET BALANCE</small><div class="big gm" style="text-shadow:0 0 18px rgba(46,229,157,.5)">₹${bal}</div><div class="bar" style="margin:8px 0 0"><i style="width:${Math.min(100,bal*10)}%"></i></div></div><div class="sts"><div><span>${n}</span><small>FRIENDS</small></div><div><span class="gm">₹${n}</span><small>EARNED</small></div><div><span class="gm">₹${clm}</span><small>REDEEMED</small></div></div><p>Har referral par ₹1. Dost register kare to turant wallet mein aata hai.</p><h3>YOUR REFERRAL CODE</h3><div class="big" style="font-size:38px;letter-spacing:6px">${c}</div><div class="upiId" style="font-size:12px">${link}</div><button class="btn s" id="rfCopy">COPY LINK</button><button class="btn s g" id="rfWa">SHARE ON WHATSAPP</button><h3 style="display:flex;align-items:center;justify-content:center;gap:8px">${GPLOGO} GOOGLE PLAY REDEEM CODE</h3><p>Amount chuno. Wallet mein kam balance hone par "Insufficient balance" dikhega.</p><div class="rdg">${[10,20,30,40,50].map(v=>`<button class="btn s" data-rd="${v}">₹${v}</button>`).join("")}</div>${m}<h3>MY REDEEM CODES</h3>${Object.entries(rc).map(([k,v])=>"<p>"+GPLOGO.replace(/30/g,"16")+" "+esc(k)+" — <b class='gm'>₹"+v.amt+"</b>"+(v.used?" (used)":" (pending)")+"</p>").join("")||"<p>Abhi koi code nahi.</p>"}<h3>FRIENDS JOINED</h3>${Object.keys(ref).map(u=>"<p>"+esc(u)+" <b class='gm'>+₹1</b></p>").join("")||"<p>Abhi koi nahi.</p>"}`);
+ const cp=$("rfCopy");if(cp){cp.onclick=async e=>{try{await navigator.clipboard.writeText(link);e.target.textContent="COPIED ✔"}catch(z){e.target.textContent=link}};$("rfWa").onclick=()=>window.open(wa0("Pixel Rise quiz khelo aur apni rank dekho! Mera referral code "+c+". Link: "+link),"_blank")}}
+document.addEventListener("click",async e=>{const x=e.target.closest("[data-rd]");if(!x)return;const amt=+x.dataset.rd,c=ls("qa_me");if(!c||!FB_URL)return;x.disabled=true;
+ try{const v=await Promise.all([FB("ref/"+c),FB("wallet/"+c)]),clm=+v[1]||0,bal=Object.keys(v[0]||{}).length-clm;
+  if(bal<amt)rdMsg=["e","Insufficient balance. Aapke wallet mein ₹"+bal+" hain, ₹"+amt+" ka code lene ke liye ₹"+amt+" chahiye."];
+  else{const RC="RDM"+Math.random().toString(36).slice(2,7).toUpperCase(),t=Date.now();await FB("wallet/"+c,"PUT",clm+amt);await FB("redeem/"+RC,"PUT",{u:c,amt,t,used:false});await FB("rc/"+c+"/"+RC,"PUT",{amt,t,used:false});
+   const url=wa("Hi, mujhe Google Play redeem code chahiye. Code: "+RC+" (₹"+amt+"). Username: "+c);rdMsg=["o","✔ ₹"+amt+" ka request ban gaya. WhatsApp par bhejo.",url];try{window.open(url,"_blank")}catch(z){}}}
+ catch(z){rdMsg=["e","Error. Dobara try karo."]}
+ await renderRef()});
+renderRef();setInterval(renderRef,20000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)renderRef()});
+
+$("startBtn").classList.toggle("hide",!ls("qa_reg")&&!adm);
+$("regWa").onclick=()=>{ls("qa_reg","1");$("startBtn").classList.remove("hide");const f=+CFG.fee||20;logPay("Quiz Entry",f);window.open(wa("Hi, mujhe Pixel Rise Quiz mein register karna hai. Entry fee ₹"+f+" (UPI: "+UPI+"). Payment screenshot bhej raha hoon, mujhe username dijiye."),"_blank")};
+$("aFeeSave").onclick=()=>{saveCfg({fee:+$("aFee").value||20});$("aMsg").textContent="Entry fee saved ✔"};
+async function admAllow(){if(!adm||!FB_URL)return;try{const v=await Promise.all([FB("allowed"),FB("used")]),al=v[0]||{},us=v[1]||{};
+ setH("aAllowL",Object.keys(al).map(k=>`<p style="margin:0 0 6px"><b style="color:#fff">${esc(k)}</b> ${us[k]?"<span class='gm'>PLAYED</span>":"<span style='color:var(--mu)'>not played</span>"} <button class="btn s" data-ale="${esc(k)}" style="min-height:28px;width:auto;padding:0 10px;margin:0">✎</button> <button class="btn s" data-alx="${esc(k)}" style="min-height:28px;width:auto;padding:0 10px;margin:0">🗑</button></p>`).join("")||"<p>No registered usernames.</p>")}catch(e){}}
+$("aAllowAdd").onclick=async()=>{const u=$("aAllow").value.trim().toUpperCase();if(!okName(u)){$("aMsg").textContent="Username ka last character 9 hona chahiye (6 letters/numbers)";return}try{await FB("allowed/"+u,"PUT",{t:Date.now()});$("aAllow").value="";$("aMsg").textContent=u+" registered ✔";admAllow()}catch(e){$("aMsg").textContent="Error. Rules/Internet check karo"}};
+document.addEventListener("click",e=>{const x=e.target.closest("[data-alx]");if(x&&adm&&confirm("Remove "+x.dataset.alx+"?"))FB("allowed/"+x.dataset.alx,"DELETE").then(admAllow).catch(()=>{})});
+setInterval(admAllow,10000);setTimeout(admAllow,1800);
+
+/* ===== Coupons, dashboard, fake-referral flags, reminders, username tools ===== */
+const hs=s=>{let h=5381;for(const c of String(s))h=(h*33^c.charCodeAt(0))>>>0;return h.toString(36)};
+let MYIP="";(async()=>{try{const c=new AbortController();setTimeout(()=>c.abort(),4000);const r=await fetch("https://api.ipify.org?format=json",{signal:c.signal});MYIP=hs((await r.json()).ip)}catch(e){}})();
+async function getCoupon(code,idx){code=(code||"").trim().toUpperCase();if(!code)return{e:"Coupon code daalo"};try{const v=await FB("coupons/"+code);if(!v||!v.on)return{e:"❌ Coupon galat hai ya band hai"};if(!String(v.items||"").split(",").includes(String(idx)))return{e:"Ye coupon is item par valid nahi hai"};return{code,pct:+v.pct||0}}catch(e){return{e:"Network error. Dobara try karo"}}}
+const CPN=["Police PDF","UPSC PDF","Mock Test"];
+async function admCp(){if(!adm||!FB_URL)return;try{const c=(await FB("coupons"))||{};
+ setH("aCpL",Object.entries(c).map(([k,v])=>`<p style="margin:0 0 8px;border-bottom:1px solid var(--bd);padding-bottom:6px"><b class="gm">${esc(k)}</b> • <b>${v.pct}% off</b> • ${String(v.items||"").split(",").filter(Boolean).map(i=>CPN[i]).join(" + ")||"-"} • ${v.on?"<span class='gm'>ON</span>":"<span style='color:var(--no)'>OFF</span>"}<br><button class="btn s" data-cpe="${esc(k)}" style="min-height:28px;width:auto;padding:0 10px;margin:4px 4px 0 0">✎ % EDIT</button><button class="btn s" data-cpt="${esc(k)}" style="min-height:28px;width:auto;padding:0 10px;margin:4px 4px 0 0">ON/OFF</button><button class="btn s" data-cpx="${esc(k)}" style="min-height:28px;width:auto;padding:0 10px;margin:4px 0 0 0">🗑</button></p>`).join("")||"<p>No coupons.</p>")}catch(e){}}
+$("aCpAdd").onclick=async()=>{const k=($("aCp").value||"").trim().toUpperCase(),pct=+$("aCpP").value,it=[0,1,2].filter(i=>$("cpI"+i).checked).join(",");
+ if(!/^[A-Z0-9]{3,12}$/.test(k)){$("aMsg").textContent="Coupon code 3-12 letters/numbers";return}if(!(pct>=1&&pct<=100)){$("aMsg").textContent="% off 1 se 100 ke beech";return}if(!it){$("aMsg").textContent="Kam se kam ek item chuno";return}
+ try{await FB("coupons/"+k,"PUT",{pct,items:it,on:true,t:Date.now()});$("aMsg").textContent="Coupon "+k+" saved ✔";admCp()}catch(e){$("aMsg").textContent="Error. Rules/Internet check karo"}};
+document.addEventListener("click",async e=>{if(!adm)return;const a=e.target.closest("[data-cpe]"),b=e.target.closest("[data-cpt]"),c=e.target.closest("[data-cpx]");const k=(a||b||c||{dataset:{}}).dataset;const code=k.cpe||k.cpt||k.cpx;if(!code)return;
+ try{const v=await FB("coupons/"+code);if(!v)return;
+  if(a){const n=+prompt("New % off for "+code,v.pct);if(n>=1&&n<=100){v.pct=n;await FB("coupons/"+code,"PUT",v)}}
+  else if(b){v.on=!v.on;await FB("coupons/"+code,"PUT",v)}
+  else if(confirm("Delete coupon "+code+"?"))await FB("coupons/"+code,"DELETE");
+  admCp()}catch(z){}});
+setInterval(admCp,10000);setTimeout(admCp,2000);
+/* dashboard + referral flags */
+const flagsOf=(r,x,fr,us)=>{const o=[],R=us[r]||{};if(x.dev&&R.dev&&x.dev===R.dev)o.push("same device as referrer");if(x.ip&&R.ip&&x.ip===R.ip)o.push("same IP as referrer");if(x.ip){const n=Object.values(fr).filter(y=>y.ip===x.ip).length;if(n>=3)o.push(n+" friends same IP")}if(x.dev){const n=Object.values(fr).filter(y=>y.dev===x.dev).length;if(n>=2)o.push(n+" friends same device")}return o};
+async function admDash(){if(!adm||!FB_URL)return;try{const v=await Promise.all([FB("pay"),FB("used"),FB("ref")]),pay=Object.values(v[0]||{}),us=v[1]||{},rf=v[2]||{},d0=day0(),ce=curEpoch();
+ const pl=Object.values(us).filter(x=>(x.e||0)>=ce),sum=a=>a.reduce((s,x)=>s+(+x.amt||0),0),paid=pay.filter(x=>x.s==="PAID");
+ let rt=0,rn=0,fl=0;const rows=[];
+ Object.entries(rf).forEach(([r,fr])=>{const fs=Object.entries(fr).map(([f,x])=>{rt++;if(x.t>=d0)rn++;const g=flagsOf(r,x,fr,us);if(g.length)fl++;return{f,g}});rows.push({r,fs,bad:fs.filter(x=>x.g.length).length})});
+ const T=(n,l,c)=>`<div><span class="${c||""}">${n}</span><small>${l}</small></div>`;
+ setH("aDash",`<div class="sts">${T("₹"+sum(paid.filter(x=>(x.pt||x.t)>=d0)),"AAJ KI KAMAI","gm")}${T("₹"+sum(paid),"TOTAL KAMAI","gm")}${T("₹"+sum(pay.filter(x=>x.s!=="PAID")),"PENDING")}</div><div class="sts">${T(pl.filter(x=>x.t>=d0).length,"NAYE PLAYERS AAJ")}${T(pl.length,"TOTAL PLAYERS")}${T(rn+" / "+rt,"REFERRAL AAJ / TOTAL")}${T(fl,"⚠ FLAGGED",fl?"":"")}</div>`);
+ rows.sort((a,b)=>b.bad-a.bad);
+ setH("aRf",rows.map(o=>`<p style="margin:0 0 10px"><b style="color:#fff">${esc(o.r)}</b>: ${o.fs.length} friend(s)${o.bad?` <span style="color:var(--no)">⚠ ${o.bad} flagged</span>`:""}${o.fs.map(x=>`<br>&nbsp;• ${esc(x.f)}${x.g.length?` <span style="color:var(--no)">⚠ ${esc(x.g.join(", "))}</span> <button class="btn s" data-rfx="${esc(o.r)}|${esc(x.f)}" style="min-height:26px;width:auto;padding:0 8px;margin:0">REMOVE</button>`:""}`).join("")}</p>`).join("")||"<p>No referrals yet.</p>")}catch(e){}}
+document.addEventListener("click",e=>{const x=e.target.closest("[data-rfx]");if(!x||!adm)return;const [r,f]=x.dataset.rfx.split("|");if(confirm(f+" ka referral hata dein? (wallet se ₹1 kam hoga)"))FB("ref/"+r+"/"+f,"DELETE").then(admDash).catch(()=>{})});
+setInterval(admDash,8000);setTimeout(admDash,1600);
+/* username tools */
+$("aAllowGen").onclick=()=>{const C="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let u="";for(let i=0;i<5;i++)u+=C[Math.random()*C.length|0];$("aAllow").value=u+"9"};
+document.addEventListener("click",async e=>{const x=e.target.closest("[data-ale]");if(!x||!adm)return;const o=x.dataset.ale;
+ try{const us=await FB("used/"+o);if(us&&(us.e||0)>=curEpoch()){alert("Ye username use ho chuka hai, edit nahi ho sakta.");return}
+  const n=(prompt("New username for "+o,o)||"").trim().toUpperCase();if(!n||n===o)return;if(!okName(n)){alert("Username sahi nahi (6 letters/numbers, last character 9)");return}
+  if(await FB("allowed/"+n)){alert("Ye username pehle se hai");return}
+  await FB("allowed/"+n,"PUT",{t:Date.now()});await FB("allowed/"+o,"DELETE");admAllow()}catch(z){alert("Error. Dobara try karo")}});
+/* match reminder */
+function toast(t){const e=$("toast");e.textContent=t;e.classList.remove("hide");clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.add("hide"),7000)}
+function notif(t,b){try{if(window.Notification&&Notification.permission==="granted")new Notification(t,{body:b})}catch(e){}try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}beep(880,.2);toast("🔔 "+t+" — "+b)}
+function ntf(){const rb=$("remBtn");if(!rb)return;const p=phase(),on=ls("qa_rem")==="1";rb.classList.toggle("hide",p!=="soon");rb.textContent=on?"🔔 REMINDER ON ✔":"🔔 REMIND ME WHEN MATCH STARTS";
+ if(!on||!CFG.start)return;const d=CFG.start-NOW();
+ if(d>0&&d<=300000&&ls("qa_n5")!==String(CFG.start)){ls("qa_n5",String(CFG.start));notif("Pixel Rise","Match 5 minute mein shuru hoga!")}
+ if(d<=0&&d>-900000&&ls("qa_n0")!==String(CFG.start)){ls("qa_n0",String(CFG.start));notif("Pixel Rise","Match shuru ho gaya! Ab quiz khelo")}}
+$("remBtn").onclick=async()=>{try{if(window.Notification&&Notification.permission==="default")await Notification.requestPermission()}catch(e){}ls("qa_rem","1");ntf();toast("Reminder set ✔ (site khuli rakhna)")};
+
+const LEGAL={
+privacy:["PRIVACY POLICY",`<h3>KAUNSA DATA LIYA JATA HAI</h3><ul><li>Aapka username aur quiz ka score, EP aur time.</li><li>Ek random device ID jo aapke browser mein save hoti hai (ek device se ek baar rule ke liye).</li><li>Aap online hain ya nahi, iske liye ek time stamp.</li><li>Fake referral rokne ke liye aapke IP address ka ek hash (asli IP nahi).</li><li>Referral code, referral entries aur wallet balance.</li><li>WhatsApp par aap jo message ya screenshot bhejte ho, wo WhatsApp ke zariye hume milta hai.</li></ul><h3>KYUN</h3><ul><li>Leaderboard dikhane, ek username aur ek device ka rule lagane, referral wallet chalane, aur prize ya PDF ka support dene ke liye.</li></ul><h3>KAHAN SAVE HOTA HAI</h3><ul><li>Quiz ka data Google Firebase Realtime Database mein save hota hai. Website GitHub Pages par hai.</li><li>Navi ka link ek third-party link hai. Wahan aapka data Navi ki apni policy ke hisaab se hota hai.</li></ul><h3>AAPKE ADHIKAR</h3><ul><li>Leaderboard par aapka username aur score sabko dikhta hai. Isliye username mein apna asli naam ya personal jaankari mat rakho.</li><li>Data hatane ke liye WhatsApp support (9689155635) par apna username bhejo. Hum aapka record hata denge.</li><li>Hum aapka data bechte nahi.</li></ul><h3>BACHCHE</h3><ul><li>18 saal se kam umar ke users PDF kharidne ya Navi task karne se pehle mata-pita ki ijazat lein.</li></ul><h3>BADLAV</h3><ul><li>Ye policy kabhi badal sakti hai. Naya version isi page par dikhega.</li></ul>`],
+terms:["TERMS & RULES",`<h3>1. QUIZ AUR ENTRY</h3><ul><li>Quiz mein entry fee hai (home page par dikhti hai, abhi ₹20). Fee UPI se bhejke WhatsApp par register karo; admin verify karke username deta hai.</li><li>Username mil jane ke baad entry fee wapas nahi hoti. Payment kiya par 48 ghante tak username na mile to poora refund milega.</li><li>Ek username aur ek device se sirf ek baar khel sakte hain. Kai device, bot, incognito ya doosre tareeke se baar baar khelna cheating hai aur us score ko hata diya jayega.</li><li>Points: sahi jawab 20 EP, plus bache hue second ke hisaab se EP, plus streak bonus. Barabar points par zyada sahi jawab, phir kam time wala upar.</li></ul><h3>2. CONTEST KE NIYAM AUR INAAM</h3><ul><li>Match ka timer home page par dikhta hai. Match khatam hone par Top 5 ko leaderboard ke hisaab se inaam milta hai. Rashi home page par dikhti hai.</li><li>Winner ko WhatsApp par apna username bhejna hoga. Verification ke baad inaam UPI se bheja jayega.</li><li>Rule todne walon ka inaam roka ja sakta hai. Organizer inaam ya match ki timing badal sakta hai. Organizer ka faisla final hoga.</li></ul><h3>3. REFERRAL AUR WALLET</h3><ul><li>Aapka dost aapke link se aake apna pehla quiz poora kare, to aapko ₹1 wallet credit milta hai.</li><li>Khud ko refer karna aur fake ya duplicate accounts banana mana hai. Aise credit cancel kiye ja sakte hain.</li><li>Wallet credit ka cash value nahi hai. Ise bank ya UPI mein nikal nahi sakte. ₹10 hone par redeem code claim hota hai, jo PDF ki kharid par chhoot ke liye hai.</li></ul><h3>4. STUDY PDF</h3><ul><li>PDF ek digital product hai. Payment UPI se hota hai aur screenshot WhatsApp par bhejna hota hai. Verification ke baad PDF WhatsApp par bheji jati hai.</li><li>PDF sirf practice ke liye hai. Isse exam mein selection ki koi guarantee nahi hai.</li><li>PDF sirf personal use ke liye hai. Ise bechna ya doosron ko baantna mana hai.</li></ul><h3>5. REFUND RULES</h3><ul><li>PDF mil jane ke baad refund nahi milega, kyunki ye digital product hai.</li><li>Payment ke 48 ghante tak PDF na mile to poora refund milega.</li><li>Galat ya kharab file mili aur 48 ghante mein theek nahi hui to refund milega.</li><li>Galti se do baar payment hua ho to extra amount wapas milega.</li><li>Refund usi UPI par 7 working days mein bheja jayega. Use ho chuka redeem code wapas nahi hota.</li><li>Refund ke liye WhatsApp support (9689155635) par payment screenshot bhejein.</li></ul><h3>6. NAVI TASK</h3><ul><li>Navi task ek third-party referral task hai. Navi app ke apne rules lagu hain.</li><li>Sirf naye users valid hain aur app 5 din use karna hai. Task ki shartein "Earn Money" page par likhi hain. Reward verification ke baad diya jata hai.</li><li>Navi ke kisi faisle ke liye hum zimmedar nahi hain.</li></ul><h3>7. DUSRE NIYAM</h3><ul><li>Hum service kabhi bhi badal ya band kar sakte hain.</li><li>Ye niyam Bharat ke kanoon ke hisaab se lagu honge.</li><li>Sawal ho to WhatsApp par sampark karein: 9689155635.</li></ul>`]};
+function openLegal(k){$("lgT").textContent=LEGAL[k][0];$("lgB").innerHTML=LEGAL[k][1];show("legal")}
+const goS=(id,fn)=>{$(id).onclick=()=>{$("setOv").classList.add("hide");fn()}};
+goS("pdfBtn",()=>{renderPdfs();show("pdfs")});goS("refBtn",()=>{show("home");renderRef();setTimeout(()=>$("walCard").scrollIntoView({behavior:"smooth"}),60)});goS("privBtn",()=>openLegal("privacy"));goS("termBtn",()=>openLegal("terms"));
+$("pdfsBack").onclick=$("refBack").onclick=$("lgBack").onclick=()=>show("home");
+$("fPriv").onclick=e=>{e.preventDefault();openLegal("privacy")};$("fTerm").onclick=e=>{e.preventDefault();openLegal("terms")};
 </script>
 </body>
 </html>
