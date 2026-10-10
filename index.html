@@ -127,7 +127,7 @@ function doLogin(){const a=$('#lu').value.trim().toLowerCase(),pr=$('#lp').value
 function signup(){if(hasAcct()){setTimeout(()=>go(me()?'#/dashboard':'#/login'),0);return ''}return `<div class="card auth"><h2>Create your account</h2><div class="fl"><span>Full name</span><input id="sn"></div><div class="fl"><span>Choose username</span><input id="su" autocapitalize="none" autocorrect="off" spellcheck="false"></div><div class="fl"><span>Mobile number</span><input id="sp" inputmode="numeric" maxlength="10"></div><div class="fl"><span>Main platform</span><select id="se">${['YouTube','Instagram','Blogging','Facebook','Other'].map(x=>`<option>${x}</option>`).join('')}</select></div><div class="fl"><span>Password (6+ characters)</span><input id="sw" type="password"></div><button class="btn pri" onclick="doSignup()">Sign up and get ${DB.set.signupCredits} Pixel Credits</button> <a class="btn" href="#/login">I have an account</a></div>`}
 function doSignup(){const n=$('#sn').value.trim(),u=$('#su').value.trim(),p=$('#sp').value.trim(),w=$('#sw').value;if(!n||!u)return toast('Enter name and username.');if(!/^\d{10}$/.test(p))return toast('Enter a valid 10 digit mobile number.');if(w.length<6)return toast('Password must be 6+ characters.');if(DB.users.some(x=>x.username.toLowerCase()==u.toLowerCase()||x.phone==p))return toast('Username or mobile already registered.');
 const o={id:uid(),name:n,username:u,phone:p,pass:w,exam:$('#se').value,credits:0,plan:'',planExp:0,joined:now(),pref:{theme:'light',goal:4},tasks:[],hist:[],unlocked:[],ledger:[],seen:now()};DB.users.push(o);addCr(o,DB.set.signupCredits,'Signup bonus');notify('admin','New signup: '+n+' ('+u+')');SS={uid:o.id};LS.set('pr_acct','1');saveS();go('#/dashboard')}
-function adminlogin(){return `<div class="card auth"><h2 style="color:#2B59FF">Admin sign in</h2><div class="fl"><span>Admin ID</span><input id="ai"></div><div class="fl"><span>Admin code</span><input id="ac" type="password"></div><button class="btn pri" onclick="doAdmin()">Sign in</button></div>`}
+function adminlogin(){return `<div class="card auth"><h2 style="color:#2B59FF">Admin sign in</h2><div class="fl"><span>Admin email</span><input id="ai"></div><div class="fl"><span>Admin password</span><input id="ac" type="password"></div><button class="btn pri" onclick="doAdmin()">Sign in</button></div>`}
 function doAdmin(){if($('#ai').value.trim()==DB.set.adminId&&$('#ac').value==DB.set.adminCode){AD=true;LS.set('pixelrise_admin_v1','1');DB.adminSeen=DB.adminSeen||0;go('#/admin')}else toast('Incorrect admin ID or code.')}
 
 function logout(){SS={};saveS();go('#/home')}
@@ -654,8 +654,79 @@ const EYE1='<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-1
 function eyes(){document.querySelectorAll('input[type=password]:not([data-e])').forEach(i=>{i.dataset.e='1';i.setAttribute('autocapitalize','none');i.setAttribute('autocorrect','off');i.setAttribute('spellcheck','false');const w=document.createElement('span');w.className='pw';i.parentNode.insertBefore(w,i);w.appendChild(i);const b=document.createElement('button');b.type='button';b.className='eye';b.setAttribute('aria-label','Show password');b.innerHTML=EYE1;b.onclick=()=>{const h=i.type=='password';i.type=h?'text':'password';b.innerHTML=h?EYE2:EYE1;b.setAttribute('aria-label',h?'Hide password':'Show password');i.focus()};w.appendChild(b)})}
 new MutationObserver(eyes).observe(document.body,{childList:true,subtree:true});try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 (async()=>{try{if(!LS.get(K)){const v=await idbGet(K);if(v){DB=JSON.parse(v);TOOLS.forEach(t=>{if(DB.tools[t[0]]==null)DB.tools[t[0]]=t[3]})}}const s=LS.get(SK);if(!s||!JSON.parse(s).uid){const x=await idbGet(SK);if(x&&JSON.parse(x).uid)SS=JSON.parse(x)}if(!LS.get('pixelrise_admin_v1')&&(await idbGet('pixelrise_admin_v1'))=='1')AD=true}catch(e){}if(!LS.get(K))save();window.LR=LS.get(K);seenN=vis().length;migPdf();migV3();render();track()})();
-</script></body></html>
-
+</script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+/* PixelRise cloud sync (Firebase Auth + Realtime Database) */
+(()=>{
+if(!window.firebase){console.warn('Firebase SDK not loaded');return}
+const ADMIN='iMAk3kmGDzXWb9y9wFojcw5tGIi2',DOM='@pixelrise.app',J=JSON.stringify;
+firebase.initializeApp({apiKey:"AIzaSyCoWsDLdryzQX6IbgJxtYiFbt4qD_FY5CU",authDomain:"pixelrise-4f6ef.firebaseapp.com",databaseURL:"https://pixelrise-4f6ef-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pixelrise-4f6ef",storageBucket:"pixelrise-4f6ef.firebasestorage.app",messagingSenderId:"344272987070",appId:"1:344272987070:web:c2afe9e5eea75449c04fef"});
+const au=firebase.auth(),fdb=firebase.database(),R=p=>fdb.ref(p);
+let LAST={},PULL=false,uidv=null,SIGNING=false,offs=[];
+const ar=x=>Array.isArray(x)?x:Object.values(x||{}),fl=o=>Object.values(o||{}).flatMap(x=>Object.values(x||{}));
+const local=()=>{const r=J(DB);window.LR=r;LS.set(K,r)};
+const redraw=()=>{const a=document.activeElement;if(!a||!['INPUT','TEXTAREA','SELECT'].includes(a.tagName))render(true)};
+function paths(){const P={},ad=AD;
+ if(ad){const s={...DB.set};delete s.adminId;delete s.adminCode;P.settings=s;['plans','packs','store','pdfs','coupons','tools'].forEach(k=>P['catalog/'+k]=DB[k])}
+ DB.users.forEach(u=>{if(!ad&&u.id!==uidv)return;const b='users/'+u.id+'/';
+  P[b+'profile']={name:u.name,username:u.username,phone:u.phone,exam:u.exam||'',joined:u.joined||0,seen:u.seen||0,pref:u.pref||{},tasks:u.tasks||[]};
+  P[b+'credits']=u.credits||0;P[b+'unlocked']=u.unlocked||[];P[b+'ledger']=u.ledger||[];P[b+'hist']=u.hist||[];
+  if(ad){P[b+'plan']=u.plan||'';P[b+'planExp']=u.planExp||0;P[b+'banned']=!!u.banned}});
+ DB.pays.forEach(p=>{if(!ad&&p.uid!==uidv)return;const{img,...o}=p;P['orders/'+p.uid+'/'+p.id]=o;if(img)P['shots/'+p.uid+'/'+p.id]=img});
+ DB.notifs.forEach(n=>{if(n.to==='all'&&!ad)return;P['notifs/'+n.to+'/'+n.id]=n});
+ return P}
+const mark=()=>{const P=paths();for(const k in P)LAST[k]=J(P[k])};
+function push(){const c=au.currentUser;if(!c||!READY)return;const P=paths(),U={};
+ for(const k in P){const v=J(P[k]);if(LAST[k]!==v){U[k]=JSON.parse(v);LAST[k]=v}}
+ if(AD)for(const k in LAST)if(!(k in P)){U[k]=null;delete LAST[k]}
+ if(Object.keys(U).length)R('').update(U).catch(e=>{LAST={};toast('Cloud sync failed: '+(e.code||e.message))})}
+let READY=false,rs;const ready=new Promise(r=>rs=r);let gs=false,gc=false;
+const gate=()=>{if(gs&&gc){READY=true;rs()}};
+const pull=f=>{PULL=true;try{f()}catch(e){console.error(e)}PULL=false;mark();local();redraw()};
+save=()=>{local();if(!PULL)push()};
+/* public data: settings + catalog (everyone) */
+R('settings').on('value',s=>{const v=s.val();if(v)pull(()=>Object.assign(DB.set,v));gs=true;gate()},()=>{gs=true;gate()});
+R('catalog').on('value',s=>{const v=s.val();if(v)pull(()=>{['plans','packs','store','pdfs','coupons'].forEach(k=>{if(v[k]!==undefined)DB[k]=ar(v[k])});if(v.tools)DB.tools=Object.assign(DB.tools||{},v.tools)});gc=true;gate()},()=>{gc=true;gate()});
+const on=(p,f)=>{const r=R(p);r.on('value',s=>pull(()=>f(s.val())),e=>console.warn(p,e.message));offs.push(()=>r.off())};
+const mk=(id,v)=>{const p=v.profile||{};return{id,name:p.name||'',username:p.username||'',phone:p.phone||'',pass:'',exam:p.exam||'',credits:v.credits||0,plan:v.plan||'',planExp:v.planExp||0,joined:p.joined||0,pref:p.pref||{theme:'light',goal:4},tasks:ar(p.tasks),hist:ar(v.hist),unlocked:ar(v.unlocked),ledger:ar(v.ledger),seen:p.seen||0,banned:!!v.banned}};
+function detach(){offs.forEach(f=>f());offs=[]}
+async function attachAdmin(){detach();await ready;let OR=null,SH={};
+ const pays=()=>{DB.pays=fl(OR).map(p=>({...p,img:(SH[p.uid]||{})[p.id]||''})).sort((a,b)=>b.t-a.t)};
+ on('users',v=>{DB.users=Object.entries(v||{}).map(([id,x])=>mk(id,x)).sort((a,b)=>b.joined-a.joined)});
+ on('orders',v=>{OR=v;pays()});on('shots',v=>{SH=v||{};pays()});
+ on('notifs',v=>{DB.notifs=fl(v).sort((a,b)=>b.t-a.t)});push()}
+async function attachUser(){detach();await ready;const id=uidv;
+ on('users/'+id,v=>{if(v){DB.users=[mk(id,v)];if(v.banned){toast('This account is suspended.');au.signOut()}}});
+ on('orders/'+id,v=>{DB.pays=Object.values(v||{}).sort((a,b)=>b.t-a.t)});
+ let N1={},N2={};const nn=()=>{DB.notifs=[...Object.values(N1||{}),...Object.values(N2||{})].sort((a,b)=>b.t-a.t)};
+ on('notifs/'+id,v=>{N1=v;nn()});on('notifs/all',v=>{N2=v;nn()});push()}
+au.onAuthStateChanged(usr=>{if(SIGNING)return;detach();LAST={};
+ if(!usr){uidv=null;AD=false;LS.set('pixelrise_admin_v1','');if(SS.uid){SS={};saveS();DB.users=[];DB.pays=[];DB.notifs=[];local();redraw()}return}
+ if(!LS.get('pr_fb')){DB.users=[];DB.pays=[];DB.notifs=[];LS.set('pr_fb','1')}
+ if(usr.uid===ADMIN){AD=true;uidv=null;LS.set('pixelrise_admin_v1','1');attachAdmin()}
+ else{AD=false;uidv=usr.uid;SS={uid:usr.uid};LS.set('pr_acct','1');saveS();attachUser()}});
+const ERR=e=>({'auth/email-already-in-use':'Username already registered.','auth/invalid-credential':'Username or password is wrong.','auth/wrong-password':'Password is wrong.','auth/user-not-found':'No account found. Check the spelling or sign up.','auth/network-request-failed':'No internet connection.','auth/too-many-requests':'Too many attempts. Try again later.'}[e.code]||('Error: '+(e.code||e.message)));
+window.doSignup=async function(){const n=$('#sn').value.trim(),u=$('#su').value.trim(),p=$('#sp').value.trim(),w=$('#sw').value;
+ if(!n||!u)return toast('Enter name and username.');if(!/^[A-Za-z0-9._-]{3,30}$/.test(u))return toast('Username: 3 to 30 letters, numbers, dot, dash or underscore only.');
+ if(!/^\d{10}$/.test(p))return toast('Enter a valid 10 digit mobile number.');if(w.length<6)return toast('Password must be 6+ characters.');
+ SIGNING=true;try{await ready;if((await R('idx/'+p).once('value')).exists()){SIGNING=false;return toast('Username or mobile already registered.')}
+  const c=await au.createUserWithEmailAndPassword(u.toLowerCase()+DOM,w);uidv=c.user.uid;SS={uid:uidv};AD=false;
+  const o={id:uidv,name:n,username:u,phone:p,pass:'',exam:$('#se').value,credits:0,plan:'',planExp:0,joined:now(),pref:{theme:'light',goal:4},tasks:[],hist:[],unlocked:[],ledger:[],seen:now()};
+  DB.users=[o];DB.pays=[];DB.notifs=[];READY=true;LS.set('pr_fb','1');LS.set('pr_acct','1');saveS();
+  await R('idx/'+p).set(u.toLowerCase());addCr(o,DB.set.signupCredits,'Signup bonus');notify('admin','New signup: '+n+' ('+u+')');
+  SIGNING=false;attachUser();go('#/dashboard')}catch(e){SIGNING=false;toast(ERR(e))}};
+window.doLogin=async function(){const a=$('#lu').value.trim().toLowerCase(),pr=$('#lp').value;if(!a||!pr)return toast('Enter your username or mobile number and password.');
+ try{let un=a;if(/^\d{10}$/.test(a)){const s=await R('idx/'+a).once('value');if(!s.exists())return toast('No account found with this mobile number.');un=s.val()}
+  await au.signInWithEmailAndPassword(un+DOM,pr);toast('Welcome back');go('#/dashboard')}catch(e){toast(ERR(e))}};
+window.doAdmin=async function(){const id=$('#ai').value.trim(),c=$('#ac').value;
+ try{const r=await au.signInWithEmailAndPassword(id,c);if(r.user.uid!==ADMIN){await au.signOut();return toast('This is not the admin account.')}AD=true;go('#/admin')}catch(e){toast('Incorrect admin email or password.')}};
+window.adminOut=async function(){await au.signOut();AD=false;LS.set('pixelrise_admin_v1','');go('#/home')};
+window.logout=async function(){await au.signOut();SS={};saveS();go('#/home')};
+})();
+</script>
+</body></html>
 
 
 
