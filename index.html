@@ -219,7 +219,35 @@ function checkout(a){const it=item(a),u=me();if(!it)return '<div class="card">It
 <div class="card sum"><h3>Order summary</h3><p>${esc(it.name)}<br><span class="mu">${cr(15)} ${it.credits} credits</span></p><table><tr><td>Price</td><td>&#8377;${it.price}</td></tr>${CK.cp?`<tr><td>Coupon ${esc(CK.cp.code)} (${CK.cp.pct}%)</td><td class="appr">-&#8377;${it.price-total(it)}</td></tr>`:''}<tr><th>Total</th><th>&#8377;${total(it)}</th></tr></table><div class="row" style="margin-top:12px"><input id="cc" placeholder="Coupon code" style="flex:1"><button class="btn" onclick="applyC()">Apply</button></div></div></div>`}
 function pickSS(i){const f=i.files&&i.files[0];if(!f)return;if(!f.type||!f.type.startsWith('image/'))return toast('Please choose an image file.');if(f.size>12*1024*1024)return toast('Screenshot is too large. Choose an image under 12 MB.');const r=new FileReader();r.onerror=()=>toast('Could not read this image. Try another screenshot.');r.onload=e=>{const im=new Image();im.onerror=()=>toast('Image could not be opened. Please try a JPG or PNG screenshot.');im.onload=()=>{try{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*k));c.height=Math.max(1,Math.round(im.height*k));const ctx=c.getContext('2d');ctx.drawImage(im,0,0,c.width,c.height);CK.img=c.toDataURL('image/jpeg',.55);render(true);toast('Screenshot attached. Submit the order to upload it for review.')}catch(err){console.error(err);toast('Could not prepare screenshot. Try a smaller image.')}};im.src=e.target.result};r.readAsDataURL(f)}
 function applyC(){const c=DB.coupons.find(x=>x.on&&x.code==$('#cc').value.trim().toUpperCase());if(!c)return toast('Invalid or inactive coupon.');CK.cp=c;toast('Coupon applied');render(true)}
-let ORDER_SUBMITTING=false; async function placeO(k,id){if(ORDER_SUBMITTING)return toast('Your payment is already being submitted. Please wait.');if(!CK.img)return toast('Upload the payment screenshot first.');const it=item([k,id]),u=me();if(!it||!u)return toast('Please log in again before submitting.');const btn=$('#submitApprovalBtn');ORDER_SUBMITTING=true;if(btn){btn.disabled=true;btn.textContent='Submitting…';btn.style.opacity='.7';}const o={id:uid(),uid:u.id,kind:k,iid:id,name:it.name,credits:it.credits,amount:total(it),coupon:CK.cp?CK.cp.code:'',utr:(($('#utr')&&$('#utr').value)||'').trim(),img:CK.img,st:'pending',t:now()};DB.pays.unshift(o);save();try{const {img,...order}=o;await R('orders/'+u.id+'/'+o.id).set(order);await R('shots/'+u.id+'/'+o.id).set(img);notify('admin','New payment from '+u.name+' for '+it.name+' (Rs '+o.amount+')');CK={cp:null,img:''};ORDER_SUCCESS_NOTE='Your order has been received successfully.';toast('Submitted successfully! Your payment is pending admin approval.');go('#/home')}catch(e){console.error('Payment upload failed',e);DB.pays=DB.pays.filter(x=>x.id!==o.id);save();toast('Upload failed: '+(e.code||e.message)+'. Check internet and Firebase Rules for orders/shots.')}finally{ORDER_SUBMITTING=false;const b=$('#submitApprovalBtn');if(b){b.disabled=false;b.textContent='Submit for approval';b.style.opacity='1';}}}
+const withTimeout=(pr,ms,msg)=>{let t;return Promise.race([pr,new Promise((_,rej)=>{t=setTimeout(()=>rej(Object.assign(new Error(msg||'Request timed out'),{code:'timeout'})),ms)})]).finally(()=>clearTimeout(t))};
+let ORDER_SUBMITTING=false;
+async function placeO(k,id){
+ if(ORDER_SUBMITTING)return toast('Your payment is already being submitted. Please wait.');
+ if(!CK.img)return toast('Upload the payment screenshot first.');
+ const it=item([k,id]),u=me(),fu=window.firebase&&firebase.auth&&firebase.auth().currentUser;
+ if(!it||!u||!fu)return toast('Please log in again before submitting.');
+ const btn=$('#submitApprovalBtn');
+ ORDER_SUBMITTING=true;
+ if(btn){btn.disabled=true;btn.textContent='Submitting…';btn.style.opacity='.7'}
+ try{
+  CK.oid=CK.oid||uid();
+  const o={id:CK.oid,uid:fu.uid,kind:k,iid:id,name:it.name,credits:it.credits,amount:total(it),coupon:CK.cp?CK.cp.code:'',utr:(($('#utr')&&$('#utr').value)||'').trim(),img:CK.img,st:'pending',t:now()};
+  const {img,...order}=o,up={};
+  up['orders/'+fu.uid+'/'+o.id]=order;up['shots/'+fu.uid+'/'+o.id]=img;
+  await withTimeout(R().update(up),15000,'Server did not respond. Check your internet and try again.');
+  DB.pays=[o,...DB.pays.filter(x=>x.id!==o.id)];
+  try{mark();local()}catch(e){}
+  const nid=uid();
+  try{R('notifs/admin/'+nid).set({id:nid,to:'admin',text:'New payment from '+u.name+' for '+it.name+' (Rs '+o.amount+')',t:now()}).catch(e=>console.warn('Admin notice not sent',e))}catch(e){}
+  CK={cp:null,img:''};ORDER_SUCCESS_NOTE='Your order has been received successfully.';
+  toast('Submitted successfully! Your payment is pending admin approval.');go('#/home')
+ }catch(e){
+  console.error('Payment upload failed',e);
+  toast('Upload failed: '+(e.code||e.message)+'. '+(e.code==='PERMISSION_DENIED'?'Check Firebase Rules for orders/shots.':'Please try again.'))
+ }finally{
+  ORDER_SUBMITTING=false;const b=$('#submitApprovalBtn');if(b){b.disabled=false;b.textContent='Submit for approval';b.style.opacity='1'}
+ }
+}
 /* ---------- notifications ---------- */
 function notifications(){const u=me(),L=DB.notifs.filter(n=>isA()?n.to=='admin':(n.to==u.id||n.to=='all'));const html=`<h1 style="font-size:2rem">Notifications</h1><div class="card">${L.map(n=>`<p style="border-bottom:1px solid var(--ln);padding-bottom:8px">${esc(n.text)}<br><span class="mu">${ft(n.t)}</span></p>`).join('')||'<p class="mu">Nothing new.</p>'}</div>`;if(isA())DB.adminSeen=now();else u.seen=now();save();return html}
 /* ---------- profile ---------- */
@@ -279,7 +307,7 @@ async function setPaymentStatus(id,status,reason=''){
    if(p.kind==='store'){const sb=DB.store.find(x=>x.id===p.iid);if(sb){const unlocked=ar(uv.unlocked);(sb.pdfs||[]).forEach(d=>{if(!unlocked.includes(d))unlocked.push(d)});patch[`users/${p.uid}/unlocked`]=unlocked}}
   }
   const nid=uid();patch[`notifs/${p.uid}/${nid}`]={id:nid,to:p.uid,text:message,t:stamp};
-  await R('').update(patch);
+  await withTimeout(R().update(patch),15000,'Server did not respond. Check internet and try again.');
   p.st=status;p.at=stamp;if(reason)p.note=reason;
   if(u){if(status==='approved'){u.credits=(u.credits||0)+(Number(p.credits)||0);(u.ledger=u.ledger||[]).unshift({n:Number(p.credits)||0,why:'Purchase: '+p.name,t:stamp});u.ledger=u.ledger.slice(0,40);if(p.kind==='plan'){const pl=DB.plans.find(x=>x.id===p.iid);if(pl){u.plan=pl.id;u.planExp=stamp+pl.days*864e5}}if(p.kind==='store'){const sb=DB.store.find(x=>x.id===p.iid);if(sb)(sb.pdfs||[]).forEach(d=>{if(!(u.unlocked||[]).includes(d))(u.unlocked=u.unlocked||[]).push(d)})}}}
   mark();local();toast(status==='approved'?'Approval submitted successfully. Payment approved.':status==='rejected'?'Payment rejected successfully.':'Payment cancelled successfully.');render(true);
@@ -694,7 +722,7 @@ new MutationObserver(eyes).observe(document.body,{childList:true,subtree:true});
 if(!window.firebase){console.warn('Firebase SDK not loaded');return}
 const ADMIN='iMAk3kmGDzXWb9y9wFojcw5tGIi2',DOM='@pixelrise.app',J=JSON.stringify;
 firebase.initializeApp({apiKey:"AIzaSyCoWsDLdryzQX6IbgJxtYiFbt4qD_FY5CU",authDomain:"pixelrise-4f6ef.firebaseapp.com",databaseURL:"https://pixelrise-4f6ef-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pixelrise-4f6ef",storageBucket:"pixelrise-4f6ef.firebasestorage.app",messagingSenderId:"344272987070",appId:"1:344272987070:web:c2afe9e5eea75449c04fef"});
-const au=firebase.auth(),fdb=firebase.database(),R=p=>fdb.ref(p);
+const au=firebase.auth(),fdb=firebase.database(),R=p=>(p&&p!=='/')?fdb.ref(p):fdb.ref();
 let LAST={},PULL=false,uidv=null,SIGNING=false,offs=[];
 const ar=x=>Array.isArray(x)?x:Object.values(x||{}),fl=o=>Object.values(o||{}).flatMap(x=>Object.values(x||{}));
 const local=()=>{const r=J(DB);window.LR=r;LS.set(K,r)};
@@ -712,7 +740,7 @@ const mark=()=>{const P=paths();for(const k in P)LAST[k]=J(P[k])};
 function push(){const c=au.currentUser;if(!c||!READY)return;const P=paths(),U={};
  for(const k in P){const v=J(P[k]);if(LAST[k]!==v){U[k]=JSON.parse(v);LAST[k]=v}}
  if(AD)for(const k in LAST)if(!(k in P)){U[k]=null;delete LAST[k]}
- if(Object.keys(U).length)R('').update(U).catch(e=>{Object.keys(U).forEach(k=>delete LAST[k]);toast('Cloud sync failed: '+(e.code||e.message))})}
+ if(Object.keys(U).length){try{R().update(U).catch(e=>{Object.keys(U).forEach(k=>delete LAST[k]);toast('Cloud sync failed: '+(e.code||e.message))})}catch(e){Object.keys(U).forEach(k=>delete LAST[k]);console.error(e)}}}
 let READY=false,rs;const ready=new Promise(r=>rs=r);let gs=false,gc=false;
 const gate=()=>{if(gs&&gc){READY=true;rs()}};
 const pull=f=>{PULL=true;try{f()}catch(e){console.error(e)}PULL=false;mark();local();redraw()};
