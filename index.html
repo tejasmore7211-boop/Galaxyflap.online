@@ -717,6 +717,8 @@ let READY=false,rs;const ready=new Promise(r=>rs=r);let gs=false,gc=false;
 const gate=()=>{if(gs&&gc){READY=true;rs()}};
 const pull=f=>{PULL=true;try{f()}catch(e){console.error(e)}PULL=false;mark();local();redraw()};
 save=()=>{local();if(!PULL)push()};
+/* expose helpers used by code outside this block (payments, announcements) */
+window.R=R;window.ar=ar;window.mark=mark;window.local=local;
 /* public data: settings + catalog (everyone) */
 R('settings').on('value',s=>{const v=s.val();if(v)pull(()=>Object.assign(DB.set,v));gs=true;gate()},()=>{gs=true;gate()});
 R('catalog').on('value',s=>{const v=s.val();if(v)pull(()=>{['plans','packs','store','pdfs','coupons'].forEach(k=>{if(v[k]!==undefined)DB[k]=ar(v[k])});if(v.tools)DB.tools=Object.assign(DB.tools||{},v.tools)});gc=true;gate()},()=>{gc=true;gate()});
